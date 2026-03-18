@@ -36,6 +36,7 @@ design-system/
 ├── components/
 │   └── _template/              ← copy this when creating a new component
 │       ├── Component.vue
+│       ├── Component.stories.ts
 │       └── README.md
 ├── composables/                ← Vue composables (shared reactive logic)
 ├── mcp/
@@ -287,6 +288,7 @@ No need to be reminded — always follow them.
 - Document every prop, variant, slot and emit in README.md
 - Add at least one Storybook story per variant
 - Register the component in /components/index.ts
+- The `Playground` story is MANDATORY on every component — it must always be the first story exported and must have `argTypes` defined for every prop so all controls are interactive in Storybook
 
 ### General
 - Never leave a TODO without a comment explaining what's needed
@@ -644,6 +646,8 @@ After every merge:
 - Never force pushes
 - Never commits node_modules, tokens/build/, .env
 - Never ships a component without Storybook stories
+- Never ships a component without a `Playground` story as the first export
+- Never ships a Storybook story without `argTypes` for every prop
 - Never uses a hardcoded value when a token exists
 - Never ignores a TypeScript error
 - Never approximates a Figma value silently
