@@ -1,7 +1,7 @@
 {
-  "name": "@your-org/design-system",
+  "name": "@mobivia/design-system",
   "version": "0.1.0",
-  "description": "AI-First Vue design system",
+  "description": "Token-driven, AI-first Vue 3 component library for the Mobivia Group brands",
   "type": "module",
   "scripts": {
     "build:tokens": "tsx style-dictionary.config.ts",

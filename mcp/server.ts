@@ -2,7 +2,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
 import { readFileSync, readdirSync, existsSync } from 'fs';
-import { resolve, basename, extname } from 'path';
+import { resolve, basename, extname, join } from 'path';
 
 // ---------------------------------------------------------------------------
 // Resolve paths relative to the repo root (this file lives in mcp/)
@@ -28,12 +28,23 @@ function listAllTokens(): Record<string, Record<string, unknown>> {
   const result: Record<string, Record<string, unknown>> = {};
   if (!existsSync(TOKENS_DIR)) return result;
 
-  const files = readdirSync(TOKENS_DIR).filter((f) => f.endsWith('.json'));
-  for (const file of files) {
-    const category = basename(file, extname(file));
-    const data = readTokenFile(resolve(TOKENS_DIR, file));
-    if (data) result[category] = data;
+  function readDir(dir: string, prefix: string = '') {
+    const entries = readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        const nextPrefix = prefix ? `${prefix}/${entry.name}` : entry.name;
+        readDir(fullPath, nextPrefix);
+      } else if (entry.name.endsWith('.json')) {
+        const name = basename(entry.name, extname(entry.name));
+        const category = prefix ? `${prefix}/${name}` : name;
+        const data = readTokenFile(fullPath);
+        if (data) result[category] = data;
+      }
+    }
   }
+
+  readDir(TOKENS_DIR);
   return result;
 }
 
@@ -78,15 +89,18 @@ const server = new McpServer({
 // Tool: list_tokens
 server.tool(
   'list_tokens',
-  'Returns all design tokens from tokens/source/, organized by category ' +
-  '(colors, typography, spacing, radius, shadows). Uses W3C DTCG format ' +
-  'with $value, $type, and $description fields.',
+  'Returns all design tokens from tokens/source/ (recursively), organized by ' +
+  'category path. Global tokens: "focus", "radius", "spacing", "typography", ' +
+  '"shadows". Brand primitives: "primitives/norauto", "primitives/midas", etc. ' +
+  'Semantic tokens: "semantic/norauto", "semantic/midas", etc. ' +
+  'Uses W3C DTCG format with $value, $type, and $description fields.',
   {
     category: z
       .string()
       .optional()
       .describe(
-        'Optional: filter to a single category, e.g. "colors". Omit to return all.'
+        'Optional: filter to a single category path, e.g. "spacing" or ' +
+        '"semantic/norauto" or "primitives/alert". Omit to return all.'
       ),
   },
   async ({ category }) => {
