@@ -8,8 +8,8 @@
     "dev": "vite",
     "build": "npm run build:tokens && vue-tsc --noEmit && vite build",
     "mcp": "tsx mcp/server.ts",
-    "storybook": "storybook dev -p 6009 --ci",
-    "build-storybook": "storybook build"
+    "storybook": "npm run build:tokens && storybook dev -p 6009 --ci",
+    "build-storybook": "npm run build:tokens && storybook build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
