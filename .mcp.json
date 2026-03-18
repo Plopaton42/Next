@@ -3,6 +3,12 @@
     "figma": {
       "type": "http",
       "url": "http://127.0.0.1:3845/mcp"
+    },
+    "design-system": {
+      "type": "stdio",
+      "command": "node_modules/.bin/tsx",
+      "args": ["mcp/server.ts"],
+      "cwd": "/home/user/design-system"
     }
   }
 }
