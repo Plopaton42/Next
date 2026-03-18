@@ -7,7 +7,7 @@ work effectively in this repository. Keep it updated as conventions evolve.
 
 ## Design System Name and Purpose
 
-**Name:** `@your-org/design-system`
+**Name:** `@mobivia/design-system`
 
 **Purpose:** A token-driven, AI-first Vue 3 component library that maintains a
 single source of truth flowing from Figma through JSON design tokens into CSS
@@ -20,35 +20,58 @@ with TypeScript and `<script setup>`.
 
 ```
 design-system/
-├── CLAUDE.md                   ← you are here
-├── .mcp.json                   ← Figma MCP SSE config (do not modify)
+├── README.md                      ← project overview and quick start
+├── CLAUDE.md                      ← you are here
+├── .mcp.json                      ← Figma MCP SSE config (do not modify)
 ├── tokens/
-│   ├── source/                 ← DTCG JSON token files (edit these)
-│   │   ├── colors.json
-│   │   ├── focus.json
-│   │   ├── typography.json
-│   │   ├── spacing.json
-│   │   ├── radius.json
-│   │   └── shadows.json
-│   └── build/                  ← GENERATED, gitignored (do not edit)
-│       ├── variables.css       ← CSS custom properties under :root
-│       └── theme.ts            ← typed TS object for Vue component use
+│   ├── source/                    ← DTCG JSON token files (edit these)
+│   │   ├── focus.json             ← focus ring tokens (brand-agnostic)
+│   │   ├── radius.json            ← border-radius tokens (brand-agnostic)
+│   │   ├── spacing.json           ← spacing scale (brand-agnostic)
+│   │   ├── typography.json        ← font families, sizes, weights (brand-agnostic)
+│   │   ├── shadows.json           ← box-shadow tokens (brand-agnostic)
+│   │   ├── primitives/            ← raw color scales, one file per brand
+│   │   │   ├── alert.json         ← info/success/warning/danger scales
+│   │   │   ├── decorative.json    ← decorative named color scales
+│   │   │   ├── norauto.json
+│   │   │   ├── midas.json
+│   │   │   ├── atu.json
+│   │   │   ├── auto5.json
+│   │   │   └── mobivia.json
+│   │   └── semantic/              ← semantic tokens referencing primitives
+│   │       ├── norauto.json       ← primary brand
+│   │       ├── midas.json
+│   │       ├── atu.json
+│   │       ├── auto5.json
+│   │       └── mobivia.json
+│   └── build/                     ← GENERATED, gitignored (do not edit)
+│       ├── variables.css          ← primitive CSS vars under :root { --ds-* }
+│       ├── semantic-light.css     ← semantic vars, light mode
+│       ├── semantic-dark.css      ← semantic vars, dark mode
+│       ├── semantic-contrast.css  ← semantic vars, high-contrast mode
+│       └── theme.ts               ← typed TS object for Vue component use
 ├── components/
-│   └── _template/              ← copy this when creating a new component
-│       ├── Component.vue
-│       ├── Component.stories.ts
-│       └── README.md
-├── composables/                ← Vue composables (shared reactive logic)
+│   ├── _template/                 ← copy this when creating a new component
+│   │   ├── Component.vue
+│   │   ├── Component.stories.ts
+│   │   └── README.md
+│   ├── Checkbox/
+│   │   ├── Checkbox.vue
+│   │   ├── Checkbox.stories.ts
+│   │   ├── Checkbox.figma.ts      ← Figma Code Connect mapping
+│   │   └── README.md
+│   └── index.ts                   ← component exports
+├── composables/                   ← Vue composables (shared reactive logic)
 ├── mcp/
-│   └── server.ts               ← MCP server exposing design system tools
+│   └── server.ts                  ← MCP server exposing design system tools
 ├── .figma/
-│   └── README.md               ← Figma integration docs
+│   └── README.md                  ← Figma integration docs
 ├── src/
 │   ├── main.ts
 │   ├── App.vue
-│   └── style.css               ← Tailwind entry + @theme token bridges
-├── style-dictionary.config.ts  ← token build pipeline config
-├── tailwind.config.ts          ← Tailwind v4 plugin config (theme is in CSS)
+│   └── style.css                  ← Tailwind entry + @theme token bridges
+├── style-dictionary.config.ts     ← token build pipeline config
+├── tailwind.config.ts             ← Tailwind v4 plugin config (theme is in CSS)
 ├── vite.config.ts
 ├── tsconfig.json
 └── package.json
@@ -178,12 +201,15 @@ defineEmits<{
    - Accessibility notes
    - Link to the Figma component
 
-5. **Export the component** from `src/index.ts` (create if it doesn't exist):
+5. **Create the Code Connect file** `MyComponent.figma.ts` in the component directory.
+   Use the format documented in the "Figma Code Connect" section above.
+
+6. **Export the component** from `components/index.ts`:
    ```typescript
-   export { default as MyComponent } from '@components/MyComponent/MyComponent.vue';
+   export { default as MyComponent } from './MyComponent/MyComponent.vue';
    ```
 
-6. **Run the dev server** and verify it renders:
+7. **Run the dev server** and verify it renders:
    ```bash
    npm run dev
    ```
@@ -192,45 +218,65 @@ defineEmits<{
 
 ## Token Pipeline: Figma → JSON → CSS Vars → Tailwind
 
+### Two-layer token architecture
+
+The design system uses a two-layer approach to support 5 brands × 3 modes:
+
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  FIGMA (source of truth for visual design)                      │
-│  Variables / Tokens plugin exports token values                 │
-└────────────────────────┬────────────────────────────────────────┘
-                         │  Manual update or plugin export
-                         ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  tokens/source/*.json  (DTCG format, committed to git)          │
-│  colors.json, typography.json, spacing.json, etc.               │
-└────────────────────────┬────────────────────────────────────────┘
-                         │  npm run build:tokens
-                         │  (style-dictionary.config.ts)
-                         ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  tokens/build/variables.css                                     │
-│  :root { --ds-color-primary: #3b82f6; --ds-spacing-4: 1rem; }  │
-│                                                                 │
-│  tokens/build/theme.ts                                          │
-│  export const theme = { color: { primary: '#3b82f6' }, ... }   │
-└──────────────────┬──────────────────────────┬───────────────────┘
-                   │                          │
-                   ▼                          ▼
-┌──────────────────────────┐   ┌─────────────────────────────────┐
-│  src/style.css           │   │  import { theme } from           │
-│  @import variables.css   │   │    '@tokens/theme'               │
-│  @theme inline {         │   │  (in Vue components that need    │
-│    --color-primary:      │   │   typed JS token values)         │
-│      var(--ds-color-     │   └─────────────────────────────────┘
-│        primary);         │
-│  }                       │
-└──────────────────┬───────┘
-                   │
-                   ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  Tailwind CSS v4 utility classes                                │
-│  class="bg-primary text-primary-fg p-4 rounded"                │
-│  ↑ generated from @theme inline variables                       │
-└─────────────────────────────────────────────────────────────────┘
+Layer 1 — Primitives (tokens/source/primitives/)
+  Raw color scales per brand, e.g. norauto.primary.600 = #0071dc
+  Brand-agnostic: alert, decorative scales
+
+Layer 2 — Semantic (tokens/source/semantic/)
+  Purpose-based tokens that reference primitives, e.g.:
+  input.input-surface = {$value: "{norauto.primary.500}"}
+  One file per brand. Each file has 3 mode variants (light/dark/contrast).
+
+Global (tokens/source/*.json)
+  focus, radius, spacing, typography, shadows — shared across all brands
+```
+
+### Full pipeline
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  FIGMA (source of truth for visual design)                          │
+│  Variables exported via Tokens plugin or manually updated           │
+└──────────────────────────┬──────────────────────────────────────────┘
+                           │  Manual update or plugin export
+                           ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  tokens/source/  (DTCG format, committed to git)                    │
+│  ├── primitives/{brand}.json  ← raw color scales                   │
+│  ├── semantic/{brand}.json    ← semantic tokens (3 modes each)      │
+│  └── focus|radius|spacing|typography|shadows.json                   │
+└──────────────────────────┬──────────────────────────────────────────┘
+                           │  npm run build:tokens
+                           │  (style-dictionary.config.ts)
+                           ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  tokens/build/  (gitignored — do not edit)                          │
+│  ├── variables.css          :root { --ds-radius-*; --ds-spacing-* } │
+│  ├── semantic-light.css     [data-theme="light"] { --ds-* }         │
+│  ├── semantic-dark.css      [data-theme="dark"]  { --ds-* }         │
+│  ├── semantic-contrast.css  [data-theme="contrast"] { --ds-* }      │
+│  └── theme.ts               export const theme = { ... }            │
+└────────────┬──────────────────────────────┬─────────────────────────┘
+             │                              │
+             ▼                              ▼
+┌────────────────────────┐   ┌──────────────────────────────────────┐
+│  src/style.css         │   │  import { theme } from '@tokens/theme'│
+│  @import variables.css │   │  (rare — only when typed JS values    │
+│  @import semantic-*.css│   │   are needed outside of CSS)          │
+│  @theme inline { ... } │   └──────────────────────────────────────┘
+└────────────┬───────────┘
+             │
+             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  Tailwind CSS v4 utility classes                                    │
+│  class="bg-primary text-on-surface p-4 rounded-base"               │
+│  ↑ generated from @theme inline variables                           │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Key points
@@ -241,6 +287,10 @@ defineEmits<{
   before starting `npm run dev` or `npm run build`.
 - The **`--ds-` prefix** on all CSS custom properties prevents collisions with
   Tailwind's own internal variables (which use `--color-*`, `--spacing-*` etc.).
+- Semantic tokens come in **3 mode files** (`light`, `dark`, `contrast`). Apply
+  a mode by setting `data-theme="dark"` on any ancestor element.
+- Primitive tokens are **brand-scoped** (e.g. `--ds-norauto-primary-600`).
+  Components always reference semantic tokens, never primitives directly.
 
 ---
 
@@ -248,11 +298,46 @@ defineEmits<{
 
 Run the MCP server with: `npm run mcp`
 
-| Tool              | Description                                            |
-|-------------------|--------------------------------------------------------|
-| `list_tokens`     | Returns all tokens by category from tokens/source/     |
-| `get_component`   | Returns .vue source + README for a named component     |
-| `get_conventions` | Returns this CLAUDE.md file                            |
+| Tool              | Description                                                         |
+|-------------------|---------------------------------------------------------------------|
+| `list_tokens`     | Returns all tokens by category from `tokens/source/` (recursive)   |
+| `get_component`   | Returns `.vue` source + README for a named component                |
+| `get_conventions` | Returns this CLAUDE.md file                                         |
+
+---
+
+## Figma Code Connect
+
+Each component has a co-located `Component.figma.ts` file that records the
+mapping between the Figma component and the Vue implementation.
+
+### File format
+
+```typescript
+// components/MyComponent/MyComponent.figma.ts
+export const myComponentFigmaConnect = {
+  figmaFileKey: '<fileKey>',
+  figmaNodeId: '<nodeId>',
+  figmaUrl: 'https://www.figma.com/design/<fileKey>/...?node-id=<nodeId>',
+  component: 'MyComponent',
+  source: 'components/MyComponent/MyComponent.vue',
+  label: 'Vue' as const,
+  props: {
+    // vuePropName: { figmaProp: 'Figma Property Name', type: 'boolean' | 'string' | 'enum' }
+  },
+  example: `<MyComponent :prop="value" />`,
+} as const;
+```
+
+### Publishing mappings
+
+Mappings are published to Figma Dev Mode via the **Figma MCP server** (not the CLI).
+When a new component is added or a prop mapping changes, republish using the
+`send_code_connect_mappings` MCP tool.
+
+Requirements for Code Connect to work:
+- The Figma component must be **published in a Figma library**
+- The Figma file must be in a team on a **Professional, Organization, or Enterprise** plan
 
 ---
 
@@ -284,10 +369,11 @@ No need to be reminded — always follow them.
 - Check that no existing component breaks (spot check Tailwind classes)
 
 ### After adding a new component
-- Create the full folder structure: Component.vue + README.md + Component.stories.ts
+- Create the full folder structure: Component.vue + README.md + Component.stories.ts + Component.figma.ts
 - Document every prop, variant, slot and emit in README.md
 - Add at least one Storybook story per variant
 - Register the component in /components/index.ts
+- Create the Figma Code Connect file and publish the mapping via the Figma MCP server
 - The `Playground` story is MANDATORY on every component — it must always be the first story exported and must have `argTypes` defined for every prop so all controls are interactive in Storybook
 
 ### General
@@ -518,8 +604,9 @@ and reports every item:
 2. Create branch
 3. Read CLAUDE.md conventions before writing any code
 4. Extract full Figma spec → write Component Spec → wait for approval
-5. Create: Component.vue + README.md + Component.stories.ts
+5. Create: Component.vue + README.md + Component.stories.ts + Component.figma.ts
 6. Register in /components/index.ts
+6b. Publish Code Connect mapping via Figma MCP server
 7. Run full self-review checklist
 8. Complete fidelity check table
 9. Report all results (all must be ✅)
@@ -645,6 +732,7 @@ After every merge:
 - Never leaves a branch open after merge
 - Never force pushes
 - Never commits node_modules, tokens/build/, .env
+- Never ships a component without a `Component.figma.ts` Code Connect file
 - Never ships a component without Storybook stories
 - Never ships a component without a `Playground` story as the first export
 - Never ships a Storybook story without `argTypes` for every prop
