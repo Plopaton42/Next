@@ -1,0 +1,120 @@
+{
+  "midas": {
+    "neutral": {
+      "grey-0": {
+        "$value": "#000000",
+        "$type": "color",
+        "$description": "midas › neutral › grey-0"
+      },
+      "grey-0-a64": {
+        "$value": "#000000A3",
+        "$type": "color",
+        "$description": "midas › neutral › grey-0 [α:64]"
+      },
+      "grey-10": {
+        "$value": "#1A1A1A",
+        "$type": "color",
+        "$description": "midas › neutral › grey-10"
+      },
+      "grey-10-a32": {
+        "$value": "#1A1A1A52",
+        "$type": "color",
+        "$description": "midas › neutral › grey-10 [α:32]"
+      },
+      "grey-100": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "midas › neutral › grey-100"
+      },
+      "grey-100-a64": {
+        "$value": "#FFFFFFA3",
+        "$type": "color",
+        "$description": "midas › neutral › grey-100 [α:64]"
+      },
+      "grey-30": {
+        "$value": "#515151",
+        "$type": "color",
+        "$description": "midas › neutral › grey-30"
+      },
+      "grey-40": {
+        "$value": "#6C6C6C",
+        "$type": "color",
+        "$description": "midas › neutral › grey-40"
+      },
+      "grey-5": {
+        "$value": "#0D0D0D",
+        "$type": "color",
+        "$description": "midas › neutral › grey-5"
+      },
+      "grey-50-a24": {
+        "$value": "#8787873D",
+        "$type": "color",
+        "$description": "midas › neutral › grey-50 [α:24]"
+      },
+      "grey-60": {
+        "$value": "#A2A2A2",
+        "$type": "color",
+        "$description": "midas › neutral › grey-60"
+      },
+      "grey-80": {
+        "$value": "#D9D9D9",
+        "$type": "color",
+        "$description": "midas › neutral › grey-80"
+      },
+      "grey-90": {
+        "$value": "#F4F4F4",
+        "$type": "color",
+        "$description": "midas › neutral › grey-90"
+      }
+    },
+    "primary": {
+      "primary-20": {
+        "$value": "#6E450D",
+        "$type": "color",
+        "$description": "midas › primary › primary-20"
+      },
+      "primary-30": {
+        "$value": "#B37A15",
+        "$type": "color",
+        "$description": "midas › primary › primary-30"
+      },
+      "primary-40": {
+        "$value": "#F9B01C",
+        "$type": "color",
+        "$description": "midas › primary › primary-40"
+      },
+      "primary-50": {
+        "$value": "#FCC20E",
+        "$type": "color",
+        "$description": "midas › primary › primary-50"
+      },
+      "primary-60": {
+        "$value": "#FFD300",
+        "$type": "color",
+        "$description": "midas › primary › primary-60"
+      },
+      "primary-80": {
+        "$value": "#FFE980",
+        "$type": "color",
+        "$description": "midas › primary › primary-80"
+      },
+      "primary-90-a0": {
+        "$value": "#FFF4BF00",
+        "$type": "color",
+        "$description": "midas › primary › primary-90 [α:0]"
+      }
+    },
+    "secondary": {
+      "secondary-10": {
+        "$value": "#1A1A1A",
+        "$type": "color",
+        "$description": "midas › secondary › secondary-10"
+      },
+      "secondary-20": {
+        "$value": "#353535",
+        "$type": "color",
+        "$description": "midas › secondary › secondary-20"
+      }
+    }
+  }
+}

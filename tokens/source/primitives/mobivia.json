@@ -1,0 +1,125 @@
+{
+  "mobivia": {
+    "neutral": {
+      "grey-0": {
+        "$value": "#000000",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-0"
+      },
+      "grey-0-a64": {
+        "$value": "#000000A3",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-0 [α:64]"
+      },
+      "grey-10": {
+        "$value": "#282826",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-10"
+      },
+      "grey-10-a32": {
+        "$value": "#28282652",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-10 [α:32]"
+      },
+      "grey-100": {
+        "$value": "#FFFFFF",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-100"
+      },
+      "grey-100-a32": {
+        "$value": "#FFFFFF52",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-100 [α:32]"
+      },
+      "grey-100-a40": {
+        "$value": "#FFFFFF66",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-100 [α:40]"
+      },
+      "grey-100-a64": {
+        "$value": "#FFFFFFA3",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-100 [α:64]"
+      },
+      "grey-30": {
+        "$value": "#565656",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-30"
+      },
+      "grey-40": {
+        "$value": "#757574",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-40"
+      },
+      "grey-5": {
+        "$value": "#141413",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-5"
+      },
+      "grey-50-a24": {
+        "$value": "#8E8E8E3D",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-50 [α:24]"
+      },
+      "grey-60": {
+        "$value": "#A9A8A7",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-60"
+      },
+      "grey-80": {
+        "$value": "#DEDDDA",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-80"
+      },
+      "grey-90": {
+        "$value": "#F8F7F3",
+        "$type": "color",
+        "$description": "mobivia › neutral › grey-90"
+      }
+    },
+    "primary": {
+      "primary-20": {
+        "$value": "#5C0026",
+        "$type": "color",
+        "$description": "mobivia › primary › primary-20"
+      },
+      "primary-30": {
+        "$value": "#7F003B",
+        "$type": "color",
+        "$description": "mobivia › primary › primary-30"
+      },
+      "primary-50": {
+        "$value": "#B40063",
+        "$type": "color",
+        "$description": "mobivia › primary › primary-50"
+      },
+      "primary-90": {
+        "$value": "#F1BBCD",
+        "$type": "color",
+        "$description": "mobivia › primary › primary-90"
+      },
+      "primary-90-a0": {
+        "$value": "#F1BBCD00",
+        "$type": "color",
+        "$description": "mobivia › primary › primary-90 [α:0]"
+      }
+    },
+    "secondary": {
+      "secondary-40": {
+        "$value": "#D18002",
+        "$type": "color",
+        "$description": "mobivia › secondary › secondary-40"
+      },
+      "secondary-50": {
+        "$value": "#F8AB00",
+        "$type": "color",
+        "$description": "mobivia › secondary › secondary-50"
+      },
+      "secondary-60": {
+        "$value": "#FFBB21",
+        "$type": "color",
+        "$description": "mobivia › secondary › secondary-60"
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "decorative": {
+    "blue-klein": {
+      "blue-klein-50": {
+        "$value": "#002BAE",
+        "$type": "color",
+        "$description": "decorative › blue-klein › blue-klein-50"
+      }
+    },
+    "green-monstera": {
+      "green-monstera-50": {
+        "$value": "#007C07",
+        "$type": "color",
+        "$description": "decorative › green-monstera › green-monstera-50"
+      }
+    },
+    "orange-clockwork": {
+      "orange-clockwork-50": {
+        "$value": "#F07828",
+        "$type": "color",
+        "$description": "decorative › orange-clockwork › orange-clockwork-50"
+      }
+    },
+    "red-pepper": {
+      "red-pepper-50": {
+        "$value": "#D30000",
+        "$type": "color",
+        "$description": "decorative › red-pepper › red-pepper-50"
+      },
+      "red-pepper-60": {
+        "$value": "#DC3333",
+        "$type": "color",
+        "$description": "decorative › red-pepper › red-pepper-60"
+      }
+    },
+    "yellow-mikado": {
+      "yellow-mikado-50": {
+        "$value": "#FFC40C",
+        "$type": "color",
+        "$description": "decorative › yellow-mikado › yellow-mikado-50"
+      }
+    }
+  }
+}

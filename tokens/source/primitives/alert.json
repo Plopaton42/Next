@@ -1,0 +1,92 @@
+{
+  "alert": {
+    "danger": {
+      "danger-30": {
+        "$value": "#6B221A",
+        "$type": "color",
+        "$description": "alert › danger › danger-30"
+      },
+      "danger-40": {
+        "$value": "#8E2E22",
+        "$type": "color",
+        "$description": "alert › danger › danger-40"
+      },
+      "danger-50": {
+        "$value": "#B2392B",
+        "$type": "color",
+        "$description": "alert › danger › danger-50"
+      },
+      "danger-90": {
+        "$value": "#F0D7D5",
+        "$type": "color",
+        "$description": "alert › danger › danger-90"
+      },
+      "danger-95": {
+        "$value": "#F7EBEA",
+        "$type": "color",
+        "$description": "alert › danger › danger-95"
+      }
+    },
+    "info": {
+      "info-30": {
+        "$value": "#1D4379",
+        "$type": "color",
+        "$description": "alert › info › info-30"
+      },
+      "info-50": {
+        "$value": "#316FCA",
+        "$type": "color",
+        "$description": "alert › info › info-50"
+      },
+      "info-95": {
+        "$value": "#EBF1FA",
+        "$type": "color",
+        "$description": "alert › info › info-95"
+      }
+    },
+    "success": {
+      "success-30": {
+        "$value": "#285029",
+        "$type": "color",
+        "$description": "alert › success › success-30"
+      },
+      "success-50": {
+        "$value": "#428544",
+        "$type": "color",
+        "$description": "alert › success › success-50"
+      },
+      "success-95": {
+        "$value": "#ECF3EC",
+        "$type": "color",
+        "$description": "alert › success › success-95"
+      }
+    },
+    "warning": {
+      "warning-10": {
+        "$value": "#4E3406",
+        "$type": "color",
+        "$description": "alert › warning › warning-10"
+      },
+      "warning-20": {
+        "$value": "#9C690D",
+        "$type": "color",
+        "$description": "alert › warning › warning-20"
+      },
+      "warning-30": {
+        "$value": "#EA9D13",
+        "$type": "color",
+        "$description": "alert › warning › warning-30"
+      },
+      "warning-50": {
+        "$value": "#FDC93E",
+        "$type": "color",
+        "$description": "alert › warning › warning-50"
+      },
+      "warning-95": {
+        "$value": "#FFFAEC",
+        "$type": "color",
+        "$description": "alert › warning › warning-95"
+      }
+    }
+  }
+}
