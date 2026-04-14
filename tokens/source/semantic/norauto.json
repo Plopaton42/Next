@@ -1,588 +1,263 @@
 {
-  "surface": {
-    "surface": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": ""
-    },
-    "surface-inverse": {
-      "$value": "{norauto.neutral.grey-90}",
-      "$type": "color",
-      "$description": ""
-    },
-    "surface-disabled": {
-      "$value": "{norauto.neutral.grey-50-a24}",
-      "$type": "color",
-      "$description": "token=--road-surface-disabled\n\n🧬 grey-50; opacity 0.24\n\n- - \n\n💬 Disabled state of text & background \n\n⚠️ This color is not accessible"
-    },
-    "on-surface": {
-      "$value": "{norauto.neutral.grey-5}",
-      "$type": "color",
-      "$description": "token=--road-on-surface\n\n🧬 grey-10\n\n- - \n\n💬 Default black text & background"
-    },
-    "on-surface-weak": {
-      "$value": "{norauto.neutral.grey-30}",
-      "$type": "color",
-      "$description": "token=--road-on-surface-weak\n\n🧬 grey-10; opacity 0.64\n\n- - \n\n💬 Secondary text & background"
-    },
-    "on-surface-extra-weak": {
-      "$value": "{norauto.neutral.grey-40}",
-      "$type": "color",
-      "$description": "token=--road-on-surface-extra-weak\n\n🧬 grey-10; opacity 0.52\n\n- - \n\n💬 Placeholder text & background"
-    },
-    "on-surface-disabled": {
-      "$value": "{norauto.neutral.grey-10-a32}",
-      "$type": "color",
-      "$description": "token=--road-on-surface-disabled\n\n🧬 grey-10; opacity 0.32\n\n- - \n\n💬 Disabled element on surface state desabled. \n\n⚠️ This color is not accessible"
-    }
+  "default": {
+    "surface":            { "$value": "{global.white}",          "$type": "color" },
+    "surface-alt":        { "$value": "{neutral.neutral-50}",    "$type": "color" },
+    "surface-inverse":    { "$value": "{neutral.neutral-100}",   "$type": "color" },
+    "surface-disabled":   { "$value": "{neutral.neutral-450-a24}", "$type": "color" },
+    "on-surface":         { "$value": "{neutral.neutral-900}",   "$type": "color" },
+    "on-surface-weak":    { "$value": "{neutral.neutral-700}",   "$type": "color" },
+    "on-surface-subtle":  { "$value": "{neutral.neutral-500}",   "$type": "color" },
+    "on-surface-disabled":{ "$value": "{neutral.neutral-800-a32}", "$type": "color" },
+    "border":             { "$value": "{neutral.neutral-300}",   "$type": "color" },
+    "border-weak":        { "$value": "{neutral.neutral-200}",   "$type": "color" },
+    "border-strong":      { "$value": "{neutral.neutral-400}",   "$type": "color" }
   },
-  "outline": {
-    "outline": {
-      "$value": "{norauto.neutral.grey-60}",
-      "$type": "color",
-      "$description": "token=--road-outline\n\n🧬 grey-30; opacity 0.52\n\n- - \n\n💬 Border and divider"
-    },
-    "outline-variant": {
-      "$value": "{norauto.primary.primary-30}",
-      "$type": "color",
-      "$description": "token=--road-outline-variant\n\n🧬 primary-30\n- - \n\n💬 Outline border container state:  focus, active, hover"
-    },
-    "outline-weak": {
-      "$value": "{norauto.neutral.grey-80}",
-      "$type": "color",
-      "$description": "token=--road-outline-weak\n\n🧬 grey-30; opacity 0.24\n\n- - \n\n💬 Border and divider"
-    }
+  "ambient": {
+    "surface-alt":        { "$value": "{ambient.ambient-50}",    "$type": "color" },
+    "surface-strong":     { "$value": "{ambient.ambient-200}",   "$type": "color" },
+    "surface-inverse":    { "$value": "{ambient.ambient-100}",   "$type": "color" },
+    "on-surface":         { "$value": "{ambient.ambient-900}",   "$type": "color" },
+    "on-surface-weak":    { "$value": "{ambient.ambient-700}",   "$type": "color" },
+    "on-surface-extra-weak": { "$value": "{ambient.ambient-400}", "$type": "color" },
+    "border-subtle":      { "$value": "{ambient.ambient-150}",   "$type": "color" },
+    "border":             { "$value": "{ambient.ambient-300}",   "$type": "color" },
+    "border-strong":      { "$value": "{ambient.ambient-500}",   "$type": "color" }
   },
-  "brand-surface": {
-    "primary": {
-      "$value": "{norauto.primary.primary-50}",
-      "$type": "color",
-      "$description": "token=--road-primary\n\n🧬 primary-50\n\n- - \n\n💬 Brand's basic primary"
-    },
-    "primary-variant": {
-      "$value": "{norauto.primary.primary-20}",
-      "$type": "color",
-      "$description": "token=--road-primary-variant\n\n🧬 primary-20\n\n- - \n\n💬 Brand's basic primary alternative"
-    },
-    "secondary": {
-      "$value": "{norauto.secondary.secondary-60}",
-      "$type": "color",
-      "$description": "token=--road-secondary\n\n🧬 secondary-60\n\n- - \n\n💬 Brand's basic alternative secondary"
-    },
-    "secondary-variant": {
-      "$value": "{norauto.secondary.secondary-40}",
-      "$type": "color",
-      "$description": "token=--road-secondary-variant\n\n🧬 secondary-40\n\n- - \n\n💬 Brand's basic secondary alternative"
-    },
-    "on-primary": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-on-primary\n\n🧬 grey-100\n\n- - \n\n💬 Basic contrast on the primary colors having a accessibility level on white AA→AAA"
-    },
-    "on-secondary": {
-      "$value": "{norauto.neutral.grey-10}",
-      "$type": "color",
-      "$description": "token=--road-on-secondary\n\n🧬 grey-10\n\n- - \n\n💬 Basic contrast on the secondary colors having a accessibility level on black AA→AAA"
-    },
-    "on-tertiary": {
-      "$value": "{norauto.primary.primary-20}",
-      "$type": "color",
-      "$description": ""
-    }
-  },
-  "layer": {
-    "overlay": {
-      "$value": "{norauto.neutral.grey-0-a64}",
-      "$type": "color",
-      "$description": "token=--road-overlay\n\n🧬 grey-0; opacity 0.64\n\n- - \n\n💬 Overlay layer and higher level increasing the contrast of the surface"
-    },
-    "overlay-inverse": {
-      "$value": "{norauto.neutral.grey-100-a64}",
-      "$type": "color",
-      "$description": "token=--road-overlay-inverse\n\n🧬 grey-100; opacity 0.64\n\n- - \n\n💬 Higher level increasing the contrast of the surface"
-    },
-    "on-overlay": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-on-overlay\n\n🧬 grey-100\n\n- - \n\n💬 All on overlay surface"
-    },
-    "on-overlay-inverse": {
-      "$value": "{norauto.neutral.grey-10}",
-      "$type": "color",
-      "$description": "token=--road-on-overlay-inverse\n\n🧬 grey-10\n\n- - \n\n💬 All on inverted overlay"
-    }
-  },
-  "header": {
-    "header-surface": {
-      "$value": "{norauto.primary.primary-20}",
-      "$type": "color",
-      "$description": "token=--road-header-surface\n\n🧬 primary-20\n\n- - \n\n💬 Header background color"
-    },
-    "header-surface-disabled": {
-      "$value": "{norauto.neutral.grey-100-a32}",
-      "$type": "color",
-      "$description": "--road-header-surface-disabled\n\n🧬 grey-100; opacity 0,32\n\n- - \n\n💬 Header disabled background state \n\n⚠️ This color is not accessible"
-    },
-    "header-icon": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-header-icon\n\n🧬 grey-100\n\n- - \n\n💬 Header default icon"
-    },
-    "header-icon-variant": {
-      "$value": "{norauto.secondary.secondary-60}",
-      "$type": "color",
-      "$description": "token=--road-header-icon-variant\n\n🧬 secondary-60\n\n- - \n\n💬 Header icon color"
-    },
-    "header-outline": {
-      "$value": "{norauto.primary.primary-20}",
-      "$type": "color",
-      "$description": "--road-header-outline\n\n🧬 primary-20\n\n- - \n\n💬 Header border color"
-    },
-    "header-badge": {
-      "$value": "{norauto.secondary.secondary-60}",
-      "$type": "color",
-      "$description": "token=--road-header-badge\n\n🧬 secondary-60\n\n- - \n\n💬 Header badge background"
-    },
-    "on-header-badge": {
-      "$value": "{norauto.primary.primary-10}",
-      "$type": "color",
-      "$description": "token=--road-on-header-badge\n\n🧬 primary-10\n\n- - \n\n💬 Header badge text"
-    },
-    "on-header-surface": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-on-header-surface\n\n🧬 grey-100\n\n- - \n\n💬 Header text color"
-    },
-    "on-header-surface-disabled": {
-      "$value": "{norauto.neutral.grey-100-a40}",
-      "$type": "color",
-      "$description": "--road-on-header-surface-disabled\n\n🧬 grey-100; opacity 0,40\n\n- - \n\n💬 Disabled element on surface state disabled of header.\n\n⚠️ This color is not accessible"
-    }
-  },
-  "icon": {
-    "icon": {
-      "$value": "{norauto.neutral.grey-10}",
-      "$type": "color",
-      "$description": "token=--road-icon\n\n🧬 grey-10\n\n- - \n\n💬 Basic contrast on the colors having a accessibility level on black AA→AAA"
-    },
-    "icon-variant": {
-      "$value": "{norauto.secondary.secondary-50}",
-      "$type": "color",
-      "$description": "token=--road-icon-variant\n\n🧬 secondary-50\n\n- - \n\n💬 Basic contrast on the colors having a accessibility level on white AA→AAA"
-    },
-    "icon-inverse": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-icon-inverse\n\n🧬 grey-100\n\n- - \n\n💬 Basic contrast on the colors having a accessibility level on white AA→AAA"
-    },
-    "icon-inverse-variant": {
-      "$value": "{norauto.secondary.secondary-60}",
-      "$type": "color",
-      "$description": "token=--road-icon-inverse-variant\n\n🧬 secondary-60\n\n- - \n\n💬 Basic contrast on the colors having a accessibility level on white AA→AAA"
-    }
-  },
-  "link": {
-    "link-primary": {
-      "$value": "{norauto.primary.primary-40}",
-      "$type": "color",
-      "$description": "token=--road-link-primary\n\n🧬  primary-50\n\n- - \n\n💬 Link state: focus, active, hover, visited"
-    },
-    "link-secondary": {
-      "$value": "{norauto.neutral.grey-10}",
-      "$type": "color",
-      "$description": "token=--road-link-secondary\n\n🧬  primary-10\n\n- - \n\n💬 Link state: focus, active, hover, visited"
-    },
-    "link-inverse": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-link-inverse\n\n🧬  primary-100\n\n- - \n\n💬 Link state: focus, active, hover, visited"
-    }
+  "highlight": {
+    "showtime-surface":         { "$value": "{blue.blue-50}",    "$type": "color" },
+    "showtime-surface-inverse": { "$value": "{blue.blue-150}",   "$type": "color" },
+    "on-surface":               { "$value": "{blue.blue-950}",   "$type": "color" },
+    "on-surface-weak":          { "$value": "{blue.blue-500}",   "$type": "color" },
+    "on-surface-extra-weak":    { "$value": "{blue.blue-400}",   "$type": "color" }
   },
   "button": {
-    "button-primary": {
-      "$value": "{norauto.primary.primary-40}",
-      "$type": "color",
-      "$description": "token=--road-button-primary\n\n🧬  primary-50\n\n- - \n\n💬 Brand primary button state: default"
+    "primary": {
+      "surface":       { "$value": "{blue.blue-700}",       "$type": "color" },
+      "surface-hover": { "$value": "{blue.blue-900}",       "$type": "color" },
+      "on-surface":    { "$value": "{global.white}",        "$type": "color" },
+      "border":        { "$value": "{global.white-a12}",    "$type": "color" }
     },
-    "button-primary-variant": {
-      "$value": "{norauto.primary.primary-30}",
-      "$type": "color",
-      "$description": "token=--road-button-primary-variant\n\n🧬  primary-20\n\n- - \n\n💬 Brand primary button state: focus, active, hover"
+    "secondary": {
+      "surface":       { "$value": "{blue.blue-50}",        "$type": "color" },
+      "surface-hover": { "$value": "{blue.blue-100}",       "$type": "color" },
+      "on-surface":    { "$value": "{blue.blue-800}",       "$type": "color" },
+      "border-hover":  { "$value": "{blue.blue-300}",       "$type": "color" }
     },
-    "button-secondary": {
-      "$value": "{norauto.secondary.secondary-60}",
-      "$type": "color",
-      "$description": "token=--road-button-secondary\n\n🧬 secondary-60\n\n- - \n\n💬 Brand secondary button state: default"
+    "tertiary": {
+      "surface":       { "$value": "{neutral.neutral-100}", "$type": "color" },
+      "surface-hover": { "$value": "{periwinkle.periwinkle-100}", "$type": "color" },
+      "on-surface":    { "$value": "{global.grey}",         "$type": "color" },
+      "border-hover":  { "$value": "{periwinkle.periwinkle-300}", "$type": "color" }
     },
-    "button-secondary-variant": {
-      "$value": "{norauto.secondary.secondary-40}",
-      "$type": "color",
-      "$description": "token=--road-button-secondary-variant\n\n🧬  secondary-40\n\n- - \n\n💬 Brand secondary button state:  focus, active, hover"
+    "outlined": {
+      "surface":       { "$value": "{global.white-a0}",     "$type": "color" },
+      "surface-hover": { "$value": "{periwinkle.periwinkle-50}", "$type": "color" },
+      "on-surface":    { "$value": "{periwinkle.periwinkle-700}", "$type": "color" },
+      "border":        { "$value": "{periwinkle.periwinkle-400}", "$type": "color" }
     },
-    "button-tertiary": {
-      "$value": "{norauto.primary.primary-90-a0}",
-      "$type": "color",
-      "$description": "token=--road-button-tertiary\n\n🧬 primary-90; opacity 0\n\n- - \n\n💬 Brand tertiary button state: default"
+    "ghost": {
+      "surface":       { "$value": "{global.white-a0}",     "$type": "color" },
+      "surface-hover": { "$value": "{blue.blue-50}",        "$type": "color" },
+      "on-surface":    { "$value": "{global.white}",        "$type": "color" },
+      "border-hover":  { "$value": "{blue.blue-200}",       "$type": "color" }
     },
-    "button-tertiary-variant": {
-      "$value": "{norauto.primary.primary-90}",
-      "$type": "color",
-      "$description": "token=--road-button-tertiary-variant\n\n🧬 primary-90\n\n- - \n\n💬 Brand tertiary button state: focus, active, hover"
+    "inverted": {
+      "surface":       { "$value": "{periwinkle.periwinkle-800}", "$type": "color" },
+      "surface-hover": { "$value": "{periwinkle.periwinkle-900}", "$type": "color" },
+      "on-surface":    { "$value": "{global.white}",        "$type": "color" }
     },
-    "button-tertiary-outline": {
-      "$value": "{norauto.primary.primary-40}",
-      "$type": "color",
-      "$description": "token=--road-button-tertiary-outline\n\n🧬 primary-50\n\n- - \n\n💬 Brand tertiary button outline state:  default"
+    "destructive": {
+      "primary-surface":       { "$value": "{red.red-700}",      "$type": "color" },
+      "primary-surface-hover": { "$value": "{red.red-800}",      "$type": "color" },
+      "primary-on-surface":    { "$value": "{global.white}",     "$type": "color" },
+      "outlined-surface":      { "$value": "{global.white-a0}",  "$type": "color" },
+      "outlined-surface-hover":{ "$value": "{red.red-75}",       "$type": "color" },
+      "outlined-on-surface":   { "$value": "{red.red-700}",      "$type": "color" },
+      "outlined-border":       { "$value": "{red.red-700}",      "$type": "color" }
     },
-    "button-ghost": {
-      "$value": "{norauto.primary.primary-90-a0}",
-      "$type": "color",
-      "$description": "token=--road-button-ghost\n\n🧬 primary-90; opacity 0\n\n- - \n\n💬 Brand ghost button state: default"
+    "alternative": {
+      "primary-surface":    { "$value": "{blue.blue-700}",         "$type": "color" },
+      "primary-on-surface": { "$value": "{global.white}",          "$type": "color" },
+      "secondary-surface":  { "$value": "{blue.blue-50}",          "$type": "color" },
+      "secondary-surface-hover": { "$value": "{blue.blue-100}",    "$type": "color" },
+      "secondary-on-surface":    { "$value": "{blue.blue-800}",    "$type": "color" },
+      "secondary-border-hover":  { "$value": "{blue.blue-300}",    "$type": "color" },
+      "brand-surface":           { "$value": "{brand.secondary.secondary-400}", "$type": "color" },
+      "brand-surface-hover":     { "$value": "{orange.orange-500}", "$type": "color" },
+      "brand-on-surface":        { "$value": "{global.grey}",      "$type": "color" },
+      "brand-border-hover":      { "$value": "{orange.orange-700}", "$type": "color" }
     },
-    "button-ghost-variant": {
-      "$value": "{norauto.primary.primary-90}",
-      "$type": "color",
-      "$description": "token=--road-button-ghost-variant\n\n🧬 primary-90\n\n- - \n\n💬 Brand bhost button state: default"
+    "control": {
+      "min-height": {
+        "sm":  { "$value": "{height.content.h-32}", "$type": "dimension" },
+        "md":  { "$value": "{height.content.h-40}", "$type": "dimension" },
+        "lg":  { "$value": "{height.content.h-48}", "$type": "dimension" },
+        "xl":  { "$value": "{height.content.h-56}", "$type": "dimension" },
+        "xxl": { "$value": "{height.content.h-64}", "$type": "dimension" }
+      },
+      "padding-px": {
+        "sm":  { "$value": "{padding.px.px-14}", "$type": "dimension" },
+        "md":  { "$value": "{padding.px.px-16}", "$type": "dimension" },
+        "lg":  { "$value": "{padding.px.px-20}", "$type": "dimension" },
+        "xl":  { "$value": "{padding.px.px-24}", "$type": "dimension" },
+        "xxl": { "$value": "{padding.px.px-26}", "$type": "dimension" }
+      },
+      "padding-py": {
+        "sm":  { "$value": "{padding.py.py-6}",  "$type": "dimension" },
+        "md":  { "$value": "{padding.py.py-10}", "$type": "dimension" },
+        "lg":  { "$value": "{padding.py.py-12}", "$type": "dimension" },
+        "xl":  { "$value": "{padding.py.py-16}", "$type": "dimension" },
+        "xxl": { "$value": "{padding.py.py-16}", "$type": "dimension" }
+      },
+      "padding-icon-only-px": {
+        "sm":  { "$value": "{padding.px.px-8}",  "$type": "dimension" },
+        "md":  { "$value": "{padding.px.px-10}", "$type": "dimension" },
+        "lg":  { "$value": "{padding.px.px-12}", "$type": "dimension" },
+        "xl":  { "$value": "{padding.px.px-14}", "$type": "dimension" },
+        "xxl": { "$value": "{padding.px.px-16}", "$type": "dimension" }
+      },
+      "padding-icon-only-py": {
+        "sm":  { "$value": "{padding.py.py-8}",  "$type": "dimension" },
+        "md":  { "$value": "{padding.py.py-10}", "$type": "dimension" },
+        "lg":  { "$value": "{padding.py.py-12}", "$type": "dimension" },
+        "xl":  { "$value": "{padding.py.py-14}", "$type": "dimension" },
+        "xxl": { "$value": "{padding.py.py-16}", "$type": "dimension" }
+      },
+      "space-between": {
+        "sm":  { "$value": "{space-between.space-4}",  "$type": "dimension" },
+        "md":  { "$value": "{space-between.space-6}",  "$type": "dimension" },
+        "lg":  { "$value": "{space-between.space-8}",  "$type": "dimension" },
+        "xl":  { "$value": "{space-between.space-10}", "$type": "dimension" },
+        "xxl": { "$value": "{space-between.space-12}", "$type": "dimension" }
+      },
+      "radius": {
+        "sm":      { "$value": "{border-radius.radius-8}",    "$type": "dimension" },
+        "md":      { "$value": "{border-radius.radius-10}",   "$type": "dimension" },
+        "lg":      { "$value": "{border-radius.radius-12}",   "$type": "dimension" },
+        "xl":      { "$value": "{border-radius.radius-14}",   "$type": "dimension" },
+        "xxl":     { "$value": "{border-radius.radius-16}",   "$type": "dimension" },
+        "rounded": { "$value": "{border-radius.radius-full}", "$type": "dimension" }
+      },
+      "border-default": {
+        "sm":  { "$value": "{stroke.stroke-1}", "$type": "dimension" },
+        "md":  { "$value": "{stroke.stroke-1}", "$type": "dimension" },
+        "lg":  { "$value": "{stroke.stroke-1}", "$type": "dimension" },
+        "xl":  { "$value": "{stroke.stroke-1}", "$type": "dimension" },
+        "xxl": { "$value": "{stroke.stroke-1}", "$type": "dimension" }
+      },
+      "border-hover": {
+        "sm":  { "$value": "{stroke.stroke-1-25}", "$type": "dimension" },
+        "md":  { "$value": "{stroke.stroke-1-5}",  "$type": "dimension" },
+        "lg":  { "$value": "{stroke.stroke-1-75}", "$type": "dimension" },
+        "xl":  { "$value": "{stroke.stroke-2}",    "$type": "dimension" },
+        "xxl": { "$value": "{stroke.stroke-2}",    "$type": "dimension" }
+      },
+      "border-style": {
+        "sm":  { "$value": "{stroke.stroke-2}", "$type": "dimension" },
+        "md":  { "$value": "{stroke.stroke-2}", "$type": "dimension" },
+        "lg":  { "$value": "{stroke.stroke-2}", "$type": "dimension" },
+        "xl":  { "$value": "{stroke.stroke-2}", "$type": "dimension" },
+        "xxl": { "$value": "{stroke.stroke-2}", "$type": "dimension" }
+      },
+      "icon-size": {
+        "sm":  { "$value": "{size.icon.icon-16}", "$type": "dimension" },
+        "md":  { "$value": "{size.icon.icon-20}", "$type": "dimension" },
+        "lg":  { "$value": "{size.icon.icon-24}", "$type": "dimension" },
+        "xl":  { "$value": "{size.icon.icon-28}", "$type": "dimension" },
+        "xxl": { "$value": "{size.icon.icon-32}", "$type": "dimension" }
+      }
+    }
+  },
+  "interaction": {
+    "selected": {
+      "surface":            { "$value": "{blue.blue-50}",           "$type": "color" },
+      "border":             { "$value": "{blue.blue-950}",          "$type": "color" },
+      "border-alt":         { "$value": "{blue.blue-800}",          "$type": "color" },
+      "border-active":      { "$value": "#6594FF",                  "$type": "color" },
+      "on-surface":         { "$value": "{neutral.neutral-900}",    "$type": "color" },
+      "on-surface-subtle":  { "$value": "{neutral.neutral-700}",    "$type": "color" },
+      "on-surface-alt":     { "$value": "{blue.blue-800}",          "$type": "color" },
+      "on-surface-alt-subtle": { "$value": "{periwinkle.periwinkle-600}", "$type": "color" },
+      "stroke-size":        { "$value": 2,                          "$type": "number" }
     },
-    "on-button-primary": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-on-button-primary\n\n🧬  grey-100\n\n- - \n\n💬 Brand primary button text & icon"
-    },
-    "on-button-secondary": {
-      "$value": "{norauto.neutral.grey-10}",
-      "$type": "color",
-      "$description": "token=--road-on-button-secondary\n\n🧬  grey-10\n\n- - \n\n💬Brand secondary button text & icon"
-    },
-    "on-button-tertiary": {
-      "$value": "{norauto.primary.primary-50}",
-      "$type": "color",
-      "$description": "token=--road-on-button-tertiary\n\n🧬 primary-50\n\n- - \n\n💬 Brand tertiary button text & icon"
-    },
-    "on-button-ghost": {
-      "$value": "{norauto.neutral.grey-10}",
-      "$type": "color",
-      "$description": "token=--road-on-ghost-button\n\n🧬 grey-10\n\n- - \n\n💬 Brand ghost button text & icon"
-    },
-    "button-fab": {
-      "$value": "{norauto.secondary.secondary-60}",
-      "$type": "color",
-      "$description": ""
-    },
-    "on-button-fab": {
-      "$value": "{norauto.neutral.grey-10}",
-      "$type": "color",
-      "$description": ""
-    },
-    "button-fab-variant": {
-      "$value": "{norauto.secondary.secondary-40}",
-      "$type": "color",
-      "$description": "token=--road-button-secondary-variant\n\n🧬  secondary-40\n\n- - \n\n💬 Brand secondary button state:  focus, active, hover"
-    },
-    "button-destructive-primary": {
-      "$value": "{alert.danger.danger-50}",
-      "$type": "color",
-      "$description": ""
-    },
-    "button-destructive-primary-variant": {
-      "$value": "{alert.danger.danger-40}",
-      "$type": "color",
-      "$description": ""
-    },
-    "button-destructive-outline": {
-      "$value": "{alert.danger.danger-50}",
-      "$type": "color",
-      "$description": ""
-    },
-    "button-destructive-secondary": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": ""
-    },
-    "button-destructive-secondary-variant": {
-      "$value": "{alert.danger.danger-90}",
-      "$type": "color",
-      "$description": ""
-    },
-    "on-button-destructive-secondary": {
-      "$value": "{alert.danger.danger-50}",
-      "$type": "color",
-      "$description": ""
-    },
-    "on-button-destructive-primary": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": ""
+    "inactive": {
+      "surface":            { "$value": "{neutral.neutral-50}",     "$type": "color" },
+      "border":             { "$value": "{periwinkle.periwinkle-500}", "$type": "color" },
+      "border-subtle":      { "$value": "{neutral.neutral-200}",    "$type": "color" },
+      "border-invisible":   { "$value": "{neutral.neutral-a0}",     "$type": "color" },
+      "on-surface":         { "$value": "{neutral.neutral-900}",    "$type": "color" },
+      "on-surface-subtle":  { "$value": "{neutral.neutral-650}",    "$type": "color" },
+      "stroke-size":        { "$value": 1,                          "$type": "number" }
     }
   },
   "decorative": {
-    "decorative-surface": {
-      "$value": "{norauto.secondary.secondary-50}",
-      "$type": "color",
-      "$description": "token=--road-decorative-surface\n\n🧬 secondary-50\n\n- - \n\n💬 Brand's basic decorative element"
+    "orange": {
+      "surface":    { "$value": "{orange.orange-100}", "$type": "color" },
+      "on-surface": { "$value": "{orange.orange-500}", "$type": "color" },
+      "border":     { "$value": "{orange.orange-200}", "$type": "color" }
     },
-    "decorative-surface-variant": {
-      "$value": "{norauto.primary.primary-50}",
-      "$type": "color",
-      "$description": "token=--road-decorative-surface-variant\n\n\n🧬 primary-50\n\n- - \n\n💬 Brand's basic decorative element"
+    "red": {
+      "surface":    { "$value": "{red.red-100}",   "$type": "color" },
+      "on-surface": { "$value": "{red.red-500}",   "$type": "color" },
+      "border":     { "$value": "{red.red-200}",   "$type": "color" }
+    },
+    "green": {
+      "surface":    { "$value": "{green.green-100}", "$type": "color" },
+      "on-surface": { "$value": "{green.green-500}", "$type": "color" },
+      "border":     { "$value": "{green.green-200}", "$type": "color" }
+    },
+    "rose": {
+      "surface":    { "$value": "{rose.rose-100}", "$type": "color" },
+      "on-surface": { "$value": "{rose.rose-500}", "$type": "color" },
+      "border":     { "$value": "{rose.rose-200}", "$type": "color" }
+    },
+    "blue": {
+      "surface":    { "$value": "{indigo.indigo-100}", "$type": "color" },
+      "on-surface": { "$value": "{indigo.indigo-500}", "$type": "color" },
+      "border":     { "$value": "{indigo.indigo-200}", "$type": "color" }
+    },
+    "violet": {
+      "surface":    { "$value": "{violet.violet-100}", "$type": "color" },
+      "on-surface": { "$value": "{violet.violet-500}", "$type": "color" },
+      "border":     { "$value": "{violet.violet-200}", "$type": "color" }
     }
   },
-  "input": {
-    "input-surface": {
-      "$value": "{norauto.primary.primary-50}",
-      "$type": "color",
-      "$description": "token=--road-input-surface\n\n🧬  primary-50\n\n- - \n\n💬 Input form background state: checked"
+  "feedback": {
+    "orange": {
+      "surface":    { "$value": "{orange.orange-100}", "$type": "color" },
+      "on-surface": { "$value": "{orange.orange-500}", "$type": "color" },
+      "border":     { "$value": "{orange.orange-200}", "$type": "color" }
     },
-    "input-surface-variant": {
-      "$value": "{norauto.primary.primary-30}",
-      "$type": "color",
-      "$description": "tokrn=--road-input-surface-variant\n\n🧬  primary-30\n\n- - \n\n💬 Input form background state:  focus, active, hover"
+    "red": {
+      "surface":    { "$value": "{red.red-100}",   "$type": "color" },
+      "on-surface": { "$value": "{red.red-500}",   "$type": "color" },
+      "border":     { "$value": "{red.red-200}",   "$type": "color" }
     },
-    "input-outline": {
-      "$value": "{norauto.neutral.grey-40}",
-      "$type": "color",
-      "$description": "token=--road-input-outline\n\n🧬 grey-30; opacity 0.52\n\n- - \n\n💬 Input form outline state: default, interactive element"
+    "green": {
+      "surface":    { "$value": "{green.green-100}", "$type": "color" },
+      "on-surface": { "$value": "{green.green-500}", "$type": "color" },
+      "border":     { "$value": "{green.green-200}", "$type": "color" }
     },
-    "input-outline-variant": {
-      "$value": "{norauto.primary.primary-30}",
-      "$type": "color",
-      "$description": "token=--road-input-outline-variant\n\n🧬  primary-30\n\n- - \n\n💬 Input form outline state:  focus, active, hover"
+    "rose": {
+      "surface":    { "$value": "{rose.rose-100}", "$type": "color" },
+      "on-surface": { "$value": "{rose.rose-500}", "$type": "color" },
+      "border":     { "$value": "{rose.rose-200}", "$type": "color" }
+    },
+    "blue": {
+      "surface":    { "$value": "{indigo.indigo-100}", "$type": "color" },
+      "on-surface": { "$value": "{indigo.indigo-500}", "$type": "color" },
+      "border":     { "$value": "{indigo.indigo-200}", "$type": "color" }
+    },
+    "violet": {
+      "surface":    { "$value": "{violet.violet-100}", "$type": "color" },
+      "on-surface": { "$value": "{violet.violet-500}", "$type": "color" },
+      "border":     { "$value": "{violet.violet-200}", "$type": "color" }
     }
   },
-  "banner": {
-    "leading-banner": {
-      "$value": "{norauto.secondary.secondary-60}",
-      "$type": "color",
-      "$description": "token=--road-leading-banner\n\n🧬 secondary-60\n\n- - \n\n💬 Leading marketing banner background"
-    },
-    "on-leading-banner": {
-      "$value": "{norauto.neutral.grey-10}",
-      "$type": "color",
-      "$description": "token=--road-on-leading-banner\n\n🧬 grey-10\n\n- - \n\n💬 Leading marketing banner text"
-    }
+  "global": {
+    "ring-focus": { "$value": "{periwinkle.periwinkle-200}", "$type": "color" }
   },
-  "tag": {
-    "tag-default": {
-      "$value": "{decorative.blue-klein.blue-klein-50}",
-      "$type": "color",
-      "$description": "token=--road-tag-default\n\n🧬 blue-klein-50\n\n- - \n\n💬 Default marketing tag, leading badge, range, background, text"
-    },
-    "tag-exclusivity": {
-      "$value": "{decorative.yellow-mikado.yellow-mikado-50}",
-      "$type": "color",
-      "$description": "token=--road-tag-exclusivity\n\n🧬 yellow-gold-50\n\n- - \n\n💬 Marketing tag, leading badge, range, background, text"
-    },
-    "tag-offer": {
-      "$value": "{decorative.red-pepper.red-pepper-50}",
-      "$type": "color",
-      "$description": "token=--road-tag-offer\n\n🧬 red-pepper-50\n\n- - \n\n💬 Marketing tag, leading badge, range, background, text"
-    },
-    "tag-special": {
-      "$value": "{norauto.neutral.grey-0}",
-      "$type": "color",
-      "$description": "token=--road-tag-black-friday\n\n🧬 grey-0\n\n- - \n\n💬 Marketing tag, leading badge, range, background, text"
-    },
-    "tag-ecology": {
-      "$value": "{decorative.green-monstera.green-monstera-50}",
-      "$type": "color",
-      "$description": "token=--road-tag-ecology\n\n🧬 green-monstera-50\n\n- - \n\n💬 Marketing tag, leading badge, range, background, text"
-    },
-    "tag-brand": {
-      "$value": "{norauto.primary.primary-20}",
-      "$type": "color",
-      "$description": ""
-    },
-    "tag-brand-light": {
-      "$value": "{norauto.primary.primary-50}",
-      "$type": "color",
-      "$description": ""
-    },
-    "tag-france": {
-      "$value": "{decorative.blue-klein.blue-klein-50}",
-      "$type": "color",
-      "$description": ""
-    },
-    "tag-context": {
-      "$value": "{norauto.neutral.grey-40}",
-      "$type": "color",
-      "$description": ""
-    },
-    "tag-selection": {
-      "$value": "{decorative.orange-clockwork.orange-clockwork-50}",
-      "$type": "color",
-      "$description": ""
-    },
-    "tag-spotlight": {
-      "$value": "{decorative.red-pepper.red-pepper-60}",
-      "$type": "color",
-      "$description": ""
-    }
-  },
-  "rating": {
-    "rating": {
-      "$value": "{decorative.yellow-mikado.yellow-mikado-50}",
-      "$type": "color",
-      "$description": "token=--road-rating\n\n🧬 yellow-mikado-50\n\n- - \n\n💬 Rating star & beckground"
-    }
-  },
-  "brand-origin": {
-    "brand-primary": {
-      "$value": "{norauto.primary.primary-20}",
-      "$type": "color",
-      "$description": "token=--road-brand-primary\n\nAccessibility:\n✅ on black → AA Large\n✅ on white → AAA"
-    },
-    "brand-secondary": {
-      "$value": "{norauto.secondary.secondary-60}",
-      "$type": "color",
-      "$description": "token=--road-brand-secondary\n\nAccessibility:\n✅ on black → AA Large\n✅ on white → AAA"
-    }
-  },
-  "information": {
-    "info-surface": {
-      "$value": "{alert.info.info-95}",
-      "$type": "color",
-      "$description": "token=--road-info-surface\n\n🧬 info-95\n\n- - \n\n💬 Information status background"
-    },
-    "info-surface-inverse": {
-      "$value": "{alert.info.info-50}",
-      "$type": "color",
-      "$description": "token=--road-info-surface-inverse\n\n🧬 info-50\n\n- - \n\n💬 Information status background  & text"
-    },
-    "info-outline": {
-      "$value": "{alert.info.info-50}",
-      "$type": "color",
-      "$description": "token=--road-info-outline\n\n🧬 info-50\n\n- - \n\n💬 Information status border"
-    },
-    "info-icon": {
-      "$value": "{alert.info.info-50}",
-      "$type": "color",
-      "$description": "token=--road-info-icon\n\n🧬 info-50\n\n- - \n\n💬 Information status icon"
-    },
-    "info-icon-inverse": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": ""
-    },
-    "on-info-surface": {
-      "$value": "{alert.info.info-30}",
-      "$type": "color",
-      "$description": "token=--road-on-info-surface\n\n🧬 info-30\n\n- - \n\n💬 Info status text"
-    },
-    "on-info-surface-inverse": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-on-info-surface-inverse\n\n🧬 grey-100\n\n- - \n\n💬 Information status text"
-    }
-  },
-  "success": {
-    "success-surface": {
-      "$value": "{alert.success.success-95}",
-      "$type": "color",
-      "$description": "token=--road-success-surface\n\n🧬 success-95\n\n- - \n\n💬 Success status background"
-    },
-    "success-surface-inverse": {
-      "$value": "{alert.success.success-50}",
-      "$type": "color",
-      "$description": "token=--road-success-surface-inverse\n\n🧬 success-50\n\n- - \n\n💬 Success status background & text"
-    },
-    "success-outline": {
-      "$value": "{alert.success.success-50}",
-      "$type": "color",
-      "$description": "token=--road-success-outline\n\n🧬 success-50\n\n- - \n\n💬 Success status border"
-    },
-    "success-icon": {
-      "$value": "{alert.success.success-50}",
-      "$type": "color",
-      "$description": "token=--road-success-icon\n\n🧬 success-50\n\n- - \n\n💬 Success status icon"
-    },
-    "success-icon-inverse": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-success-icon-inverse\n\n🧬 grey-100\n\n- - \n\n💬 Success status icon"
-    },
-    "on-success-surface": {
-      "$value": "{alert.success.success-30}",
-      "$type": "color",
-      "$description": "token=--road-on-success-surface\n\n🧬 success-30\n\n- - \n\n💬 Success status text"
-    },
-    "on-success-surface-inverse": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-on-success-surface-inverse\n\n🧬 grey-100\n\n- - \n\n💬 Success status text"
-    }
-  },
-  "warning": {
-    "warning-surface": {
-      "$value": "{alert.warning.warning-95}",
-      "$type": "color",
-      "$description": ""
-    },
-    "warning-surface-inverse": {
-      "$value": "{alert.warning.warning-50}",
-      "$type": "color",
-      "$description": ""
-    },
-    "warning-outline": {
-      "$value": "{alert.warning.warning-30}",
-      "$type": "color",
-      "$description": ""
-    },
-    "warning-icon": {
-      "$value": "{alert.warning.warning-30}",
-      "$type": "color",
-      "$description": ""
-    },
-    "warning-icon-inverse": {
-      "$value": "{alert.warning.warning-10}",
-      "$type": "color",
-      "$description": ""
-    },
-    "on-warning-surface": {
-      "$value": "{alert.warning.warning-20}",
-      "$type": "color",
-      "$description": ""
-    },
-    "on-warning-surface-inverse": {
-      "$value": "{alert.warning.warning-10}",
-      "$type": "color",
-      "$description": ""
-    }
-  },
-  "danger": {
-    "danger-surface": {
-      "$value": "{alert.danger.danger-95}",
-      "$type": "color",
-      "$description": "token=--road-danger-surface\n\n🧬 danger-95\n\n- - \n\n💬 Danger status background"
-    },
-    "danger-surface-inverse": {
-      "$value": "{alert.danger.danger-50}",
-      "$type": "color",
-      "$description": "token=--road-danger-surface-inverse\n\n🧬 danger-50\n\n- - \n\n💬 Danger status background & text"
-    },
-    "danger-outline": {
-      "$value": "{alert.danger.danger-50}",
-      "$type": "color",
-      "$description": "token=--road-danger-outline\n\n🧬 danger-50\n\n- - \n\n💬 Danger status border"
-    },
-    "danger-icon": {
-      "$value": "{alert.danger.danger-50}",
-      "$type": "color",
-      "$description": "token=--road-danger-icon\n\n🧬 danger-50\n\n- - \n\n💬 Danger status icon"
-    },
-    "danger-icon-inverse": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-danger-icon-inverse\n\n🧬 grey-100\n\n- - \n\n💬 Danger status icon"
-    },
-    "on-danger-surface": {
-      "$value": "{alert.danger.danger-30}",
-      "$type": "color",
-      "$description": "token=--road-on-danger-surface\n\n🧬 danger-30\n\n- - \n\n💬 Danger status text"
-    },
-    "on-danger-surface-inverse": {
-      "$value": "{norauto.neutral.grey-100}",
-      "$type": "color",
-      "$description": "token=--road-on-danger-surface-inverse\n\n🧬 grey-100\n\n- - \n\n💬 Danger status text"
-    }
+  "brand": {
+    "template": { "$value": "{brand.norauto.norauto-700}", "$type": "color" }
   }
 }

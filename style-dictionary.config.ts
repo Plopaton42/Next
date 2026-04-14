@@ -3,7 +3,7 @@ import type { Config, TransformedToken } from 'style-dictionary/types';
 import { fileHeader } from 'style-dictionary/utils';
 
 // ─── CUSTOM FORMAT: typed TypeScript theme object ─────────────────────────────
-// Produces: export const theme = { norauto: { primary: { "10": "..." } } } as const
+// Produces: export const theme = { blue: { "blue-700": "..." } } as const
 
 StyleDictionary.registerFormat({
   name: 'typescript/theme-object',
@@ -40,35 +40,22 @@ StyleDictionary.registerFormat({
   },
 });
 
-// ─── CUSTOM TRANSFORM: strip mode prefix for semantic tokens ──────────────────
-// Tokens under light/dark/contrast get the mode prefix removed from the CSS
-// variable name. Path ['light','surface','surface'] → name 'surface-surface'
-// Primitive tokens (no mode prefix) are passed through unchanged.
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
 
-StyleDictionary.registerTransform({
-  name: 'name/strip-mode',
-  type: 'name',
-  // Mirrors name/kebab: join path with '-' and prepend the platform prefix.
-  // For mode-prefixed semantic tokens, strip the first path component (light/dark/contrast)
-  // so the CSS var name does NOT include the mode.
-  transform: (token: TransformedToken, options): string => {
-    const MODES = ['light', 'dark', 'contrast'];
-    const path = MODES.includes(token.path[0]) ? token.path.slice(1) : token.path;
-    const prefix = (options as Record<string, unknown>)?.prefix as string | undefined;
-    return [prefix, ...path].filter(Boolean).join('-');
-  },
-});
+const isPrimitive = (t: TransformedToken) =>
+  !t.filePath.includes('semantic/');
+
+const isSemantic = (t: TransformedToken) =>
+  t.filePath.includes('semantic/');
 
 // ─── MAIN CONFIGURATION ───────────────────────────────────────────────────────
-
-const MODES = ['light', 'dark', 'contrast'] as const;
 
 const config: Config = {
   usesDtcg: true,
   source: ['tokens/source/**/*.json'],
 
   platforms: {
-    // ── Primitive tokens → variables.css (:root) + theme.ts ─────────────────
+    // ── Primitive tokens → variables.css (:root) ─────────────────────────────
     css: {
       transformGroup: 'css',
       buildPath: 'tokens/build/',
@@ -77,8 +64,7 @@ const config: Config = {
         {
           destination: 'variables.css',
           format: 'css/variables',
-          // Exclude mode-prefixed semantic tokens — handled by css-semantic below
-          filter: (t: TransformedToken) => !MODES.includes(t.path[0] as typeof MODES[number]),
+          filter: isPrimitive,
           options: {
             outputReferences: false,
             selector: ':root',
@@ -87,31 +73,20 @@ const config: Config = {
       ],
     },
 
-    // ── Semantic tokens → semantic-{mode}.css with appropriate selectors ─────
-    // Uses name/strip-mode to drop the light/dark/contrast prefix from var names.
-    // :root for light, [data-theme="dark"] for dark, [data-theme="contrast"] for contrast.
+    // ── Semantic tokens → semantic.css (:root) ────────────────────────────────
     'css-semantic': {
-      transforms: ['attribute/cti', 'name/strip-mode', 'color/css', 'size/rem'],
+      transformGroup: 'css',
       buildPath: 'tokens/build/',
       prefix: 'ds',
       files: [
         {
-          destination: 'semantic-light.css',
+          destination: 'semantic.css',
           format: 'css/variables',
-          filter: (t: TransformedToken) => t.path[0] === 'light',
-          options: { outputReferences: false, selector: ':root' },
-        },
-        {
-          destination: 'semantic-dark.css',
-          format: 'css/variables',
-          filter: (t: TransformedToken) => t.path[0] === 'dark',
-          options: { outputReferences: false, selector: '[data-theme="dark"]' },
-        },
-        {
-          destination: 'semantic-contrast.css',
-          format: 'css/variables',
-          filter: (t: TransformedToken) => t.path[0] === 'contrast',
-          options: { outputReferences: false, selector: '[data-theme="contrast"]' },
+          filter: isSemantic,
+          options: {
+            outputReferences: false,
+            selector: ':root',
+          },
         },
       ],
     },

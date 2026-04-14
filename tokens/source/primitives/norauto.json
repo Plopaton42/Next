@@ -1,135 +1,28 @@
 {
-  "norauto": {
-    "neutral": {
-      "grey-0": {
-        "$value": "#000000",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-0"
-      },
-      "grey-0-a64": {
-        "$value": "#000000A3",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-0 [α:64]"
-      },
-      "grey-10": {
-        "$value": "#22293A",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-10"
-      },
-      "grey-10-a32": {
-        "$value": "#22293A52",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-10 [α:32]"
-      },
-      "grey-100": {
-        "$value": "#FFFFFF",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-100"
-      },
-      "grey-100-a32": {
-        "$value": "#FFFFFF52",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-100 [α:32]"
-      },
-      "grey-100-a40": {
-        "$value": "#FFFFFF66",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-100 [α:40]"
-      },
-      "grey-100-a64": {
-        "$value": "#FFFFFFA3",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-100 [α:64]"
-      },
-      "grey-30": {
-        "$value": "#51586C",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-30"
-      },
-      "grey-40": {
-        "$value": "#6D7488",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-40"
-      },
-      "grey-5": {
-        "$value": "#11151D",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-5"
-      },
-      "grey-50-a24": {
-        "$value": "#898FA03D",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-50 [α:24]"
-      },
-      "grey-60": {
-        "$value": "#A4A9B6",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-60"
-      },
-      "grey-80": {
-        "$value": "#DDDFE4",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-80"
-      },
-      "grey-90": {
-        "$value": "#F4F4F6",
-        "$type": "color",
-        "$description": "norauto › neutral › grey-90"
-      }
-    },
-    "primary": {
-      "primary-10": {
-        "$value": "#001638",
-        "$type": "color",
-        "$description": "norauto › primary › primary-10"
-      },
-      "primary-20": {
-        "$value": "#002B6F",
-        "$type": "color",
-        "$description": "norauto › primary › primary-20"
-      },
-      "primary-30": {
-        "$value": "#004293",
-        "$type": "color",
-        "$description": "norauto › primary › primary-30"
-      },
-      "primary-40": {
-        "$value": "#005AB8",
-        "$type": "color",
-        "$description": "norauto › primary › primary-40"
-      },
-      "primary-50": {
-        "$value": "#0071DC",
-        "$type": "color",
-        "$description": "norauto › primary › primary-50"
-      },
-      "primary-90": {
-        "$value": "#CCE3F8",
-        "$type": "color",
-        "$description": "norauto › primary › primary-90"
-      },
-      "primary-90-a0": {
-        "$value": "#CCE3F800",
-        "$type": "color",
-        "$description": "norauto › primary › primary-90 [α:0]"
-      }
+  "brand": {
+    "norauto": {
+      "norauto-50":   { "$value": "#CCE3F8", "$type": "color", "$description": "Norauto brand › lightest blue" },
+      "norauto-100":  { "$value": "#99C6F1", "$type": "color" },
+      "norauto-200":  { "$value": "#66AAEA", "$type": "color" },
+      "norauto-300":  { "$value": "#338DE3", "$type": "color" },
+      "norauto-400":  { "$value": "#0071DC", "$type": "color" },
+      "norauto-500":  { "$value": "#005AB8", "$type": "color", "$description": "Norauto brand › primary blue" },
+      "norauto-600":  { "$value": "#004293", "$type": "color" },
+      "norauto-700":  { "$value": "#002B6F", "$type": "color" },
+      "norauto-800":  { "$value": "#001638", "$type": "color" },
+      "norauto-900":  { "$value": "#000C21", "$type": "color", "$description": "Norauto brand › darkest blue" }
     },
     "secondary": {
-      "secondary-40": {
-        "$value": "#D67E21",
-        "$type": "color",
-        "$description": "norauto › secondary › secondary-40"
-      },
-      "secondary-50": {
-        "$value": "#E99B29",
-        "$type": "color",
-        "$description": "norauto › secondary › secondary-50"
-      },
-      "secondary-60": {
-        "$value": "#FCB731",
-        "$type": "color",
-        "$description": "norauto › secondary › secondary-60"
-      }
+      "secondary-50":   { "$value": "#FEF1D6", "$type": "color" },
+      "secondary-100":  { "$value": "#FDDE9F", "$type": "color" },
+      "secondary-200":  { "$value": "#FDCA68", "$type": "color" },
+      "secondary-300":  { "$value": "#FCB731", "$type": "color" },
+      "secondary-400":  { "$value": "#E99B29", "$type": "color", "$description": "Norauto secondary › orange" },
+      "secondary-500":  { "$value": "#D67E21", "$type": "color" },
+      "secondary-600":  { "$value": "#C4621A", "$type": "color" },
+      "secondary-700":  { "$value": "#B14512", "$type": "color" },
+      "secondary-800":  { "$value": "#9C3305", "$type": "color" },
+      "secondary-900":  { "$value": "#7A2503", "$type": "color" }
     }
   }
 }
