@@ -1,74 +1,87 @@
 {
-  "spacing": {
-    "0": {
-      "$value": "0px",
-      "$type": "dimension",
-      "$description": "No spacing"
+  "padding": {
+    "px": {
+      "px-0":   { "$value": "0px",   "$type": "dimension" },
+      "px-2":   { "$value": "2px",   "$type": "dimension" },
+      "px-4":   { "$value": "4px",   "$type": "dimension" },
+      "px-6":   { "$value": "6px",   "$type": "dimension" },
+      "px-8":   { "$value": "8px",   "$type": "dimension" },
+      "px-10":  { "$value": "10px",  "$type": "dimension" },
+      "px-12":  { "$value": "12px",  "$type": "dimension" },
+      "px-14":  { "$value": "14px",  "$type": "dimension" },
+      "px-16":  { "$value": "16px",  "$type": "dimension" },
+      "px-18":  { "$value": "18px",  "$type": "dimension" },
+      "px-20":  { "$value": "20px",  "$type": "dimension" },
+      "px-22":  { "$value": "22px",  "$type": "dimension" },
+      "px-24":  { "$value": "24px",  "$type": "dimension" },
+      "px-26":  { "$value": "26px",  "$type": "dimension" },
+      "px-28":  { "$value": "28px",  "$type": "dimension" },
+      "px-30":  { "$value": "30px",  "$type": "dimension" },
+      "px-32":  { "$value": "32px",  "$type": "dimension" },
+      "px-36":  { "$value": "36px",  "$type": "dimension" },
+      "px-40":  { "$value": "40px",  "$type": "dimension" },
+      "px-44":  { "$value": "44px",  "$type": "dimension" },
+      "px-48":  { "$value": "48px",  "$type": "dimension" },
+      "px-52":  { "$value": "52px",  "$type": "dimension" },
+      "px-56":  { "$value": "56px",  "$type": "dimension" },
+      "px-60":  { "$value": "60px",  "$type": "dimension" },
+      "px-64":  { "$value": "64px",  "$type": "dimension" },
+      "px-72":  { "$value": "72px",  "$type": "dimension" },
+      "px-80":  { "$value": "80px",  "$type": "dimension" },
+      "px-96":  { "$value": "96px",  "$type": "dimension" },
+      "px-128": { "$value": "128px", "$type": "dimension" },
+      "px-160": { "$value": "160px", "$type": "dimension" }
     },
-    "0-5": {
-      "$value": "0.125rem",
-      "$type": "dimension",
-      "$description": "2px"
-    },
-    "1": {
-      "$value": "0.25rem",
-      "$type": "dimension",
-      "$description": "4px"
-    },
-    "2": {
-      "$value": "0.5rem",
-      "$type": "dimension",
-      "$description": "8px"
-    },
-    "3": {
-      "$value": "0.75rem",
-      "$type": "dimension",
-      "$description": "12px"
-    },
-    "4": {
-      "$value": "1rem",
-      "$type": "dimension",
-      "$description": "16px — base spacing unit"
-    },
-    "5": {
-      "$value": "1.25rem",
-      "$type": "dimension",
-      "$description": "20px"
-    },
-    "6": {
-      "$value": "1.5rem",
-      "$type": "dimension",
-      "$description": "24px"
-    },
-    "8": {
-      "$value": "2rem",
-      "$type": "dimension",
-      "$description": "32px"
-    },
-    "10": {
-      "$value": "2.5rem",
-      "$type": "dimension",
-      "$description": "40px"
-    },
-    "12": {
-      "$value": "3rem",
-      "$type": "dimension",
-      "$description": "48px"
-    },
-    "16": {
-      "$value": "4rem",
-      "$type": "dimension",
-      "$description": "64px"
-    },
-    "20": {
-      "$value": "5rem",
-      "$type": "dimension",
-      "$description": "80px"
-    },
-    "24": {
-      "$value": "6rem",
-      "$type": "dimension",
-      "$description": "96px"
+    "py": {
+      "py-0":   { "$value": "0px",   "$type": "dimension" },
+      "py-2":   { "$value": "2px",   "$type": "dimension" },
+      "py-4":   { "$value": "4px",   "$type": "dimension" },
+      "py-6":   { "$value": "6px",   "$type": "dimension" },
+      "py-8":   { "$value": "8px",   "$type": "dimension" },
+      "py-10":  { "$value": "10px",  "$type": "dimension" },
+      "py-12":  { "$value": "12px",  "$type": "dimension" },
+      "py-14":  { "$value": "14px",  "$type": "dimension" },
+      "py-16":  { "$value": "16px",  "$type": "dimension" },
+      "py-18":  { "$value": "18px",  "$type": "dimension" },
+      "py-20":  { "$value": "20px",  "$type": "dimension" },
+      "py-22":  { "$value": "22px",  "$type": "dimension" },
+      "py-24":  { "$value": "24px",  "$type": "dimension" },
+      "py-26":  { "$value": "26px",  "$type": "dimension" },
+      "py-28":  { "$value": "28px",  "$type": "dimension" },
+      "py-30":  { "$value": "30px",  "$type": "dimension" },
+      "py-32":  { "$value": "32px",  "$type": "dimension" },
+      "py-36":  { "$value": "36px",  "$type": "dimension" },
+      "py-40":  { "$value": "40px",  "$type": "dimension" },
+      "py-44":  { "$value": "44px",  "$type": "dimension" },
+      "py-48":  { "$value": "48px",  "$type": "dimension" },
+      "py-52":  { "$value": "52px",  "$type": "dimension" },
+      "py-56":  { "$value": "56px",  "$type": "dimension" },
+      "py-60":  { "$value": "60px",  "$type": "dimension" },
+      "py-64":  { "$value": "64px",  "$type": "dimension" },
+      "py-72":  { "$value": "72px",  "$type": "dimension" },
+      "py-80":  { "$value": "80px",  "$type": "dimension" },
+      "py-96":  { "$value": "96px",  "$type": "dimension" },
+      "py-128": { "$value": "128px", "$type": "dimension" },
+      "py-160": { "$value": "160px", "$type": "dimension" }
     }
+  },
+  "space-between": {
+    "space-0":   { "$value": "0px",   "$type": "dimension" },
+    "space-2":   { "$value": "2px",   "$type": "dimension" },
+    "space-4":   { "$value": "4px",   "$type": "dimension" },
+    "space-6":   { "$value": "6px",   "$type": "dimension" },
+    "space-8":   { "$value": "8px",   "$type": "dimension" },
+    "space-10":  { "$value": "10px",  "$type": "dimension" },
+    "space-12":  { "$value": "12px",  "$type": "dimension" },
+    "space-16":  { "$value": "16px",  "$type": "dimension" },
+    "space-20":  { "$value": "20px",  "$type": "dimension" },
+    "space-24":  { "$value": "24px",  "$type": "dimension" },
+    "space-32":  { "$value": "32px",  "$type": "dimension" },
+    "space-40":  { "$value": "40px",  "$type": "dimension" },
+    "space-48":  { "$value": "48px",  "$type": "dimension" },
+    "space-64":  { "$value": "64px",  "$type": "dimension" },
+    "space-80":  { "$value": "80px",  "$type": "dimension" },
+    "space-96":  { "$value": "96px",  "$type": "dimension" },
+    "space-160": { "$value": "160px", "$type": "dimension" }
   }
 }
