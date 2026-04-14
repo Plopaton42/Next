@@ -28,7 +28,7 @@ npm run storybook
 
 ### Multi-brand token system
 
-The design system supports **5 brands**, each with **3 color modes** (light, dark, high-contrast):
+The design system supports **5 brands**. Norauto is the primary brand with full Figma coverage. Other brands share the same universal primitive palette.
 
 | Brand    | Primitives file                  | Semantic file                  |
 |----------|----------------------------------|--------------------------------|
@@ -38,26 +38,34 @@ The design system supports **5 brands**, each with **3 color modes** (light, dar
 | Auto5    | `tokens/source/primitives/auto5.json`   | `tokens/source/semantic/auto5.json`   |
 | Mobivia  | `tokens/source/primitives/mobivia.json` | `tokens/source/semantic/mobivia.json` |
 
-Global (brand-agnostic) tokens: `focus.json`, `radius.json`, `spacing.json`, `typography.json`, `shadows.json`.
+Global (brand-agnostic) primitive files:
+
+| File | Contents |
+|------|----------|
+| `primitives/global-colors.json` | 12 universal color scales: blue, neutral, ambient, periwinkle, red, green, orange, rose, violet, indigo + global palette |
+| `spacing.json` | Horizontal (`padding/px`), vertical (`padding/py`), gap (`space-between`) scales |
+| `radius.json` | Border-radius scale (`radius-N` in px) |
+| `sizing.json` | Component heights, icon sizes, stroke widths, opacity scale |
+| `typography.json` | Font families, sizes, weights |
+| `shadows.json` | Box-shadow tokens |
+| `focus.json` | Focus ring tokens |
 
 ### Token pipeline
 
 ```
 Figma (source of truth)
   │
-  ▼  manual update or plugin export
+  ▼  extracted via Figma MCP Plugin API
 tokens/source/**/*.json   (DTCG format, committed to git)
   │
   ▼  npm run build:tokens  (style-dictionary.config.ts)
 tokens/build/
-  ├── variables.css          → :root { --ds-* }  primitive vars
-  ├── semantic-light.css     → light mode semantic vars
-  ├── semantic-dark.css      → dark mode semantic vars
-  ├── semantic-contrast.css  → high-contrast semantic vars
-  └── theme.ts               → typed TS object for JS usage
+  ├── variables.css   → :root { --ds-* }  all primitive vars
+  ├── semantic.css    → :root { --ds-* }  all semantic vars
+  └── theme.ts        → typed TS object for JS usage
   │
   ▼  imported in src/style.css
-@theme inline { ... }        → Tailwind v4 utility classes
+@theme inline { ... }   → Tailwind v4 utility classes
 ```
 
 > **Never edit `tokens/build/`** — it is gitignored and regenerated on every `build:tokens` run.

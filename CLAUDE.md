@@ -26,29 +26,27 @@ design-system/
 ├── tokens/
 │   ├── source/                    ← DTCG JSON token files (edit these)
 │   │   ├── focus.json             ← focus ring tokens (brand-agnostic)
-│   │   ├── radius.json            ← border-radius tokens (brand-agnostic)
-│   │   ├── spacing.json           ← spacing scale (brand-agnostic)
+│   │   ├── radius.json            ← border-radius scale: radius-N in px
+│   │   ├── spacing.json           ← padding/px, padding/py, space-between scales
+│   │   ├── sizing.json            ← heights, icon sizes, stroke widths, opacity
 │   │   ├── typography.json        ← font families, sizes, weights (brand-agnostic)
 │   │   ├── shadows.json           ← box-shadow tokens (brand-agnostic)
-│   │   ├── primitives/            ← raw color scales, one file per brand
-│   │   │   ├── alert.json         ← info/success/warning/danger scales
-│   │   │   ├── decorative.json    ← decorative named color scales
-│   │   │   ├── norauto.json
+│   │   ├── primitives/            ← raw color scales
+│   │   │   ├── global-colors.json ← 12 universal scales + global palette
+│   │   │   ├── norauto.json       ← brand/norauto + brand/secondary scales
 │   │   │   ├── midas.json
 │   │   │   ├── atu.json
 │   │   │   ├── auto5.json
 │   │   │   └── mobivia.json
 │   │   └── semantic/              ← semantic tokens referencing primitives
-│   │       ├── norauto.json       ← primary brand
+│   │       ├── norauto.json       ← primary brand (Figma-synced)
 │   │       ├── midas.json
 │   │       ├── atu.json
 │   │       ├── auto5.json
 │   │       └── mobivia.json
 │   └── build/                     ← GENERATED, gitignored (do not edit)
-│       ├── variables.css          ← primitive CSS vars under :root { --ds-* }
-│       ├── semantic-light.css     ← semantic vars, light mode
-│       ├── semantic-dark.css      ← semantic vars, dark mode
-│       ├── semantic-contrast.css  ← semantic vars, high-contrast mode
+│       ├── variables.css          ← all primitive CSS vars under :root { --ds-* }
+│       ├── semantic.css           ← all semantic vars under :root { --ds-* }
 │       └── theme.ts               ← typed TS object for Vue component use
 ├── components/
 │   ├── _template/                 ← copy this when creating a new component
@@ -102,13 +100,14 @@ All token files in `tokens/source/` use the DTCG format:
 Style Dictionary transforms the nested JSON path into a flat CSS custom property
 with the prefix `--ds-`:
 
-| JSON path               | CSS custom property        |
-|-------------------------|----------------------------|
-| `color.primary`         | `--ds-color-primary`       |
-| `spacing.4`             | `--ds-spacing-4`           |
-| `font.size.base`        | `--ds-font-size-base`      |
-| `radius.base`           | `--ds-radius-base`         |
-| `color.neutral.500`     | `--ds-color-neutral-500`   |
+| JSON path                          | CSS custom property                  |
+|------------------------------------|--------------------------------------|
+| `blue.blue-700`                    | `--ds-blue-blue-700`                 |
+| `neutral.neutral-900`              | `--ds-neutral-neutral-900`           |
+| `border-radius.radius-8`           | `--ds-border-radius-radius-8`        |
+| `padding.px.px-16`                 | `--ds-padding-px-px-16`              |
+| `button.primary.surface`           | `--ds-button-primary-surface`        |
+| `default.on-surface`               | `--ds-default-on-surface`            |
 
 ### Rules
 
@@ -220,20 +219,17 @@ defineEmits<{
 
 ### Two-layer token architecture
 
-The design system uses a two-layer approach to support 5 brands × 3 modes:
-
 ```
-Layer 1 — Primitives (tokens/source/primitives/)
-  Raw color scales per brand, e.g. norauto.primary.600 = #0071dc
-  Brand-agnostic: alert, decorative scales
+Layer 1 — Primitives (tokens/source/primitives/ + global files)
+  Universal color scales: blue, neutral, ambient, periwinkle, red,
+  green, orange, rose, violet, indigo — shared across all brands.
+  Brand-specific scales: brand/norauto/*, brand/secondary/*
+  Dimension scales: spacing, radius, sizing (height, icon, stroke, opacity)
 
 Layer 2 — Semantic (tokens/source/semantic/)
-  Purpose-based tokens that reference primitives, e.g.:
-  input.input-surface = {$value: "{norauto.primary.500}"}
-  One file per brand. Each file has 3 mode variants (light/dark/contrast).
-
-Global (tokens/source/*.json)
-  focus, radius, spacing, typography, shadows — shared across all brands
+  Purpose-based tokens that reference primitives via {path} aliases.
+  e.g.: button.primary.surface → {blue.blue-700}
+  One file per brand. Norauto is Figma-synced.
 ```
 
 ### Full pipeline
@@ -241,40 +237,39 @@ Global (tokens/source/*.json)
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │  FIGMA (source of truth for visual design)                          │
-│  Variables exported via Tokens plugin or manually updated           │
+│  Variables extracted via Figma MCP Plugin API                       │
 └──────────────────────────┬──────────────────────────────────────────┘
-                           │  Manual update or plugin export
+                           │  use_figma → get_variable_defs
                            ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │  tokens/source/  (DTCG format, committed to git)                    │
-│  ├── primitives/{brand}.json  ← raw color scales                   │
-│  ├── semantic/{brand}.json    ← semantic tokens (3 modes each)      │
-│  └── focus|radius|spacing|typography|shadows.json                   │
+│  ├── primitives/global-colors.json  ← 12 universal color scales    │
+│  ├── primitives/{brand}.json        ← brand-specific scales        │
+│  ├── semantic/{brand}.json          ← semantic tokens              │
+│  └── spacing|radius|sizing|typography|shadows|focus.json            │
 └──────────────────────────┬──────────────────────────────────────────┘
                            │  npm run build:tokens
                            │  (style-dictionary.config.ts)
                            ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │  tokens/build/  (gitignored — do not edit)                          │
-│  ├── variables.css          :root { --ds-radius-*; --ds-spacing-* } │
-│  ├── semantic-light.css     [data-theme="light"] { --ds-* }         │
-│  ├── semantic-dark.css      [data-theme="dark"]  { --ds-* }         │
-│  ├── semantic-contrast.css  [data-theme="contrast"] { --ds-* }      │
-│  └── theme.ts               export const theme = { ... }            │
+│  ├── variables.css   :root { --ds-* }  ← all primitive tokens      │
+│  ├── semantic.css    :root { --ds-* }  ← all semantic tokens       │
+│  └── theme.ts        export const theme = { ... }                  │
 └────────────┬──────────────────────────────┬─────────────────────────┘
              │                              │
              ▼                              ▼
 ┌────────────────────────┐   ┌──────────────────────────────────────┐
 │  src/style.css         │   │  import { theme } from '@tokens/theme'│
 │  @import variables.css │   │  (rare — only when typed JS values    │
-│  @import semantic-*.css│   │   are needed outside of CSS)          │
+│  @import semantic.css  │   │   are needed outside of CSS)          │
 │  @theme inline { ... } │   └──────────────────────────────────────┘
 └────────────┬───────────┘
              │
              ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │  Tailwind CSS v4 utility classes                                    │
-│  class="bg-primary text-on-surface p-4 rounded-base"               │
+│  class="bg-[--ds-button-primary-surface] text-[--ds-default-...]"  │
 │  ↑ generated from @theme inline variables                           │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -287,10 +282,12 @@ Global (tokens/source/*.json)
   before starting `npm run dev` or `npm run build`.
 - The **`--ds-` prefix** on all CSS custom properties prevents collisions with
   Tailwind's own internal variables (which use `--color-*`, `--spacing-*` etc.).
-- Semantic tokens come in **3 mode files** (`light`, `dark`, `contrast`). Apply
-  a mode by setting `data-theme="dark"` on any ancestor element.
-- Primitive tokens are **brand-scoped** (e.g. `--ds-norauto-primary-600`).
-  Components always reference semantic tokens, never primitives directly.
+- Semantic tokens are **single-mode** (no light/dark/contrast split) — the
+  Figma file drives this architecture. Dark mode can be added via primitive
+  overrides in a future iteration.
+- Components always reference **semantic tokens**, never primitives directly.
+- The Style Dictionary config separates primitives from semantics using
+  `filePath` filtering — primitives → `variables.css`, semantics → `semantic.css`.
 
 ---
 
