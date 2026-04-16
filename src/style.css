@@ -8,11 +8,9 @@
 /* Primitive color scale, spacing, radius, typography, shadows */
 @import "../tokens/build/variables.css";
 
-/* Semantic color tokens — norauto brand */
-/* Light mode values live in :root; dark/contrast respond to data-theme attribute */
-@import "../tokens/build/semantic-light.css";
-@import "../tokens/build/semantic-dark.css";
-@import "../tokens/build/semantic-contrast.css";
+/* Semantic color tokens — norauto brand (single-mode, :root) */
+/* Dark / contrast theming will be added via primitive overrides in a future iteration */
+@import "../tokens/build/semantic.css";
 
 /*
   @theme inline bridges Style Dictionary CSS custom properties into Tailwind
