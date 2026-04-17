@@ -6,10 +6,10 @@ import { computed } from 'vue';
  *
  * Architecture note:
  *   All color and sizing tokens are fed through local CSS custom properties
- *   (--btn-*) set via :style, keeping every Tailwind class a static string
- *   that the build scanner can detect. Interactive states (hover) are handled
- *   by the `group` / `group-hover:` pattern on the child background layer and
- *   by `hover:` on the root for box-shadow transitions.
+ *   (--btn-*) set via :style on the root element. Tailwind arbitrary property
+ *   classes ([background-color:var(--btn-bg)], hover:[background-color:...])
+ *   apply directly on the root so the vars are resolved on the same element —
+ *   no child-span inheritance needed. Box-shadow handles the inset border.
  *
  *   Focus ring is implemented via box-shadow composition (--btn-focus-shadow)
  *   to avoid conflicts with the existing box-shadow border system. The ring
@@ -226,10 +226,11 @@ const cssVars = computed<Record<string, string>>(() => {
     :aria-disabled="disabled ? 'true' : undefined"
     :tabindex="disabled && tag !== 'button' ? -1 : undefined"
     :style="cssVars"
-    class="group relative inline-flex cursor-pointer select-none items-center justify-center overflow-hidden
+    class="relative inline-flex cursor-pointer select-none items-center justify-center overflow-hidden
+           [background-color:var(--btn-bg)] hover:[background-color:var(--btn-bg-hover)]
            [box-shadow:var(--btn-shadow)] hover:[box-shadow:var(--btn-shadow-hover)]
            focus-visible:[box-shadow:var(--btn-focus-shadow)]
-           transition-[box-shadow] duration-150
+           transition-[background-color,box-shadow] duration-150
            min-h-[var(--btn-min-h)] h-[var(--btn-min-h)]
            px-[var(--btn-px)] py-[var(--btn-py)]
            gap-[var(--btn-gap)]
@@ -242,21 +243,10 @@ const cssVars = computed<Record<string, string>>(() => {
            focus-visible:outline-none"
     :class="{ 'opacity-40 pointer-events-none': disabled }"
   >
-    <!--
-      Background layer — sits behind content in DOM order so it paints first.
-      Surface colour transitions on group hover.
-    -->
-    <span
-      aria-hidden="true"
-      class="absolute inset-0 rounded-[inherit] pointer-events-none
-             bg-[var(--btn-bg)] group-hover:bg-[var(--btn-bg-hover)]
-             transition-colors duration-150"
-    />
-
     <!-- ── Icon-only mode ─────────────────────────────────────────────────── -->
     <span
       v-if="iconOnly"
-      class="relative z-[1] flex shrink-0 items-center justify-center"
+      class="flex shrink-0 items-center justify-center"
       :style="{ width: 'var(--btn-icon-size)', height: 'var(--btn-icon-size)' }"
     >
       <slot />
@@ -267,20 +257,20 @@ const cssVars = computed<Record<string, string>>(() => {
       <span
         v-if="$slots.leading"
         aria-hidden="true"
-        class="relative z-[1] flex shrink-0 items-center justify-center"
+        class="flex shrink-0 items-center justify-center"
         :style="{ width: 'var(--btn-icon-size)', height: 'var(--btn-icon-size)' }"
       >
         <slot name="leading" />
       </span>
 
-      <span class="relative z-[1] shrink-0 leading-[var(--ds-font-line-height-normal,1.5)]">
+      <span class="shrink-0 leading-[var(--ds-font-line-height-normal,1.5)]">
         <slot />
       </span>
 
       <span
         v-if="$slots.trailing"
         aria-hidden="true"
-        class="relative z-[1] flex shrink-0 items-center justify-center"
+        class="flex shrink-0 items-center justify-center"
         :style="{ width: 'var(--btn-icon-size)', height: 'var(--btn-icon-size)' }"
       >
         <slot name="trailing" />
