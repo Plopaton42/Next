@@ -211,6 +211,7 @@ export const Destructive: Story = {
 };
 
 // ── Alternative intent ──────────────────────────────────────────────────────
+// Alternative always renders with pill radius (Figma-driven, automatic).
 export const Alternative: Story = {
   name: 'Intent — Alternative',
   render: () => ({
@@ -220,6 +221,7 @@ export const Alternative: Story = {
         <Button type="primary" intent="alternative">Primary</Button>
         <Button type="secondary" intent="alternative">Secondary</Button>
         <Button type="tertiary" intent="alternative">Brand</Button>
+        <Button type="primary" intent="alternative" disabled>Disabled</Button>
       </div>
     `,
   }),

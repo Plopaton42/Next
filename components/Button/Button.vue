@@ -33,7 +33,8 @@ const props = withDefaults(defineProps<{
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   /** Disabled state */
   disabled?: boolean;
-  /** Pill / fully-rounded radius — uses button.control.radius.rounded (999px) instead of the size token */
+  /** Pill / fully-rounded radius — uses button.control.radius.rounded (999px).
+   *  Automatically active when intent="alternative" (Figma-driven). */
   rounded?: boolean;
   /** Square icon-only layout — switches to icon-only padding; place icon in default slot */
   iconOnly?: boolean;
@@ -132,7 +133,8 @@ const cssVars = computed<Record<string, string>>(() => {
   // ── Disabled state — universal gray tokens regardless of variant ───────────
   // Figma: default/surface-disabled + default/on-surface-disabled.
   // No shadow visible in disabled state.
-  const radiusToken = props.rounded
+  // Figma: alternative intent always uses pill radius; rounded prop forces it on any type.
+  const radiusToken = (props.rounded || props.intent === 'alternative')
     ? 'var(--ds-button-control-radius-rounded)'
     : `var(--ds-button-control-radius-${s})`;
 

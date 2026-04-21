@@ -53,7 +53,7 @@ leading/trailing icon slots, and an icon-only square layout.
 | `intent` | `'default' \| 'destructive' \| 'alternative'` | `'default'` | Color intent — see Intent mapping table below |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl'` | `'md'` | Size variant |
 | `disabled` | `boolean` | `false` | Disabled state — neutral gray appearance via `default/surface-disabled` and `default/on-surface-disabled` tokens, interaction blocked |
-| `rounded` | `boolean` | `false` | Pill / fully-rounded shape — uses `button.control.radius.rounded` (999px) instead of the size-specific radius |
+| `rounded` | `boolean` | `false` | Pill / fully-rounded shape — uses `button.control.radius.rounded` (999px). **Automatically `true` when `intent="alternative"`** (Figma-driven). |
 | `iconOnly` | `boolean` | `false` | Square icon-only layout; switches to icon-only padding |
 | `tag` | `'button' \| 'a'` | `'button'` | Root HTML element |
 | `nativeType` | `'button' \| 'submit' \| 'reset'` | `'button'` | Native `<button>` type (ignored when `tag="a"`) |
@@ -213,6 +213,11 @@ leading/trailing icon slots, and an icon-only square layout.
 ---
 
 ## Changelog
+
+### 2026-04-21 — Auto-round alternative intent (Figma-driven)
+- `intent="alternative"` now automatically uses `button.control.radius.rounded` (999px / pill)
+- No prop change needed — `rounded` prop still works as explicit override on any intent
+- Updated Alternative story to show pill shape without `:rounded="true"`
 
 ### 2026-04-21 — Add rounded prop for pill radius
 - Added `rounded` boolean prop that switches radius to `button.control.radius.rounded` (999px / `radius-full`)
