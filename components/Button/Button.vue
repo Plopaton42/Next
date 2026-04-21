@@ -260,7 +260,8 @@ const cssVars = computed<Record<string, string>>(() => {
            [background-color:var(--btn-bg)] hover:[background-color:var(--btn-bg-hover)]
            [box-shadow:var(--btn-shadow)] hover:[box-shadow:var(--btn-shadow-hover)]
            focus-visible:[box-shadow:var(--btn-focus-shadow)]
-           transition-[background-color,box-shadow] duration-150
+           transition-[background-color,box-shadow,transform] duration-100
+           active:scale-[0.97]
            min-h-[var(--btn-min-h)] h-[var(--btn-min-h)]
            px-[var(--btn-px)] py-[var(--btn-py)]
            gap-[var(--btn-gap)]

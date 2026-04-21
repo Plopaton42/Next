@@ -198,10 +198,14 @@ onUnmounted(() => document.removeEventListener('click', onDocumentClick));
   <div
     ref="wrapperRef"
     :style="cssVars"
-    class="relative inline-block rounded-[var(--sbtn-radius)]"
-    :class="hasFocus
-      ? 'outline outline-2 outline-offset-2 [outline-color:var(--ds-global-ring-focus,#9fbfff)]'
-      : 'outline-none'"
+    class="relative inline-block rounded-[var(--sbtn-radius)]
+           transition-transform duration-100 active:scale-[0.97]"
+    :class="[
+      hasFocus
+        ? 'outline outline-2 outline-offset-2 [outline-color:var(--ds-global-ring-focus,#9fbfff)]'
+        : 'outline-none',
+      disabled ? 'pointer-events-none cursor-not-allowed' : '',
+    ]"
     @focusin="onFocusIn"
     @focusout="onFocusOut"
   >
@@ -214,7 +218,6 @@ onUnmounted(() => document.removeEventListener('click', onDocumentClick));
              [font-family:var(--ds-font-family-sans)]
              [font-size:var(--sbtn-font-size)]
              [font-weight:var(--ds-font-weight-bold)]"
-      :class="{ 'pointer-events-none cursor-not-allowed': disabled }"
     >
 
       <!-- ── Main action ───────────────────────────────────────────────────── -->
