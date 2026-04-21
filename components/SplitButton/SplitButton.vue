@@ -8,8 +8,8 @@ export interface SplitButtonItem {
 }
 
 const props = withDefaults(defineProps<{
-  /** Visual style — same mapping as Button */
-  type?: 'primary' | 'secondary' | 'tertiary' | 'outlined' | 'ghost';
+  /** Visual style — ghost excluded (invisible border makes the split ambiguous) */
+  type?: 'primary' | 'secondary' | 'tertiary' | 'outlined';
   /** Size variant */
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   /** Disables both main action and dropdown trigger */
@@ -83,8 +83,6 @@ const cssVars = computed<Record<string, string>>(() => {
       `inset 0 0 0 var(--ds-button-control-border-default-${s}, 1px) var(--ds-button-outlined-border)`,
       'inset 0 -2px 0 0 rgba(10,13,18,0.01)',
     ].join(', ');
-  } else if (pfx === 'ghost') {
-    shadow = '0 0 0 0 transparent';
   } else {
     // secondary, tertiary
     shadow = [

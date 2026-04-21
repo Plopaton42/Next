@@ -15,7 +15,7 @@ const meta = {
   argTypes: {
     type: {
       control: 'select',
-      options: ['primary', 'secondary', 'tertiary', 'outlined', 'ghost'],
+      options: ['primary', 'secondary', 'tertiary', 'outlined'],
       description: 'Visual style variant (same as Button)',
     },
     size: {
@@ -74,7 +74,6 @@ export const AllTypes: Story = {
         <SplitButton type="secondary" :items="items">Publier</SplitButton>
         <SplitButton type="tertiary"  :items="items">Publier</SplitButton>
         <SplitButton type="outlined"  :items="items">Publier</SplitButton>
-        <SplitButton type="ghost"     :items="items">Publier</SplitButton>
       </div>
     `,
   }),
@@ -155,7 +154,6 @@ export const Disabled: Story = {
         <SplitButton type="primary"   :disabled="true" :items="items">Publier</SplitButton>
         <SplitButton type="secondary" :disabled="true" :items="items">Publier</SplitButton>
         <SplitButton type="outlined"  :disabled="true" :items="items">Publier</SplitButton>
-        <SplitButton type="ghost"     :disabled="true" :items="items">Publier</SplitButton>
       </div>
     `,
   }),

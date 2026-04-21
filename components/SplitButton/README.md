@@ -38,7 +38,7 @@ A two-part interactive element: a main action button on the left and a dropdown 
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `type` | `'primary' \| 'secondary' \| 'tertiary' \| 'outlined' \| 'ghost'` | `'primary'` | Visual style — same mapping as Button |
+| `type` | `'primary' \| 'secondary' \| 'tertiary' \| 'outlined'` | `'primary'` | Visual style (`ghost` exclu — le split serait visuellement ambigu sans bordure visible) |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl'` | `'md'` | Size variant |
 | `disabled` | `boolean` | `false` | Disables both main action and dropdown trigger |
 | `rounded` | `boolean` | `false` | Pill / fully-rounded corners |
