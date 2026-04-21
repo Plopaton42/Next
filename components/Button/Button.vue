@@ -126,6 +126,27 @@ const cssVars = computed<Record<string, string>>(() => {
   const io  = props.iconOnly;
   const sf  = shadowFamily.value;
 
+  // ── Disabled state — universal gray tokens regardless of variant ───────────
+  // Figma: default/surface-disabled + default/on-surface-disabled.
+  // No shadow visible in disabled state.
+  if (props.disabled) {
+    return {
+      '--btn-bg':           'var(--ds-default-surface-disabled)',
+      '--btn-bg-hover':     'var(--ds-default-surface-disabled)',
+      '--btn-color':        'var(--ds-default-on-surface-disabled)',
+      '--btn-shadow':       '0 0 0 0 transparent',
+      '--btn-shadow-hover': '0 0 0 0 transparent',
+      '--btn-focus-shadow': '0 0 0 0 transparent',
+      '--btn-min-h':        `var(--ds-button-control-min-height-${s})`,
+      '--btn-px':           `var(--ds-button-control-padding-${io ? 'icon-only-' : ''}px-${s})`,
+      '--btn-py':           `var(--ds-button-control-padding-${io ? 'icon-only-' : ''}py-${s})`,
+      '--btn-gap':          `var(--ds-button-control-space-between-${s})`,
+      '--btn-radius':       `var(--ds-button-control-radius-${s})`,
+      '--btn-icon-size':    `var(--ds-button-control-icon-size-${s})`,
+      '--btn-font-size':    `var(--ds-font-size-${FONT_SIZE_SUFFIX[s]})`,
+    };
+  }
+
   // ── Background (surface) ────────────────────────────────────────────────────
   const bg      = `var(--ds-button-${pfx}-surface)`;
   const bgHover = `var(--ds-button-${pfx}-surface-hover, ${bg})`;
@@ -241,7 +262,7 @@ const cssVars = computed<Record<string, string>>(() => {
            text-[color:var(--btn-color)]
            whitespace-nowrap
            focus-visible:outline-none"
-    :class="{ 'opacity-40 pointer-events-none': disabled }"
+    :class="{ 'pointer-events-none cursor-not-allowed': disabled }"
   >
     <!-- ── Icon-only mode ─────────────────────────────────────────────────── -->
     <span

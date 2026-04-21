@@ -52,7 +52,7 @@ leading/trailing icon slots, and an icon-only square layout.
 | `type` | `'primary' \| 'secondary' \| 'tertiary' \| 'outlined' \| 'ghost' \| 'inverted'` | `'primary'` | Visual style — maps to Figma "type" prop |
 | `intent` | `'default' \| 'destructive' \| 'alternative'` | `'default'` | Color intent — see Intent mapping table below |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl'` | `'md'` | Size variant |
-| `disabled` | `boolean` | `false` | Disabled state — visually dimmed, interaction blocked |
+| `disabled` | `boolean` | `false` | Disabled state — neutral gray appearance via `default/surface-disabled` and `default/on-surface-disabled` tokens, interaction blocked |
 | `iconOnly` | `boolean` | `false` | Square icon-only layout; switches to icon-only padding |
 | `tag` | `'button' \| 'a'` | `'button'` | Root HTML element |
 | `nativeType` | `'button' \| 'submit' \| 'reset'` | `'button'` | Native `<button>` type (ignored when `tag="a"`) |
@@ -160,6 +160,12 @@ leading/trailing icon slots, and an icon-only square layout.
 | `button.alternative.secondary-*` | `--ds-button-alternative-secondary-*` |
 | `button.alternative.brand-*` | `--ds-button-alternative-brand-*` |
 
+### Disabled state (universal, overrides any type)
+| Token | CSS var |
+|---|---|
+| `default.surface-disabled` | `--ds-default-surface-disabled` |
+| `default.on-surface-disabled` | `--ds-default-on-surface-disabled` |
+
 ### Focus ring
 | Token | CSS var | Value |
 |---|---|---|
@@ -201,6 +207,12 @@ leading/trailing icon slots, and an icon-only square layout.
 ---
 
 ## Changelog
+
+### 2026-04-21 — Fix disabled state to use Figma tokens
+- Replaced `opacity-40` on the root element with `default/surface-disabled` (background) and `default/on-surface-disabled` (text/icon) tokens
+- Disabled state now renders as a brand-neutral gray regardless of `type` or `intent`, matching Figma exactly
+- Shadow is removed in disabled state (Figma shows no shadow)
+- Replaced `cursor-default` with `cursor-not-allowed` on disabled buttons
 
 ### 2026-04-16 — Fix token loading, add alternative intent, fix focus ring
 - Fixed semantic CSS import (was pointing to non-existent files)
