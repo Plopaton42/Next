@@ -2,11 +2,15 @@
 
 A two-part interactive element: a main action button on the left and a dropdown trigger (chevron) on the right. Both parts share the same visual style and are semantically grouped.
 
+Available in **Vue 3** (`SplitButton.vue`) and **React** (`SplitButton.tsx`).
+
 **Figma:** No Figma component yet — update once added to the library.
 
 ---
 
 ## Usage
+
+### Vue
 
 ```vue
 <SplitButton
@@ -31,6 +35,46 @@ A two-part interactive element: a main action button on the left and a dropdown 
 <!-- Pill shape -->
 <SplitButton type="primary" :rounded="true" :items="items">Publier</SplitButton>
 ```
+
+### React
+
+```tsx
+import { SplitButton } from '@mobivia/design-system/react';
+import type { SplitButtonItem } from '@mobivia/design-system/react';
+
+const items: SplitButtonItem[] = [
+  { label: 'Enregistrer comme brouillon', value: 'draft' },
+  { label: 'Planifier', value: 'schedule' },
+  { label: 'Archiver', value: 'archive', disabled: true },
+];
+
+<SplitButton
+  type="primary"
+  items={items}
+  onClick={onPublish}
+  onSelect={onMenuSelect}
+>
+  Publier
+</SplitButton>
+
+// With leading icon
+<SplitButton type="secondary" items={items} leadingIcon={<IconSave />} onSelect={onSelect}>
+  Enregistrer
+</SplitButton>
+
+// Pill shape
+<SplitButton type="primary" rounded items={items}>Publier</SplitButton>
+```
+
+#### Vue → React API mapping
+
+| Vue | React equivalent |
+|---|---|
+| `<slot>` (default) | `children` |
+| `<slot name="leading">` | `leadingIcon` prop (`ReactNode`) |
+| `@click` | `onClick` |
+| `@select` | `onSelect` |
+| All other props | Identical name and type |
 
 ---
 
@@ -157,6 +201,15 @@ The two-wrapper strategy ensures the CSS `outline` focus ring is never clipped b
 ---
 
 ## Changelog
+
+### 2026-04-22 — Add React version
+- Added `SplitButton.tsx` — React component, prop-for-prop mirror of `SplitButton.vue`
+- `<Teleport to="body">` replaced by `ReactDOM.createPortal(menu, document.body)`
+- Vue `onMounted`/`onUnmounted` replaced by `useEffect` for document click listener
+- Named slots replaced by `children` and `leadingIcon` React props
+- `@click`/`@select` replaced by `onClick`/`onSelect` callbacks
+- Added `SplitButton.types.ts` and `SplitButton.react.stories.tsx`
+- Registered in `components/react.ts`
 
 ### 2026-04-21 — Initial implementation
 - Created SplitButton component with full keyboard navigation

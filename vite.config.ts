@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
+import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,8 +13,12 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [
-  // Tailwind v4 Vite plugin — must be listed BEFORE vue()
-  tailwindcss(), vue()],
+    // Tailwind v4 — must come BEFORE framework plugins
+    tailwindcss(),
+    vue(),
+    // React plugin — processes .tsx/.jsx files (no overlap with .vue)
+    react(),
+  ],
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),

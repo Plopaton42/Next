@@ -3,11 +3,15 @@
 Primary interactive element. Supports 6 visual types, 3 intents, 5 sizes,
 leading/trailing icon slots, and an icon-only square layout.
 
+Available in **Vue 3** (`Button.vue`) and **React** (`Button.tsx`).
+
 **Figma:** [Button — node 17187:1090](https://www.figma.com/design/zTOrsaTZ0I7JHoBg7bC46z/Next?node-id=17187-1090&m=dev)
 
 ---
 
 ## Usage
+
+### Vue
 
 ```vue
 <!-- Basic -->
@@ -42,6 +46,40 @@ leading/trailing icon slots, and an icon-only square layout.
 <!-- As anchor -->
 <Button tag="a" href="/path">Go somewhere</Button>
 ```
+
+### React
+
+```tsx
+import { Button } from '@mobivia/design-system/react';
+
+// Basic
+<Button>Label</Button>
+
+// With leading icon
+<Button type="primary" size="lg" leadingIcon={<IconPlus />}>Add item</Button>
+
+// With trailing icon
+<Button type="secondary" trailingIcon={<IconArrowRight />}>Continue</Button>
+
+// Icon only (always provide aria-label)
+<Button type="primary" iconOnly aria-label="Add item"><IconPlus /></Button>
+
+// Destructive
+<Button type="primary" intent="destructive">Delete account</Button>
+
+// As anchor
+<Button tag="a" href="/path">Go somewhere</Button>
+```
+
+#### Vue → React API mapping
+
+| Vue slot / API | React equivalent |
+|---|---|
+| `<slot>` (default) | `children` |
+| `<slot name="leading">` | `leadingIcon` prop (`ReactNode`) |
+| `<slot name="trailing">` | `trailingIcon` prop (`ReactNode`) |
+| `@click` | `onClick` |
+| All other props | Identical name and type |
 
 ---
 
@@ -240,6 +278,13 @@ leading/trailing icon slots, and an icon-only square layout.
 - Fixed inverted border color to distinct rgba value
 - Updated stories with Alternative and Destructive Secondary
 - Updated README with intent × type mapping table
+
+### 2026-04-22 — Add React version
+- Added `Button.tsx` — React component, prop-for-prop mirror of `Button.vue`
+- Slots replaced by `children`, `leadingIcon`, `trailingIcon` React props
+- Added `Button.types.ts` shared TypeScript interfaces for both frameworks
+- Added `Button.react.stories.tsx` with full Storybook coverage (React Storybook)
+- Registered in `components/react.ts`
 
 ### 2026-04-15 — Initial implementation
 - Added `Button` component with 6 types × 2 intents × 5 sizes

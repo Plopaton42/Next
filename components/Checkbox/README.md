@@ -2,9 +2,13 @@
 
 Figma: `https://www.figma.com/design/zTOrsaTZ0I7JHoBg7bC46z/Next?node-id=17015-4309&m=dev`
 
-Checkbox interactif avec état interne et micro-interactions. Clique sur la box ou le label pour basculer l'état. Supporte les modes contrôlé (via `:checked`) et autonome.
+Checkbox interactif avec état interne et micro-interactions. Clique sur la box ou le label pour basculer l'état. Supporte les modes contrôlé et autonome.
+
+Available in **Vue 3** (`Checkbox.vue`) and **React** (`Checkbox.tsx`).
 
 ## Usage
+
+### Vue
 
 ```vue
 <!-- Autonome (état interne) -->
@@ -18,6 +22,32 @@ Checkbox interactif avec état interne et micro-interactions. Clique sur la box 
 <Checkbox label="Désactivé" state="Disabled" />
 <Checkbox label="Indéterminé" :indeterminate="true" />
 ```
+
+### React
+
+```tsx
+import { Checkbox } from '@mobivia/design-system/react';
+
+// Uncontrolled
+<Checkbox label="Newsletter" />
+
+// Controlled
+<Checkbox label="Checked" checked={true} onChange={(val) => setChecked(val)} />
+
+// Special states
+<Checkbox label="Erreur" state="Error" errorMessage="Champ requis" />
+<Checkbox label="Désactivé" state="Disabled" />
+<Checkbox label="Indéterminé" indeterminate />
+```
+
+#### Vue → React API mapping
+
+| Vue | React equivalent |
+|---|---|
+| `@update:checked` / `@change` | `onChange` callback |
+| All props | Identical name and type |
+
+---
 
 ## Props
 
@@ -100,5 +130,6 @@ Checkbox interactif avec état interne et micro-interactions. Clique sur la box 
 
 ## Changelog
 
+- **2026-04-22**: Added `Checkbox.tsx` React version (prop-for-prop mirror). CSS transitions replace Vue `<Transition>` for enter/leave icon animations. Added `Checkbox.types.ts` and `Checkbox.react.stories.tsx`.
 - **2026-03-18**: Initial implementation. Inline SVG icons, CSS var fallbacks, no external asset dependencies.
 - **2026-03-18**: Renommé `CheckboxRoad2` → `Checkbox`. Ajout des micro-interactions : toggle au click, animation checkmark (scale + fade), press effect (scale 0.88), transitions couleur 150ms. Click sur le label déclenche aussi le toggle.

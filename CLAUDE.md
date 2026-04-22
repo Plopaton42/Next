@@ -9,10 +9,11 @@ work effectively in this repository. Keep it updated as conventions evolve.
 
 **Name:** `@mobivia/design-system`
 
-**Purpose:** A token-driven, AI-first Vue 3 component library that maintains a
-single source of truth flowing from Figma through JSON design tokens into CSS
-custom properties and Tailwind utility classes. Components are built in Vue 3
-with TypeScript and `<script setup>`.
+**Purpose:** A token-driven, AI-first **dual-framework** component library (Vue 3 + React)
+that maintains a single source of truth flowing from Figma through JSON design tokens
+into CSS custom properties and Tailwind utility classes. Vue components are built with
+`<script setup>` + TypeScript; React components are built with functional components,
+hooks, and TSX. Both frameworks share the same design tokens.
 
 ---
 
@@ -51,14 +52,22 @@ design-system/
 ├── components/
 │   ├── _template/                 ← copy this when creating a new component
 │   │   ├── Component.vue
-│   │   ├── Component.stories.ts
+│   │   ├── Component.tsx          ← React version template
+│   │   ├── Component.stories.ts   ← Vue stories
+│   │   ├── Component.react.stories.tsx ← React stories
 │   │   └── README.md
 │   ├── Checkbox/
 │   │   ├── Checkbox.vue
-│   │   ├── Checkbox.stories.ts
+│   │   ├── Checkbox.tsx           ← React version
+│   │   ├── Checkbox.types.ts      ← Shared prop types (Vue + React)
+│   │   ├── Checkbox.stories.ts    ← Vue stories
+│   │   ├── Checkbox.react.stories.tsx ← React stories
 │   │   ├── Checkbox.figma.ts      ← Figma Code Connect mapping
 │   │   └── README.md
-│   └── index.ts                   ← component exports
+│   ├── index.ts                   ← Vue component exports
+│   └── react.ts                   ← React component exports
+├── .storybook/                    ← Vue Storybook config (port 6009)
+├── .storybook-react/              ← React Storybook config (port 6010)
 ├── composables/                   ← Vue composables (shared reactive logic)
 ├── mcp/
 │   └── server.ts                  ← MCP server exposing design system tools
@@ -168,12 +177,87 @@ defineEmits<{
 </template>
 ```
 
+### React component template
+
+```tsx
+// MyComponent.tsx
+import { useMemo, useState } from 'react';
+import type { MyComponentProps } from './MyComponent.types';
+
+interface MyComponentReactProps extends MyComponentProps {
+  children?: React.ReactNode;
+  onClick?: (e: React.MouseEvent) => void;
+  className?: string;
+}
+
+export function MyComponent({
+  variant = 'primary',
+  disabled = false,
+  children,
+  onClick,
+  className,
+}: MyComponentReactProps) {
+  // hooks, computed values…
+  return <div className={className}>{children}</div>;
+}
+
+export default MyComponent;
+```
+
+### Dual-framework file structure per component
+
+```
+components/MyComponent/
+├── MyComponent.vue              ← Vue 3 SFC
+├── MyComponent.tsx              ← React functional component
+├── MyComponent.types.ts         ← Shared prop interfaces (imported by both)
+├── MyComponent.stories.ts       ← Vue stories (Vue Storybook, port 6009)
+├── MyComponent.react.stories.tsx ← React stories (React Storybook, port 6010)
+├── MyComponent.figma.ts         ← Figma Code Connect
+└── README.md
+```
+
+### Vue → React slot/emit conventions
+
+| Vue concept | React equivalent |
+|---|---|
+| `<slot>` (default) | `children: ReactNode` |
+| `<slot name="leading">` | `leadingIcon: ReactNode` |
+| `<slot name="trailing">` | `trailingIcon: ReactNode` |
+| `<Teleport to="body">` | `createPortal(…, document.body)` |
+| `<Transition>` enter/leave | CSS `opacity`+`transform` on always-mounted element |
+| `emit('update:modelValue', v)` | `onChange?: (v: T) => void` |
+| `emit('click', e)` | `onClick?: (e: React.MouseEvent) => void` |
+| `emit('select', item)` | `onSelect?: (item: T) => void` |
+| `onMounted` + `onUnmounted` | `useEffect(() => { … return cleanup; }, [])` |
+| `ref` + `watch` (controlled) | `useState` + `useEffect` sync |
+
 ### Naming rules
 
-- Component files: `PascalCase.vue` (e.g., `Button.vue`, `InputField.vue`)
-- Composables: `use` prefix, camelCase (e.g., `useTheme.ts`, `useId.ts`)
-- Emits: camelCase verb (e.g., `update:modelValue`, `submit`)
-- CSS classes: Tailwind utilities only; no custom class names on elements
+- Vue files: `PascalCase.vue`
+- React files: `PascalCase.tsx`
+- Shared types: `PascalCase.types.ts`
+- Vue stories: `PascalCase.stories.ts` (`.ts` only — never `.tsx`)
+- React stories: `PascalCase.react.stories.tsx`
+- Composables: `use` prefix, camelCase (e.g., `useTheme.ts`)
+- Emits (Vue): camelCase verb (`update:modelValue`, `submit`)
+- Callbacks (React): `on` + PascalCase (`onClick`, `onSelect`, `onChange`)
+- CSS classes: Tailwind utilities only; no custom class names
+
+---
+
+## Storybook — Dual Instance
+
+| Instance | Config dir | Port | Story files | Command |
+|---|---|---|---|---|
+| Vue | `.storybook/` | 6009 | `*.stories.ts` | `npm run storybook:vue` |
+| React | `.storybook-react/` | 6010 | `*.react.stories.tsx` | `npm run storybook:react` |
+
+`npm run storybook` is an alias for `storybook:vue` (backwards-compatible).
+
+The file-extension convention **prevents cross-contamination**:
+- Vue Storybook only picks up `*.stories.ts`
+- React Storybook only picks up `*.react.stories.tsx`
 
 ---
 
@@ -184,34 +268,48 @@ defineEmits<{
    cp -r components/_template components/MyComponent
    ```
 
-2. **Rename the Vue file:**
+2. **Rename all files:**
    ```bash
-   mv components/MyComponent/Component.vue components/MyComponent/MyComponent.vue
+   mv components/MyComponent/Component.vue          components/MyComponent/MyComponent.vue
+   mv components/MyComponent/Component.tsx          components/MyComponent/MyComponent.tsx
+   mv components/MyComponent/Component.stories.ts   components/MyComponent/MyComponent.stories.ts
+   mv components/MyComponent/Component.react.stories.tsx components/MyComponent/MyComponent.react.stories.tsx
    ```
 
-3. **Implement the component** in `MyComponent.vue` following the conventions
-   above. Do NOT implement logic in the template step — scaffold first.
+3. **Create the shared types file** `MyComponent.types.ts` with all prop interfaces.
 
-4. **Update README.md** in the component directory with:
-   - Purpose and usage
+4. **Implement the Vue component** in `MyComponent.vue`.
+
+5. **Implement the React component** in `MyComponent.tsx`, using the same prop names.
+
+6. **Update README.md** with:
+   - Purpose and usage (both Vue and React examples)
    - Props table
-   - Emits table
+   - Vue emits table
+   - React callbacks table
+   - Vue → React API mapping table
    - Which `--ds-*` tokens it uses
    - Accessibility notes
    - Link to the Figma component
 
-5. **Create the Code Connect file** `MyComponent.figma.ts` in the component directory.
-   Use the format documented in the "Figma Code Connect" section above.
+7. **Create the Code Connect file** `MyComponent.figma.ts`.
 
-6. **Export the component** from `components/index.ts`:
+8. **Export the Vue component** from `components/index.ts`:
    ```typescript
    export { default as MyComponent } from './MyComponent/MyComponent.vue';
    ```
 
-7. **Run the dev server** and verify it renders:
-   ```bash
-   npm run dev
+9. **Export the React component** from `components/react.ts`:
+   ```typescript
+   export { default as MyComponent } from './MyComponent/MyComponent';
+   export type { MyComponentProps } from './MyComponent/MyComponent.types';
    ```
+
+10. **Run both Storybooks** and verify:
+    ```bash
+    npm run storybook:vue    # port 6009
+    npm run storybook:react  # port 6010
+    ```
 
 ---
 
@@ -341,10 +439,15 @@ Requirements for Code Connect to work:
 ## Common Commands
 
 ```bash
-npm run build:tokens   # Regenerate tokens/build/ from tokens/source/
-npm run dev            # Start Vite dev server (requires build:tokens first)
-npm run build          # Full production build (tokens + type-check + vite)
-npm run mcp            # Start the MCP server on stdio
+npm run build:tokens         # Regenerate tokens/build/ from tokens/source/
+npm run dev                  # Start Vite dev server (requires build:tokens first)
+npm run build                # Full production build (tokens + type-check + vite)
+npm run mcp                  # Start the MCP server on stdio
+npm run storybook            # Vue Storybook (port 6009) — alias for storybook:vue
+npm run storybook:vue        # Vue Storybook (port 6009)
+npm run storybook:react      # React Storybook (port 6010)
+npm run build-storybook:vue  # Build Vue Storybook static output
+npm run build-storybook:react # Build React Storybook static output
 ```
 
 ---
@@ -366,12 +469,21 @@ No need to be reminded — always follow them.
 - Check that no existing component breaks (spot check Tailwind classes)
 
 ### After adding a new component
-- Create the full folder structure: Component.vue + README.md + Component.stories.ts + Component.figma.ts
-- Document every prop, variant, slot and emit in README.md
-- Add at least one Storybook story per variant
-- Register the component in /components/index.ts
+- Create the **full dual-framework folder structure**:
+  - `Component.vue` + `Component.tsx`
+  - `Component.types.ts` (shared prop interfaces)
+  - `Component.stories.ts` (Vue, picked up by Vue Storybook)
+  - `Component.react.stories.tsx` (React, picked up by React Storybook)
+  - `Component.figma.ts`
+  - `README.md`
+- Document every prop, variant, slot/React-prop and emit/callback in README.md
+- Add both Vue and React usage examples in README.md
+- Add Vue → React API mapping table in README.md
+- Add at least one Storybook story per variant in BOTH story files
+- Register the Vue component in `components/index.ts`
+- Register the React component in `components/react.ts`
 - Create the Figma Code Connect file and publish the mapping via the Figma MCP server
-- The `Playground` story is MANDATORY on every component — it must always be the first story exported and must have `argTypes` defined for every prop so all controls are interactive in Storybook
+- The `Playground` story is MANDATORY in both story files — it must always be the first story exported and must have `argTypes` defined for every prop
 
 ### General
 - Never leave a TODO without a comment explaining what's needed
@@ -601,9 +713,17 @@ and reports every item:
 2. Create branch
 3. Read CLAUDE.md conventions before writing any code
 4. Extract full Figma spec → write Component Spec → wait for approval
-5. Create: Component.vue + README.md + Component.stories.ts + Component.figma.ts
-6. Register in /components/index.ts
-6b. Publish Code Connect mapping via Figma MCP server
+5. Create full dual-framework structure:
+   - `Component.vue` (Vue 3 SFC)
+   - `Component.tsx` (React functional component)
+   - `Component.types.ts` (shared prop interfaces)
+   - `Component.stories.ts` (Vue stories)
+   - `Component.react.stories.tsx` (React stories)
+   - `Component.figma.ts`
+   - `README.md`
+6. Register Vue component in `components/index.ts`
+6b. Register React component in `components/react.ts`
+6c. Publish Code Connect mapping via Figma MCP server
 7. Run full self-review checklist
 8. Complete fidelity check table
 9. Report all results (all must be ✅)
@@ -618,9 +738,9 @@ and reports every item:
 2. Create branch
 3. Read current component code + README before touching anything
 4. If Figma provided → re-extract full spec, compare with current implementation
-5. Make changes
+5. Make changes in **both** Vue and React implementations
 6. Update README.md changelog section
-7. Update Storybook stories if props/variants/states changed
+7. Update Storybook stories (both `.stories.ts` AND `.react.stories.tsx`) if props/variants/states changed
 8. Run full self-review checklist
 9. Show a clear diff summary:
    - What changed and why
@@ -730,9 +850,12 @@ After every merge:
 - Never force pushes
 - Never commits node_modules, tokens/build/, .env
 - Never ships a component without a `Component.figma.ts` Code Connect file
-- Never ships a component without Storybook stories
-- Never ships a component without a `Playground` story as the first export
+- Never ships a component without Storybook stories in **both** frameworks
+- Never ships a component without a `Playground` story as the first export (in both story files)
 - Never ships a Storybook story without `argTypes` for every prop
+- Never ships a Vue component without the matching React version (and vice versa)
+- Never ships a component without `Component.types.ts` (shared prop interfaces)
+- Never registers a component only in `index.ts` (Vue) without also registering in `react.ts` (React)
 - Never uses a hardcoded value when a token exists
 - Never ignores a TypeScript error
 - Never approximates a Figma value silently
