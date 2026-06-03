@@ -5,6 +5,7 @@ import { resolve, basename, extname, join } from 'path';
 
 const ROOT = process.cwd();
 const TOKENS_DIR = resolve(ROOT, 'tokens/source');
+const TOKENS_BUILD_DIR = resolve(ROOT, 'tokens/build');
 const COMPONENTS_DIR = resolve(ROOT, 'components');
 const CLAUDE_MD = resolve(ROOT, 'CLAUDE.md');
 
@@ -89,21 +90,69 @@ function getComponentFiles(name: string): {
 // Server factory — shared by stdio and HTTP transports
 // ---------------------------------------------------------------------------
 
+const SERVER_INSTRUCTIONS = `
+You are connected to the @plopaton42/design-system MCP server.
+
+## What this design system provides
+A dual-framework (Vue 3 + React) component library with design tokens. All components use CSS custom properties (--ds-* variables) for theming.
+
+## Available components
+- **Button** — primary / secondary / ghost variants, 3 sizes (sm/md/lg), loading + disabled states
+- **Checkbox** — controlled/uncontrolled, indeterminate state, label support
+- **SplitButton** — button + dropdown trigger, same variants as Button
+
+## How to use components in a project
+
+### Option A — npm package (recommended)
+\`\`\`bash
+npm install @plopaton42/design-system
+\`\`\`
+\`\`\`tsx
+// React
+import { Button } from '@plopaton42/design-system/react'
+import '@plopaton42/design-system/style.css'
+\`\`\`
+\`\`\`vue
+<!-- Vue -->
+<script setup>
+import { Button } from '@plopaton42/design-system'
+import '@plopaton42/design-system/style.css'
+</script>
+\`\`\`
+
+### Option B — copy-paste via MCP tools
+1. Call \`list_components\` → see what's available
+2. Call \`get_component("Button")\` → get full source code + copy instructions
+3. Call \`get_token_styles\` → get the CSS variables to add to your global stylesheet
+
+## Available MCP tools
+- \`list_components\` — list all components
+- \`get_component\` — get source code + instructions for a specific component
+- \`get_token_styles\` — get the built CSS (--ds-* variables) ready to paste
+- \`list_tokens\` — get raw DTCG token JSON (for building custom components)
+- \`get_conventions\` — get the full design system conventions and architecture guide
+`.trim();
+
 export function createDesignSystemServer(): McpServer {
-  const server = new McpServer({ name: 'design-system', version: '0.1.0' });
+  const server = new McpServer({
+    name: 'design-system',
+    version: '0.1.0',
+    instructions: SERVER_INSTRUCTIONS,
+  });
 
   // ------------------------------------------------------------------
   // list_components
   // ------------------------------------------------------------------
   server.tool(
     'list_components',
-    'Lists all available components in the design system. ' +
-    'Returns component names and which framework files are present ' +
-    '(Vue, React, types, stories).',
+    'Lists all available components in this design system. ' +
+    'To use a component: call get_component to retrieve its source code, ' +
+    'then copy the file directly into your project — no npm install needed. ' +
+    'Also call get_token_styles to get the required CSS variables.',
     {},
     async () => {
       if (!existsSync(COMPONENTS_DIR)) {
-        return { content: [{ type: 'text', text: '[]' }] };
+        return { content: [{ type: 'text', text: 'No components directory found.' }] };
       }
       const entries = readdirSync(COMPONENTS_DIR, { withFileTypes: true });
       const components = entries
@@ -118,12 +167,142 @@ export function createDesignSystemServer(): McpServer {
               (f) => f.endsWith('.tsx') && !f.includes('.stories') && !f.includes('.figma')
             ),
             hasTypes: files.some((f) => f.endsWith('.types.ts')),
-            hasVueStories: files.some((f) => f.endsWith('.stories.ts')),
-            hasReactStories: files.some((f) => f.endsWith('.react.stories.tsx')),
           };
         });
+
+      const list = components.map((c) =>
+        `- **${c.name}** (${[c.hasReact && 'React', c.hasVue && 'Vue'].filter(Boolean).join(', ')})`
+      ).join('\n');
+
       return {
-        content: [{ type: 'text', text: JSON.stringify(components, null, 2) }],
+        content: [{
+          type: 'text',
+          text: `# Available Components\n\n${list}\n\nCall \`get_component\` with a name to retrieve the source code and copy instructions.`,
+        }],
+      };
+    }
+  );
+
+  // ------------------------------------------------------------------
+  // get_component
+  // ------------------------------------------------------------------
+  server.tool(
+    'get_component',
+    'Retrieves a component\'s full source code with step-by-step instructions to add it to any project. ' +
+    'Returns the React TSX file, Vue SFC file, TypeScript types, and README with props documentation. ' +
+    'Copy the file into your project — no npm install needed. ' +
+    'Component names: "Button", "Checkbox", "SplitButton".',
+    {
+      name: z.string().min(1).describe('Component name, e.g. "Button", "Checkbox", "SplitButton"'),
+    },
+    async ({ name }) => {
+      const { vue, react, types, readme, error } = getComponentFiles(name);
+      if (error) {
+        return { content: [{ type: 'text', text: `Error: ${error}` }], isError: true };
+      }
+
+      const lines: string[] = [
+        `# Component: ${name}`,
+        '',
+        '## How to add this component to your project',
+        '',
+        '### React',
+        `1. Copy the React source below into \`src/components/${name}/${name}.tsx\``,
+        `2. Import it: \`import { ${name} } from './components/${name}/${name}'\``,
+        '',
+        '### Vue',
+        `1. Copy the Vue source below into \`src/components/${name}/${name}.vue\``,
+        `2. Import it: \`import ${name} from './components/${name}/${name}.vue'\``,
+        '',
+        '> **Required:** The component uses CSS design tokens (`--ds-*` variables).',
+        '> Call `get_token_styles` to get the CSS to add to your project.',
+        '',
+      ];
+
+      if (types) {
+        lines.push('## TypeScript Types', '', '```typescript', types, '```', '');
+      }
+
+      if (readme) {
+        lines.push('## Documentation', '', readme, '');
+      }
+
+      if (react) {
+        lines.push('## React Source', `*Copy to: \`src/components/${name}/${name}.tsx\`*`, '', '```tsx', react, '```', '');
+      }
+
+      if (vue) {
+        lines.push('## Vue Source', `*Copy to: \`src/components/${name}/${name}.vue\`*`, '', '```vue', vue, '```', '');
+      }
+
+      return { content: [{ type: 'text', text: lines.join('\n') }] };
+    }
+  );
+
+  // ------------------------------------------------------------------
+  // get_token_styles
+  // ------------------------------------------------------------------
+  server.tool(
+    'get_token_styles',
+    'Returns the CSS design tokens (custom properties) required for components to render correctly. ' +
+    'Add this CSS to your project\'s global stylesheet. ' +
+    'Contains all --ds-* CSS variables for colors, spacing, typography, shadows, and border-radius.',
+    {},
+    async () => {
+      const variablesPath = resolve(TOKENS_BUILD_DIR, 'variables.css');
+      const semanticPath = resolve(TOKENS_BUILD_DIR, 'semantic.css');
+
+      const hasBuilt = existsSync(variablesPath) && existsSync(semanticPath);
+
+      if (!hasBuilt) {
+        return {
+          content: [{
+            type: 'text',
+            text: [
+              '# Design Token CSS',
+              '',
+              'The pre-built CSS files are not available in this environment.',
+              'To generate them, run `npm run build:tokens` in the design system repo.',
+              '',
+              'Then add these two files to your project:',
+              '- `tokens/build/variables.css` → primitive color/spacing/type tokens',
+              '- `tokens/build/semantic.css` → semantic (purpose-based) tokens',
+              '',
+              'Or import them if using the npm package:',
+              '```css',
+              '@import "@plopaton42/design-system/tokens/variables.css";',
+              '@import "@plopaton42/design-system/tokens/semantic.css";',
+              '```',
+            ].join('\n'),
+          }],
+          isError: false,
+        };
+      }
+
+      const variables = readFileSync(variablesPath, 'utf-8');
+      const semantic = readFileSync(semanticPath, 'utf-8');
+
+      return {
+        content: [{
+          type: 'text',
+          text: [
+            '# Design Token CSS',
+            '',
+            'Add both CSS blocks to your project\'s global stylesheet (e.g. `src/index.css` or `src/globals.css`).',
+            '',
+            '## variables.css — Primitive tokens (colors, spacing, radius, typography)',
+            '',
+            '```css',
+            variables,
+            '```',
+            '',
+            '## semantic.css — Semantic tokens (button surfaces, text colors, etc.)',
+            '',
+            '```css',
+            semantic,
+            '```',
+          ].join('\n'),
+        }],
       };
     }
   );
@@ -133,14 +312,12 @@ export function createDesignSystemServer(): McpServer {
   // ------------------------------------------------------------------
   server.tool(
     'list_tokens',
-    'Returns all design tokens from tokens/source/ organized by category path. ' +
-    'Global tokens: "focus", "radius", "spacing", "typography", "shadows". ' +
-    'Brand primitives: "primitives/norauto", "primitives/midas", etc. ' +
-    'Semantic tokens: "semantic/norauto", "semantic/midas", etc. ' +
-    'Uses W3C DTCG format with $value, $type, and $description fields.',
+    'Returns all design tokens as structured JSON from tokens/source/. ' +
+    'Use get_token_styles instead if you need ready-to-use CSS for your project. ' +
+    'This is useful for understanding available values before building custom components.',
     {
       category: z.string().optional().describe(
-        'Filter to a single category path, e.g. "spacing" or "semantic/norauto". Omit for all.'
+        'Filter by category, e.g. "spacing", "radius", "semantic/norauto". Omit for all.'
       ),
     },
     async ({ category }) => {
@@ -153,44 +330,12 @@ export function createDesignSystemServer(): McpServer {
   );
 
   // ------------------------------------------------------------------
-  // get_component
-  // ------------------------------------------------------------------
-  server.tool(
-    'get_component',
-    'Returns the Vue SFC source, React TSX source, shared TypeScript types, ' +
-    'and README documentation for a named component. ' +
-    'Component names match directory names under components/, e.g. "Button", "Checkbox".',
-    {
-      name: z.string().min(1).describe('Component directory name, e.g. "Button" or "Checkbox"'),
-    },
-    async ({ name }) => {
-      const { vue, react, types, readme, error } = getComponentFiles(name);
-      if (error) {
-        return { content: [{ type: 'text', text: `Error: ${error}` }], isError: true };
-      }
-      return {
-        content: [{
-          type: 'text',
-          text: JSON.stringify({
-            component: name,
-            vue: vue ?? '(no .vue file found)',
-            react: react ?? '(no .tsx file found)',
-            types: types ?? '(no .types.ts file found)',
-            readme: readme ?? '(no README.md found)',
-          }, null, 2),
-        }],
-      };
-    }
-  );
-
-  // ------------------------------------------------------------------
   // get_conventions
   // ------------------------------------------------------------------
   server.tool(
     'get_conventions',
-    'Returns the full CLAUDE.md conventions file: design system name and purpose, ' +
-    'token naming, component structure, dual-framework (Vue + React) rules, ' +
-    'and the complete Figma → JSON → CSS vars → Tailwind pipeline.',
+    'Returns the full design system conventions: component architecture, token naming, ' +
+    'dual-framework (Vue + React) rules, and the Figma → tokens → CSS pipeline.',
     {},
     async () => {
       if (!existsSync(CLAUDE_MD)) {

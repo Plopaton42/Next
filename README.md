@@ -1,153 +1,142 @@
-# @next/design-system
+# @plopaton42/design-system
 
-A token-driven, AI-first dual-framework (Vue 3 + React) component library for the Norauto brand.
+Token-driven, AI-first dual-framework (Vue 3 + React) component library.
 
-Single source of truth flows from Figma through DTCG design tokens into CSS custom properties and Tailwind v4 utility classes. Components are available for both Vue 3 and React.
-
----
-
-## Quick start
-
-```bash
-# Install dependencies
-npm install
-
-# Build tokens (required before any other step)
-npm run build:tokens
-
-# Start dev server
-npm run dev
-
-# Start Vue Storybook (port 6009)
-npm run storybook:vue
-
-# Start React Storybook (port 6010)
-npm run storybook:react
-```
+Single source of truth flows from Figma → DTCG JSON tokens → CSS custom properties (`--ds-*`) → Tailwind v4 utility classes. Components are available for both Vue 3 and React.
 
 ---
 
-## Installation (consumers)
+## Install
 
 ```bash
-npm install @next/design-system
+npm install @plopaton42/design-system
 ```
 
-```ts
-// Vue
-import { Button } from '@next/design-system';
+## Import
 
+```tsx
 // React
-import { Button } from '@next/design-system/react';
-
-// CSS (include once at the app root)
-import '@next/design-system/style.css';
+import { Button } from '@plopaton42/design-system/react'
+import '@plopaton42/design-system/style.css'
 ```
+
+```vue
+<!-- Vue -->
+<script setup>
+import { Button } from '@plopaton42/design-system'
+import '@plopaton42/design-system/style.css'
+</script>
+```
+
+```css
+/* CSS tokens only (if you want to use --ds-* variables without components) */
+@import '@plopaton42/design-system/tokens/variables.css';
+@import '@plopaton42/design-system/tokens/semantic.css';
+```
+
+---
+
+## Available components
+
+| Component   | Vue | React | Description |
+|-------------|:---:|:-----:|-------------|
+| Button      | ✅  | ✅    | Primary, secondary, ghost variants — 3 sizes — loading/disabled states |
+| Checkbox    | ✅  | ✅    | Controlled/uncontrolled — indeterminate state — label slot |
+| SplitButton | ✅  | ✅    | Button + dropdown trigger — same variants as Button |
+
+---
+
+## MCP server (for AI agents)
+
+This design system exposes an MCP server so AI agents can retrieve components and tokens directly.
+
+**HTTP endpoint (public):** `https://next-production-316b.up.railway.app/mcp`
+
+### Tools
+
+| Tool | Description |
+|------|-------------|
+| `list_components` | Lists all available components with framework info |
+| `get_component` | Returns full source code + copy instructions for a component |
+| `get_token_styles` | Returns the built CSS (`--ds-*` variables) to paste into your project |
+| `list_tokens` | Returns raw DTCG token JSON from `tokens/source/` |
+| `get_conventions` | Returns the full design system conventions (CLAUDE.md) |
+
+### Typical AI workflow using the MCP
+
+```
+1. list_components          → see what's available
+2. get_component("Button")  → get source code + copy instructions
+3. get_token_styles         → get the CSS variables to add to your project
+```
+
+### Configure in your project (`.mcp.json`)
+
+```json
+{
+  "mcpServers": {
+    "design-system": {
+      "type": "http",
+      "url": "https://next-production-316b.up.railway.app/mcp"
+    }
+  }
+}
+```
+
+---
+
+## Design tokens
+
+All CSS custom properties are prefixed `--ds-*`. Two layers:
+
+| File | Contents |
+|------|----------|
+| `tokens/variables.css` | Primitive scales: colors, spacing, radius, typography, shadows |
+| `tokens/semantic.css` | Semantic tokens: button surfaces, text colors, borders, focus rings |
+
+Token source files live in `tokens/source/` (DTCG JSON format). Run `npm run build:tokens` to regenerate.
 
 ---
 
 ## Architecture
 
-### Token system
-
-The design system uses a single-brand token architecture targeting Norauto.
-
-| File | Contents |
-|------|----------|
-| `primitives/global-colors.json` | 12 universal color scales: blue, neutral, ambient, periwinkle, red, green, orange, rose, violet, indigo + global palette |
-| `primitives/norauto.json` | Norauto brand scales (`brand/norauto`, `brand/secondary`) |
-| `semantic/norauto.json` | Semantic tokens referencing primitives |
-| `spacing.json` | Horizontal (`padding/px`), vertical (`padding/py`), gap (`space-between`) scales |
-| `radius.json` | Border-radius scale (`radius-N` in px) |
-| `sizing.json` | Component heights, icon sizes, stroke widths, opacity scale |
-| `typography.json` | Font families, sizes, weights |
-| `shadows.json` | Box-shadow tokens |
-| `focus.json` | Focus ring tokens |
-
-### Token pipeline
-
 ```
-Figma (source of truth)
-  │
-  ▼  extracted via Figma MCP Plugin API
-tokens/source/**/*.json   (DTCG format, committed to git)
-  │
-  ▼  npm run build:tokens  (style-dictionary.config.ts)
+tokens/source/**/*.json   (DTCG format — source of truth)
+        │
+        ▼  npm run build:tokens
 tokens/build/
-  ├── variables.css   → :root { --ds-* }  all primitive vars
-  ├── semantic.css    → :root { --ds-* }  all semantic vars
-  └── theme.ts        → typed TS object for JS usage
-  │
-  ▼  imported in src/style.css
-@theme inline { ... }   → Tailwind v4 utility classes
+  ├── variables.css   → :root { --ds-* }
+  ├── semantic.css    → :root { --ds-* }
+  └── theme.ts        → typed TS object
+        │
+        ▼  imported in src/style.css
+@theme inline { ... }  → Tailwind v4 utility classes
 ```
 
-> **Never edit `tokens/build/`** — it is gitignored and regenerated on every `build:tokens` run.
-
-### Dual-framework components
-
-Each component is available in both Vue 3 and React:
+Each component follows this structure:
 
 ```
 components/Button/
-  ├── Button.vue                    ← Vue 3 implementation
-  ├── Button.tsx                    ← React implementation
-  ├── Button.types.ts               ← Shared TypeScript interfaces
-  ├── Button.stories.ts             ← Vue Storybook stories
-  ├── Button.react.stories.tsx      ← React Storybook stories
-  ├── Button.figma.ts               ← Figma Code Connect mapping
-  └── README.md                     ← props, tokens, a11y, changelog
+  ├── Button.vue           ← Vue 3 SFC
+  ├── Button.tsx           ← React functional component
+  ├── Button.types.ts      ← Shared TypeScript interfaces
+  ├── Button.stories.ts    ← Vue Storybook stories (port 6009)
+  ├── Button.react.stories.tsx  ← React Storybook stories (port 6010)
+  ├── Button.figma.ts      ← Figma Code Connect mapping
+  └── README.md            ← Props, tokens, a11y, changelog
 ```
 
-### Figma Code Connect
-
-Each component has a `Component.figma.ts` file co-located with its implementation. These files record the Figma↔code mapping and are published to Figma Dev Mode via the Figma MCP server.
-
 ---
 
-## Available commands
+## Contributing / local dev
 
-| Command                     | Description                                              |
-|-----------------------------|----------------------------------------------------------|
-| `npm run build:tokens`      | Rebuild `tokens/build/` from `tokens/source/`            |
-| `npm run dev`               | Start Vite dev server (run `build:tokens` first)         |
-| `npm run build`             | Full production build (tokens → type-check → vite)       |
-| `npm run build:lib`         | Build the publishable npm package into `dist/`           |
-| `npm run storybook:vue`     | Start Vue Storybook on port 6009                         |
-| `npm run storybook:react`   | Start React Storybook on port 6010                       |
-| `npm run build-storybook:vue`   | Build static Vue Storybook                           |
-| `npm run build-storybook:react` | Build static React Storybook                         |
-| `npm run mcp`               | Start MCP server exposing design system tools for AI     |
+```bash
+npm install
+npm run build:tokens   # required before anything else
+npm run dev            # Vite dev server
+npm run storybook:vue  # Vue Storybook — port 6009
+npm run storybook:react  # React Storybook — port 6010
+npm run mcp:http       # MCP HTTP server — port 3001
+```
 
----
-
-## MCP server
-
-The design system exposes an MCP server (`npm run mcp`) with three tools for AI agents:
-
-| Tool              | Description                                              |
-|-------------------|----------------------------------------------------------|
-| `list_tokens`     | Return all tokens by category from `tokens/source/`      |
-| `get_component`   | Return `.vue` source + README for a named component      |
-| `get_conventions` | Return the full `CLAUDE.md` conventions file             |
-
----
-
-## Components
-
-| Component   | Vue | React | Storybook | Figma |
-|-------------|-----|-------|-----------|-------|
-| Button      | ✅  | ✅    | [Vue](components/Button/Button.stories.ts) · [React](components/Button/Button.react.stories.tsx) | [Figma](https://www.figma.com/design/zTOrsaTZ0I7JHoBg7bC46z/Next?node-id=17187-1090) |
-| Checkbox    | ✅  | ✅    | [Vue](components/Checkbox/Checkbox.stories.ts) · [React](components/Checkbox/Checkbox.react.stories.tsx) | [Figma](https://www.figma.com/design/zTOrsaTZ0I7JHoBg7bC46z/Next?node-id=17015-4309) |
-| SplitButton | ✅  | ✅    | [Vue](components/SplitButton/SplitButton.stories.ts) · [React](components/SplitButton/SplitButton.react.stories.tsx) | — |
-
----
-
-## Contributing
-
-See [CLAUDE.md](./CLAUDE.md) for the complete conventions guide:
-- Token naming and DTCG format
-- Component structure and Vue/React conventions
-- Figma fidelity rules
-- Git workflow and commit format
-- Self-review checklist
+See [CLAUDE.md](./CLAUDE.md) for the full conventions guide: token naming, component architecture, Figma fidelity rules, git workflow, and self-review checklist.

@@ -7,8 +7,7 @@
     "design-system": {
       "type": "stdio",
       "command": "node_modules/.bin/tsx",
-      "args": ["mcp/server.ts"],
-      "cwd": "/home/user/design-system"
+      "args": ["mcp/server.ts"]
     }
   }
 }
