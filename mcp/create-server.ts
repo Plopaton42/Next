@@ -2,9 +2,8 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import { readFileSync, readdirSync, existsSync } from 'fs';
 import { resolve, basename, extname, join } from 'path';
-import { fileURLToPath } from 'url';
 
-const ROOT = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
+const ROOT = process.cwd();
 const TOKENS_DIR = resolve(ROOT, 'tokens/source');
 const COMPONENTS_DIR = resolve(ROOT, 'components');
 const CLAUDE_MD = resolve(ROOT, 'CLAUDE.md');
