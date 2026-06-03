@@ -30,6 +30,7 @@
     "build": "npm run build:tokens && vue-tsc --noEmit && vite build",
     "build:lib": "npm run build:tokens && vite build -c vite.lib.config.ts && vite build -c vite.css.config.ts && node scripts/post-build.mjs",
     "mcp": "tsx mcp/server.ts",
+    "mcp:http": "tsx mcp/server-http.ts",
     "storybook": "npm run build:tokens && storybook dev -p 6009 --ci",
     "storybook:vue": "npm run build:tokens && storybook dev -p 6009 --ci",
     "storybook:react": "npm run build:tokens && storybook dev -c .storybook-react -p 6010 --ci",
