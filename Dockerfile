@@ -22,7 +22,7 @@ COPY CLAUDE.md ./CLAUDE.md
 
 EXPOSE 3001
 ENV NODE_ENV=production
-ENV PORT=3001
 ENV HOST=0.0.0.0
 
-CMD ["node", "dist-mcp/server.js"]
+# Force port 3001 regardless of what Railway injects via PORT env var
+CMD ["node", "-e", "process.env.PORT='3001'; import('./dist-mcp/server.js')"]
