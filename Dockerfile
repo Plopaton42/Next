@@ -4,18 +4,22 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY mcp/ ./mcp/
+COPY tokens/ ./tokens/
+COPY style-dictionary.config.ts ./
 RUN node_modules/.bin/esbuild mcp/server-http.ts \
     --bundle \
     --platform=node \
     --format=esm \
     --target=node22 \
     --outfile=dist-mcp/server.js \
-    --banner:js="import { createRequire } from 'module'; const require = createRequire(import.meta.url);"
+    --banner:js="import { createRequire } from 'module'; const require = createRequire(import.meta.url);" \
+    && node_modules/.bin/tsx style-dictionary.config.ts
 
 # Stage 2: minimal runtime — only Node.js + bundle + data files, no node_modules
 FROM node:22-alpine
 WORKDIR /app
 COPY --from=builder /app/dist-mcp/server.js ./dist-mcp/server.js
+COPY --from=builder /app/tokens/build/ ./tokens/build/
 COPY tokens/source/ ./tokens/source/
 COPY components/ ./components/
 COPY CLAUDE.md ./CLAUDE.md
