@@ -56,6 +56,9 @@ const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse
 
     // Health / discovery
     if (url.pathname === '/' && req.method === 'GET') {
+      const proto = (req.headers['x-forwarded-proto'] as string)?.split(',')[0]?.trim() ?? 'http';
+      const host = req.headers.host ?? `localhost:${PORT}`;
+      const base = `${proto}://${host}`;
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(
         JSON.stringify(
@@ -63,8 +66,8 @@ const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse
             name: 'design-system',
             version: '0.1.0',
             endpoints: {
-              mcp: `http://localhost:${PORT}/mcp`,
-              sse: `http://localhost:${PORT}/sse`,
+              mcp: `${base}/mcp`,
+              sse: `${base}/sse`,
             },
             tools: ['list_tokens', 'list_components', 'get_component', 'get_conventions'],
           },
