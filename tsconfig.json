@@ -16,10 +16,10 @@
     "useDefineForClassFields": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@tokens/*": ["./tokens/build/*"],
-      "@components/*": ["./components/*"],
-      "@composables/*": ["./composables/*"]
+      "@/*": ["src/*"],
+      "@components/*": ["components/*"],
+      "@tokens/*": ["tokens/build/*"],
+      "@composables/*": ["composables/*"]
     }
   },
   "include": ["src", "mcp", "components", "composables", "*.ts", "*.config.ts"],
