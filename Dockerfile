@@ -28,5 +28,4 @@ EXPOSE 8080
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 
-# Force port 3001 regardless of what Railway injects via PORT env var
-CMD ["node", "-e", "process.env.PORT='3001'; import('./dist-mcp/server.js')"]
+CMD ["node", "dist-mcp/server.js"]

@@ -1,36 +1,39 @@
-# @plopaton42/design-system
+# @plopaton42/design-system — Guidelines
 
-Token-driven dual-framework component library (Vue 3 + React). All components use CSS custom properties (`--ds-*`) for theming — no hardcoded colors or sizes anywhere.
+Token-driven dual-framework component library (Vue 3 + React). All theming uses `--ds-*` CSS custom properties — never hardcoded values.
+
+## MUST READ first (always loaded)
+
+- `setup.md` — install, CSS imports, required configuration
+- `foundations/color.md` — color tokens and decision tree
+- `components/overview.md` — component catalog and selection guide
+
+## Read on demand (load when relevant)
+
+- `foundations/spacing.md` — spacing tokens and layout rules
+- `foundations/typography.md` — font sizes, weights, families
+- `components/button.md` — Button API and usage rules
+- `components/checkbox.md` — Checkbox API and states
+- `components/splitbutton.md` — SplitButton API and keyboard nav
+
+## Non-negotiable rules
+
+**Always follow these — no exceptions:**
+
+1. **Never hardcode colors.** Use `--ds-*` CSS variables. Never use `#hex`, `rgb()`, or Tailwind color classes like `bg-blue-500`.
+2. **Always import CSS.** Every file using components must have `import '@plopaton42/design-system/style.css'` at the root.
+3. **Use semantic tokens, not primitives.** Use `--ds-button-primary-surface`, not `--ds-brand-brand-700`.
+4. **React imports from `/react`.** Always `from '@plopaton42/design-system/react'`, not from the root.
+5. **No arbitrary spacing values.** Use `--ds-padding-*` and `--ds-space-between-*` tokens.
 
 ## Available components
 
-| Component | Description | React import |
-|-----------|-------------|-------------|
-| `Button` | Primary action button — 6 types, 3 intents, 5 sizes | `import { Button } from '@plopaton42/design-system/react'` |
-| `Checkbox` | Checkbox with label and helper text — controlled/uncontrolled | `import { Checkbox } from '@plopaton42/design-system/react'` |
-| `SplitButton` | Button + dropdown for multiple related actions | `import { SplitButton } from '@plopaton42/design-system/react'` |
+| Component | Purpose | File |
+|-----------|---------|------|
+| Button | All interactive actions | `components/button.md` |
+| Checkbox | Boolean input with label | `components/checkbox.md` |
+| SplitButton | Primary action + dropdown | `components/splitbutton.md` |
 
-## Setup (required before using any component)
+## Design philosophy
 
-```tsx
-// In your root file (main.tsx or App.tsx)
-import '@plopaton42/design-system/style.css'
-```
-
-See `setup.md` for full configuration details.
-
-## Reading order
-
-1. `setup.md` — install and configure
-2. `tokens.md` — understand the `--ds-*` token system
-3. `styles.md` — CSS custom properties reference
-4. `components/Button.md` — Button API
-5. `components/Checkbox.md` — Checkbox API
-6. `components/SplitButton.md` — SplitButton API
-
-## Critical rules
-
-- **Never hardcode colors** — always use `--ds-*` CSS variables
-- **Always import CSS** — `import '@plopaton42/design-system/style.css'`
-- **React imports**: from `@plopaton42/design-system/react`
-- **Vue imports**: from `@plopaton42/design-system`
+Single source of truth: Figma → DTCG JSON tokens → CSS custom properties → components. Every visual value in every component traces back to a named token.
