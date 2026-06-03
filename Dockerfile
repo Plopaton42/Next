@@ -20,7 +20,7 @@ COPY tokens/source/ ./tokens/source/
 COPY components/ ./components/
 COPY CLAUDE.md ./CLAUDE.md
 
-EXPOSE 3001
+EXPOSE 8080
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 
