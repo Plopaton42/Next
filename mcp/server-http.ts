@@ -7,13 +7,6 @@ const PORT = Number(process.env.PORT ?? 3001);
 const HOST = process.env.HOST ?? '0.0.0.0';
 
 // ---------------------------------------------------------------------------
-// Streamable HTTP — stateless, shared transport instance
-// ---------------------------------------------------------------------------
-const streamTransport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
-const streamServer = createDesignSystemServer();
-await streamServer.connect(streamTransport);
-
-// ---------------------------------------------------------------------------
 // SSE — legacy, one transport per connection
 // ---------------------------------------------------------------------------
 const sseSessions = new Map<string, SSEServerTransport>();
@@ -78,16 +71,18 @@ const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse
       return;
     }
 
-    // /mcp — Streamable HTTP transport (POST + GET + DELETE)
+    // /mcp — Streamable HTTP transport (stateless: new transport per POST)
     if (url.pathname === '/mcp') {
       if (req.method === 'POST') {
         const rawBody = await readBody(req);
         const parsedBody = rawBody ? JSON.parse(rawBody) : undefined;
-        await streamTransport.handleRequest(req, res, parsedBody);
-      } else if (req.method === 'GET' || req.method === 'DELETE') {
-        await streamTransport.handleRequest(req, res);
+        const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
+        const mcpServer = createDesignSystemServer();
+        await mcpServer.connect(transport);
+        res.on('close', () => { transport.close(); mcpServer.close(); });
+        await transport.handleRequest(req, res, parsedBody);
       } else {
-        res.writeHead(405, { Allow: 'GET, POST, DELETE' });
+        res.writeHead(405, { Allow: 'POST' });
         res.end();
       }
       return;
