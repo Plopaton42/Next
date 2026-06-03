@@ -13,7 +13,14 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@tokens/*": ["./tokens/build/*"],
+      "@components/*": ["./components/*"],
+      "@composables/*": ["./composables/*"]
+    }
   },
   "include": ["src", "mcp", "components", "composables", "*.ts", "*.config.ts"],
   "exclude": ["node_modules", "dist", "tokens/build"]
