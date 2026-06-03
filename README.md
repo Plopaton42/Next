@@ -1,6 +1,6 @@
 # @next/design-system
 
-A token-driven, AI-first dual-framework (Vue 3 + React) component library for the Norauto brand.
+A token-driven, AI-first dual-framework (Vue 3 + React) component library for the brand.
 
 Single source of truth flows from Figma through DTCG design tokens into CSS custom properties and Tailwind v4 utility classes. Components are available for both Vue 3 and React.
 
@@ -50,13 +50,13 @@ import '@next/design-system/style.css';
 
 ### Token system
 
-The design system uses a single-brand token architecture targeting Norauto.
+The design system uses a single-brand token architecture targeting.
 
 | File | Contents |
 |------|----------|
 | `primitives/global-colors.json` | 12 universal color scales: blue, neutral, ambient, periwinkle, red, green, orange, rose, violet, indigo + global palette |
-| `primitives/norauto.json` | Norauto brand scales (`brand/norauto`, `brand/secondary`) |
-| `semantic/norauto.json` | Semantic tokens referencing primitives |
+| `primitives/.json` |  brand scales (`brand/`, `brand/secondary`) |
+| `semantic/.json` | Semantic tokens referencing primitives |
 | `spacing.json` | Horizontal (`padding/px`), vertical (`padding/py`), gap (`space-between`) scales |
 | `radius.json` | Border-radius scale (`radius-N` in px) |
 | `sizing.json` | Component heights, icon sizes, stroke widths, opacity scale |
