@@ -23,5 +23,5 @@
     }
   },
   "include": ["src", "mcp", "components", "composables", "*.ts", "*.config.ts"],
-  "exclude": ["node_modules", "dist", "tokens/build"]
+  "exclude": ["node_modules", "dist", "tokens/build", "vite.config.ts", "vite.lib.config.ts", "vite.css.config.ts"]
 }
