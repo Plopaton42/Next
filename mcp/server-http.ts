@@ -62,7 +62,7 @@ const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse
               mcp: `${base}/mcp`,
               sse: `${base}/sse`,
             },
-            tools: ['list_tokens', 'list_components', 'get_component', 'get_conventions'],
+            tools: ['list_components', 'get_component', 'get_token_styles', 'list_tokens', 'get_conventions'],
           },
           null,
           2
