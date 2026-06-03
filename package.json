@@ -1,5 +1,5 @@
 {
-  "name": "@next/design-system",
+  "name": "@plopaton42/design-system",
   "version": "0.1.0",
   "description": "Token-driven, AI-first dual-framework (Vue 3 + React) component library",
   "type": "module",
@@ -24,6 +24,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build:tokens": "tsx style-dictionary.config.ts",
     "dev": "vite",
@@ -43,11 +46,9 @@
     "react-dom": "^18.0.0 || ^19.0.0",
     "vue": "^3.4.0"
   },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
-    "zod": "^3.23.0"
-  },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0",
     "@chromatic-com/storybook": "^5.0.1",
     "@storybook/addon-a11y": "^10.3.0",
     "@storybook/addon-docs": "^10.3.0",
@@ -81,3 +82,4 @@
     "vue-tsc": "^2.0.0"
   }
 }
+
