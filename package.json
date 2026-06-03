@@ -26,7 +26,8 @@
     "./tokens/semantic.css": "./dist/tokens/semantic.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "guidelines"
   ],
   "publishConfig": {
     "access": "public"
