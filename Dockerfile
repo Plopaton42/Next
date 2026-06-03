@@ -24,4 +24,4 @@ EXPOSE 3001
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 
-CMD ["sh", "-c", "PORT=3001 node dist-mcp/server.js"]
+CMD ["node", "dist-mcp/server.js"]
