@@ -14,7 +14,6 @@ COPY CLAUDE.md ./CLAUDE.md
 
 EXPOSE 3001
 ENV NODE_ENV=production
-
-# PORT is injected by Railway (or defaults to 3001 in the server code)
-# HOST defaults to 0.0.0.0 in the server code
+ENV PORT=3001
+ENV HOST=0.0.0.0
 CMD ["npx", "tsx", "mcp/server-http.ts"]
