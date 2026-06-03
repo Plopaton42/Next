@@ -391,13 +391,58 @@ Layer 2 — Semantic (tokens/source/semantic/)
 
 ## MCP Tools
 
-Run the MCP server with: `npm run mcp`
+The design system exposes two MCP transports:
 
-| Tool              | Description                                                         |
-|-------------------|---------------------------------------------------------------------|
-| `list_tokens`     | Returns all tokens by category from `tokens/source/` (recursive)   |
-| `get_component`   | Returns `.vue` source + README for a named component                |
-| `get_conventions` | Returns this CLAUDE.md file                                         |
+- **stdio** (local, for Claude Code in this repo): `npm run mcp`
+- **HTTP** (public, for external AI tools like Figma Make): deployed on Railway
+
+The HTTP server auto-reflects every component and token in the repo — no manual update needed when you add a component.
+
+### Tools
+
+| Tool                | Description                                                                    |
+|---------------------|--------------------------------------------------------------------------------|
+| `list_components`   | Lists all available components with framework info (React/Vue)                 |
+| `get_component`     | Returns full source code + step-by-step copy instructions for any component    |
+| `get_token_styles`  | Returns the built CSS custom properties (`--ds-*`) ready to paste in a project |
+| `list_tokens`       | Returns raw DTCG token JSON from `tokens/source/` for inspection               |
+| `get_conventions`   | Returns this CLAUDE.md file                                                     |
+
+### How external AIs use the design system
+
+External AI tools (Figma Make, etc.) can use components in two ways:
+
+**Option A — Copy-paste via MCP (no install needed)**
+1. Call `list_components` to see available components
+2. Call `get_component Button` to get the source code + copy instructions
+3. Call `get_token_styles` to get the CSS variables to add to the project
+4. Copy the files into the target project and import directly
+
+**Option B — npm package (recommended for production)**
+Package name: `@plopaton42/design-system`
+```bash
+npm install @plopaton42/design-system
+```
+```tsx
+// React
+import { Button } from '@plopaton42/design-system/react'
+import '@plopaton42/design-system/style.css'
+```
+```vue
+<!-- Vue -->
+<script setup>
+import { Button } from '@plopaton42/design-system'
+</script>
+```
+```css
+/* In your global CSS */
+@import '@plopaton42/design-system/tokens/variables.css';
+@import '@plopaton42/design-system/tokens/semantic.css';
+```
+
+### When you add a new component
+The MCP HTTP server reads the filesystem at request time — it automatically
+includes the new component with no changes to the server needed.
 
 ---
 
@@ -442,7 +487,9 @@ Requirements for Code Connect to work:
 npm run build:tokens         # Regenerate tokens/build/ from tokens/source/
 npm run dev                  # Start Vite dev server (requires build:tokens first)
 npm run build                # Full production build (tokens + type-check + vite)
-npm run mcp                  # Start the MCP server on stdio
+npm run build:lib            # Build the npm package (outputs to dist/)
+npm run mcp                  # Start the MCP server on stdio (local dev)
+npm run mcp:http             # Start the MCP HTTP server locally (port 3001)
 npm run storybook            # Vue Storybook (port 6009) — alias for storybook:vue
 npm run storybook:vue        # Vue Storybook (port 6009)
 npm run storybook:react      # React Storybook (port 6010)
@@ -484,6 +531,8 @@ No need to be reminded — always follow them.
 - Register the React component in `components/react.ts`
 - Create the Figma Code Connect file and publish the mapping via the Figma MCP server
 - The `Playground` story is MANDATORY in both story files — it must always be the first story exported and must have `argTypes` defined for every prop
+- **MCP HTTP server**: no action needed — the server reads the filesystem at request time and will automatically expose the new component via `get_component` and `list_components`
+- **npm package**: run `npm run build:lib` to verify the component is included in the build output; the package is published via GitHub Release (see MCP Tools section)
 
 ### General
 - Never leave a TODO without a comment explaining what's needed
