@@ -90,8 +90,55 @@ function getComponentFiles(name: string): {
 // Server factory — shared by stdio and HTTP transports
 // ---------------------------------------------------------------------------
 
+const SERVER_INSTRUCTIONS = `
+You are connected to the @plopaton42/design-system MCP server.
+
+## What this design system provides
+A dual-framework (Vue 3 + React) component library with design tokens. All components use CSS custom properties (--ds-* variables) for theming.
+
+## Available components
+- **Button** — primary / secondary / ghost variants, 3 sizes (sm/md/lg), loading + disabled states
+- **Checkbox** — controlled/uncontrolled, indeterminate state, label support
+- **SplitButton** — button + dropdown trigger, same variants as Button
+
+## How to use components in a project
+
+### Option A — npm package (recommended)
+\`\`\`bash
+npm install @plopaton42/design-system
+\`\`\`
+\`\`\`tsx
+// React
+import { Button } from '@plopaton42/design-system/react'
+import '@plopaton42/design-system/style.css'
+\`\`\`
+\`\`\`vue
+<!-- Vue -->
+<script setup>
+import { Button } from '@plopaton42/design-system'
+import '@plopaton42/design-system/style.css'
+</script>
+\`\`\`
+
+### Option B — copy-paste via MCP tools
+1. Call \`list_components\` → see what's available
+2. Call \`get_component("Button")\` → get full source code + copy instructions
+3. Call \`get_token_styles\` → get the CSS variables to add to your global stylesheet
+
+## Available MCP tools
+- \`list_components\` — list all components
+- \`get_component\` — get source code + instructions for a specific component
+- \`get_token_styles\` — get the built CSS (--ds-* variables) ready to paste
+- \`list_tokens\` — get raw DTCG token JSON (for building custom components)
+- \`get_conventions\` — get the full design system conventions and architecture guide
+`.trim();
+
 export function createDesignSystemServer(): McpServer {
-  const server = new McpServer({ name: 'design-system', version: '0.1.0' });
+  const server = new McpServer({
+    name: 'design-system',
+    version: '0.1.0',
+    instructions: SERVER_INSTRUCTIONS,
+  });
 
   // ------------------------------------------------------------------
   // list_components
