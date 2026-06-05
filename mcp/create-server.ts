@@ -93,51 +93,19 @@ function getComponentFiles(name: string): {
 const SERVER_INSTRUCTIONS = `
 You are connected to the @plopaton42/design-system MCP server.
 
-## What this design system provides
-A dual-framework (Vue 3 + React) component library with design tokens. All components use CSS custom properties (--ds-* variables) for theming.
+## FIRST ACTION REQUIRED
+Call the \`setup\` tool immediately. It returns the exact package.json dependency and CSS imports to add to the project. Do this before using any component.
 
 ## Available components
-- **Button** — primary / secondary / ghost / outlined / inverted / tertiary variants, 5 sizes, destructive + alternative intents
-- **Checkbox** — controlled/uncontrolled, indeterminate state, error state, label + helper text
-- **SplitButton** — main action button + dropdown trigger, same variants as Button
-
-## MANDATORY: How to use components
-
-### Step 1 — Install the npm package (REQUIRED, do this first)
-\`\`\`bash
-npm install @plopaton42/design-system
-\`\`\`
-Add to the project's package.json dependencies:
-\`\`\`json
-"@plopaton42/design-system": "latest"
-\`\`\`
-
-### Step 2 — Import CSS tokens in global stylesheet
-\`\`\`css
-@import '@plopaton42/design-system/tokens/variables.css';
-@import '@plopaton42/design-system/tokens/semantic.css';
-@import '@plopaton42/design-system/style.css';
-\`\`\`
-
-### Step 3 — Import components
-\`\`\`tsx
-// React
-import { Button, Checkbox, SplitButton } from '@plopaton42/design-system/react'
-\`\`\`
-\`\`\`vue
-<!-- Vue -->
-import { Button, Checkbox, SplitButton } from '@plopaton42/design-system'
-\`\`\`
-
-**NEVER inline component source code or copy-paste components manually. Always use the npm package.**
-If the package is missing from package.json, add it — do not work around it.
+Button, Checkbox, SplitButton — call \`list_components\` for details.
 
 ## Available MCP tools
+- \`setup\` — **call this first** — returns package.json patch + CSS imports required
 - \`list_components\` — list all components with framework support
 - \`get_component\` — get props, API docs and usage examples for a specific component
 - \`get_token_styles\` — get the built CSS (--ds-* variables) ready to paste in global stylesheet
-- \`list_tokens\` — get raw DTCG token JSON (for building custom components)
-- \`get_conventions\` — get the full design system conventions and architecture guide
+- \`list_tokens\` — get raw DTCG token JSON
+- \`get_conventions\` — get the full design system conventions
 `.trim();
 
 export function createDesignSystemServer(): McpServer {
@@ -146,6 +114,65 @@ export function createDesignSystemServer(): McpServer {
     version: '0.1.0',
     instructions: SERVER_INSTRUCTIONS,
   });
+
+  // ------------------------------------------------------------------
+  // setup — must be called first
+  // ------------------------------------------------------------------
+  server.tool(
+    'setup',
+    'CALL THIS FIRST before using any component. ' +
+    'Returns the exact package.json dependency to add and the CSS imports required. ' +
+    'Add the dependency to package.json, run npm install, then add the CSS to the global stylesheet.',
+    {},
+    async () => {
+      return {
+        content: [{
+          type: 'text',
+          text: [
+            '# Setup — @plopaton42/design-system',
+            '',
+            '## Step 1 — Add to package.json dependencies',
+            '',
+            'Add this entry to the `dependencies` field of the project\'s `package.json`:',
+            '',
+            '```json',
+            '"@plopaton42/design-system": "latest"',
+            '```',
+            '',
+            'Then run:',
+            '```bash',
+            'npm install',
+            '```',
+            '',
+            '## Step 2 — Add CSS to global stylesheet',
+            '',
+            'Add these imports to the project\'s global CSS file (e.g. `src/index.css`, `src/globals.css`, or `src/styles.css`):',
+            '',
+            '```css',
+            "@import '@plopaton42/design-system/tokens/variables.css';",
+            "@import '@plopaton42/design-system/tokens/semantic.css';",
+            "@import '@plopaton42/design-system/style.css';",
+            '```',
+            '',
+            '## Step 3 — Import components',
+            '',
+            'React:',
+            '```tsx',
+            "import { Button, Checkbox, SplitButton } from '@plopaton42/design-system/react'",
+            '```',
+            '',
+            'Vue:',
+            '```vue',
+            "import { Button, Checkbox, SplitButton } from '@plopaton42/design-system'",
+            '```',
+            '',
+            '## Done',
+            'Setup complete. Call `list_components` to see all available components.',
+          ].join('\n'),
+        }],
+      };
+    }
+  );
 
   // ------------------------------------------------------------------
   // list_components
