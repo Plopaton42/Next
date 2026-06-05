@@ -212,7 +212,7 @@ export function createDesignSystemServer(): McpServer {
       return {
         content: [{
           type: 'text',
-          text: `# Available Components\n\n${list}\n\nCall \`get_component\` with a name to retrieve the source code and copy instructions.`,
+          text: `# Available Components\n\nAll components are imported from \`@plopaton42/design-system/react\` (React) or \`@plopaton42/design-system\` (Vue).\nIf the package is not in package.json yet, call \`setup\` first.\n\n${list}\n\nCall \`get_component\` with a name for the full API and props documentation.`,
         }],
       };
     }
@@ -239,26 +239,9 @@ export function createDesignSystemServer(): McpServer {
       const lines: string[] = [
         `# Component: ${name}`,
         '',
-        '## Setup (required)',
+        '> Package not in package.json yet? Call `setup` first.',
         '',
-        '**1. Install the npm package** (if not already in package.json):',
-        '```bash',
-        'npm install @plopaton42/design-system',
-        '```',
-        '',
-        '**2. Add to package.json dependencies:**',
-        '```json',
-        '"@plopaton42/design-system": "latest"',
-        '```',
-        '',
-        '**3. Import CSS in your global stylesheet:**',
-        '```css',
-        "@import '@plopaton42/design-system/tokens/variables.css';",
-        "@import '@plopaton42/design-system/tokens/semantic.css';",
-        "@import '@plopaton42/design-system/style.css';",
-        '```',
-        '',
-        '## Usage',
+        '## Import',
         '',
         '```tsx',
         `// React`,
