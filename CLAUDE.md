@@ -26,28 +26,23 @@ design-system/
 ├── .mcp.json                      ← Figma MCP SSE config (do not modify)
 ├── tokens/
 │   ├── source/                    ← DTCG JSON token files (edit these)
-│   │   ├── focus.json             ← focus ring tokens (brand-agnostic)
-│   │   ├── radius.json            ← border-radius scale: radius-N in px
-│   │   ├── spacing.json           ← padding/px, padding/py, space-between scales
-│   │   ├── sizing.json            ← heights, icon sizes, stroke widths, opacity
-│   │   ├── typography.json        ← font families, sizes, weights (brand-agnostic)
-│   │   ├── shadows.json           ← box-shadow tokens (brand-agnostic)
-│   │   ├── primitives/            ← raw color scales
+│   │   ├── primitives.json        ← 3-tier model, Tier 1 (raw values)
+│   │   ├── semantic.json          ← 3-tier model, Tier 2 (action/feedback/scene/focus/dimension)
+│   │   ├── components.json        ← 3-tier model, Tier 3 (button/navbar/tooltip/item/alert/...)
+│   │   ├── focus.json             ← focus ring tokens (brand-agnostic, legacy model)
+│   │   ├── radius.json            ← border-radius scale: radius-N in px (legacy model)
+│   │   ├── spacing.json           ← padding/px, padding/py, space-between scales (legacy model)
+│   │   ├── sizing.json            ← heights, icon sizes, stroke widths, opacity (legacy model)
+│   │   ├── typography.json        ← font families, sizes, weights (legacy model)
+│   │   ├── shadows.json           ← box-shadow tokens (legacy model)
+│   │   ├── primitives/            ← raw color scales — LEGACY, non-migrated components only
 │   │   │   ├── global-colors.json ← 12 universal scales + global palette
-│   │   │   ├── norauto.json       ← brand/norauto + brand/secondary scales
-│   │   │   ├── midas.json
-│   │   │   ├── atu.json
-│   │   │   ├── auto5.json
-│   │   │   └── mobivia.json
-│   │   └── semantic/              ← semantic tokens referencing primitives
-│   │       ├── norauto.json       ← primary brand (Figma-synced)
-│   │       ├── midas.json
-│   │       ├── atu.json
-│   │       ├── auto5.json
-│   │       └── mobivia.json
+│   │   │   └── norauto.json       ← brand/norauto + brand/secondary scales
+│   │   └── semantic/              ← LEGACY flat semantic tokens — non-migrated components only
+│   │       └── norauto.json       ← default/ambient/highlight/interaction/decorative/feedback/global/brand
 │   └── build/                     ← GENERATED, gitignored (do not edit)
-│       ├── variables.css          ← all primitive CSS vars under :root { --ds-* }
-│       ├── semantic.css           ← all semantic vars under :root { --ds-* }
+│       ├── variables.css          ← all Primitive CSS vars under :root { --ds-* }
+│       ├── semantic.css           ← all Semantic + Component vars under :root { --ds-* }
 │       └── theme.ts               ← typed TS object for Vue component use
 ├── components/
 │   ├── _template/                 ← copy this when creating a new component
@@ -315,35 +310,88 @@ The file-extension convention **prevents cross-contamination**:
 
 ## Token Pipeline: Figma → JSON → CSS Vars → Tailwind
 
-### Two-layer token architecture
+The Figma file (Roadtrip Design System) itself is structured as **3 Variable
+collections** — Primitives, Semantic, Components. `tokens/source/` mirrors
+this 1:1 for any component that has been migrated to the new model (see
+Migration Status below). This is the authoritative architecture going
+forward; consult the `roadtrip-figma-tokens` skill (or its exported
+`.skill` bundle) before creating or modifying any token — it documents the
+full naming rules, the "intention → always Semantic" rule, accessibility
+recalculation requirements, and the Figma-API gotchas (renaming vs.
+recreating collections, node-level variable bindings, etc.).
+
+### Three-tier token architecture
 
 ```
-Layer 1 — Primitives (tokens/source/primitives/ + global files)
-  Universal color scales: blue, neutral, ambient, periwinkle, red,
-  green, orange, rose, violet, indigo — shared across all brands.
-  Brand-specific scales: brand/norauto/*, brand/secondary/*
-  Dimension scales: spacing, radius, sizing (height, icon, stroke, opacity)
+Tier 1 — Primitives (tokens/source/primitives.json)
+  Raw values, zero meaning, never multi-mode. e.g. color.blue.700 = #0055FF,
+  spacing.16 = 16. Never bind a component directly to one of these.
 
-Layer 2 — Semantic (tokens/source/semantic/)
-  Purpose-based tokens that reference primitives via {path} aliases.
-  e.g.: button.primary.surface → {blue.blue-700}
-  One file per brand. Norauto is Figma-synced.
+Tier 2 — Semantic (tokens/source/semantic.json)
+  Named intent: color.action.{primary,secondary,tertiary,outlined,ghost,
+  inverted,danger,danger-subtle,brand-alt,neutral,secondary-alt}.*,
+  color.feedback.*, color.scene.*, color.focus.*, color.interactive.*,
+  dimension.{padding-x,padding-y,gap,radius,icon-size,stroke,opacity}.*.
+  Aliases Primitives only. This is the tier that will carry a per-brand
+  mode later (Norauto/Auto5 modes already exist in Figma today, currently
+  identical — no divergence yet).
+
+Tier 3 — Components (tokens/source/components.json)
+  One token per component property: button.*, navbar.*, tooltip.*, item.*,
+  alert.*, filter.*, radio.*, toggle.*, date-picker.*. Aliases Semantic only
+  (never Primitives directly) when the value carries meaning; may alias a
+  Semantic `scene.*` token for neutral chrome. Never has its own mode.
+```
+
+**Rule that overrides everything else**: a component color that carries
+meaning (primary action, danger, brand, status) always passes through a
+Semantic token (`action.*`/`feedback.*`) — never straight to a Primitive.
+This is what lets a future brand mode swap colors without touching a single
+component file.
+
+### Migration status (per component, not repo-wide)
+
+| Component | Status |
+|---|---|
+| **Button** | Migrated — all colors alias `action.*` semantic tokens (10 families), sizing aliases `dimension.*` |
+| Everything else (Checkbox, SplitButton's own chrome vars, etc.) | Still on the legacy flat model below — migrate opportunistically, don't mass-migrate without being asked |
+
+### Legacy flat model (pre-migration components only)
+
+Components not yet migrated still read from the older per-brand files:
+
+```
+tokens/source/
+├── primitives/
+│   ├── global-colors.json   ← 12 universal color scales + global palette
+│   └── norauto.json         ← brand/norauto + brand/secondary scales
+│                              (midas/atu/auto5/mobivia not created yet)
+├── semantic/
+│   └── norauto.json         ← default/ambient/highlight/interaction/
+│                              decorative/feedback/global/brand — one
+│                              flat file, Component tier aliases Primitives
+│                              directly (the exact anti-pattern the 3-tier
+│                              model above fixes)
+└── spacing|radius|sizing|typography|shadows|focus.json  (brand-agnostic, shared by both models)
 ```
 
 ### Full pipeline
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│  FIGMA (source of truth for visual design)                          │
-│  Variables extracted via Figma MCP Plugin API                       │
+│  FIGMA — 3 Variable collections: Primitives, Semantic, Components   │
+│  Extracted via Figma MCP Plugin API (figma.variables.*Async)        │
 └──────────────────────────┬──────────────────────────────────────────┘
-                           │  use_figma → get_variable_defs
+                           │  use_figma (getLocalVariableCollectionsAsync
+                           │  → getVariableByIdAsync, resolve alias chains)
                            ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │  tokens/source/  (DTCG format, committed to git)                    │
-│  ├── primitives/global-colors.json  ← 12 universal color scales    │
-│  ├── primitives/{brand}.json        ← brand-specific scales        │
-│  ├── semantic/{brand}.json          ← semantic tokens              │
+│  ├── primitives.json                ← Tier 1 (new model)           │
+│  ├── semantic.json                  ← Tier 2 (new model)           │
+│  ├── components.json                ← Tier 3 (new model)           │
+│  ├── primitives/global-colors.json, primitives/norauto.json         │
+│  ├── semantic/norauto.json          ← legacy model, non-migrated    │
 │  └── spacing|radius|sizing|typography|shadows|focus.json            │
 └──────────────────────────┬──────────────────────────────────────────┘
                            │  npm run build:tokens
@@ -351,8 +399,8 @@ Layer 2 — Semantic (tokens/source/semantic/)
                            ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │  tokens/build/  (gitignored — do not edit)                          │
-│  ├── variables.css   :root { --ds-* }  ← all primitive tokens      │
-│  ├── semantic.css    :root { --ds-* }  ← all semantic tokens       │
+│  ├── variables.css   :root { --ds-* }  ← Primitives (both models)  │
+│  ├── semantic.css    :root { --ds-* }  ← Semantic + Components     │
 │  └── theme.ts        export const theme = { ... }                  │
 └────────────┬──────────────────────────────┬─────────────────────────┘
              │                              │
@@ -380,12 +428,25 @@ Layer 2 — Semantic (tokens/source/semantic/)
   before starting `npm run dev` or `npm run build`.
 - The **`--ds-` prefix** on all CSS custom properties prevents collisions with
   Tailwind's own internal variables (which use `--color-*`, `--spacing-*` etc.).
-- Semantic tokens are **single-mode** (no light/dark/contrast split) — the
-  Figma file drives this architecture. Dark mode can be added via primitive
-  overrides in a future iteration.
-- Components always reference **semantic tokens**, never primitives directly.
-- The Style Dictionary config separates primitives from semantics using
-  `filePath` filtering — primitives → `variables.css`, semantics → `semantic.css`.
+- Semantic tokens are **single-mode today** even though the Figma Semantic
+  collection technically already has 2 modes (Norauto/Auto5) — they're
+  currently byte-identical. Multi-brand divergence is the reason the tier
+  exists, not something active yet.
+- Components always reference **Semantic tokens**, never Primitives directly
+  — for components on the legacy model, migrate to the 3-tier structure
+  when you touch that component's tokens rather than adding new
+  Component→Primitive aliases.
+- Figma Variables and Figma **Styles** (Text Styles, Effect Styles) are two
+  separate systems — Styles bundle multiple properties (font family+size+
+  line-height, or stacked shadow layers), can't be aliased or multi-moded,
+  and are **not** exposed via the Variables API used above. They need a
+  separate export path if/when they're brought into this pipeline (Button's
+  drop-shadow and per-size line-height are still hardcoded for this reason
+  — see `components/Button/README.md` → Known Deviations).
+- The Style Dictionary config routes by `filePath`: anything under
+  `primitives/` or named exactly `primitives.json` → `variables.css`;
+  everything else (including `semantic.json` and `components.json`) →
+  `semantic.css`.
 
 ---
 
