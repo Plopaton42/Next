@@ -201,46 +201,46 @@
     "[control]": {
       "min-height": {
         "xxl": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.height.content.h-64}"
         },
         "xl": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.height.content.h-56}"
         },
         "lg": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.height.content.h-48}"
         },
         "md": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.height.content.h-40}"
         },
         "sm": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.height.content.h-32}"
         }
       },
       "icon": {
         "number": {
           "xxl": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.icon-size.32}"
           },
           "xl": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.icon-size.28}"
           },
           "lg": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.icon-size.24}"
           },
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.icon-size.20}"
           },
           "sm": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.icon-size.16}"
           }
         },
@@ -271,45 +271,45 @@
         "default": {
           "px": {
             "xxl": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.26}"
             },
             "xl": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.24}"
             },
             "lg": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.20}"
             },
             "md": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.16}"
             },
             "sm": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.14}"
             }
           },
           "py": {
             "xxl": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.16}"
             },
             "xl": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.16}"
             },
             "lg": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.12}"
             },
             "md": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.10}"
             },
             "sm": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.6}"
             }
           }
@@ -317,45 +317,45 @@
         "icon-only": {
           "px": {
             "xxl": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.16}"
             },
             "xl": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.14}"
             },
             "lg": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.12}"
             },
             "md": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.10}"
             },
             "sm": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.8}"
             }
           },
           "py": {
             "xxl": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.16}"
             },
             "xl": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.14}"
             },
             "lg": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.12}"
             },
             "md": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.10}"
             },
             "sm": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.8}"
             }
           }
@@ -363,116 +363,116 @@
       },
       "space-between": {
         "xxl": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.gap.12}"
         },
         "xl": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.gap.10}"
         },
         "lg": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.gap.8}"
         },
         "md": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.gap.6}"
         },
         "sm": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.gap.4}"
         }
       },
       "radius": {
         "xxl": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.radius.16}"
         },
         "xl": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.radius.14}"
         },
         "lg": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.radius.12}"
         },
         "md": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.radius.10}"
         },
         "sm": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.radius.8}"
         },
         "rounded": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.radius.full}"
         }
       },
       "border-size": {
         "pressed": {
           "xxl": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.2}"
           },
           "xl": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.2}"
           },
           "lg": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.1_75}"
           },
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.1_5}"
           },
           "sm": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.1_25}"
           }
         },
         "style": {
           "xxl": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.2}"
           },
           "xl": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.2}"
           },
           "lg": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.2}"
           },
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.2}"
           },
           "sm": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.2}"
           }
         },
         "default": {
           "xxl": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.1}"
           },
           "xl": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.1}"
           },
           "lg": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.1}"
           },
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.1}"
           },
           "sm": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.stroke.1}"
           }
         }
@@ -498,20 +498,20 @@
       "padding": {
         "px": {
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-x.8}"
           }
         },
         "py": {
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-y.8}"
           }
         }
       },
       "radius": {
         "md": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.radius.8}"
         }
       }
@@ -664,87 +664,87 @@
     },
     "[control]": {
       "border-size": {
-        "$type": "number",
+        "$type": "dimension",
         "$value": "{dimension.stroke.1}"
       },
       "padding": {
         "vertical": {
           "px": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-x.12}"
           },
           "py": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-y.12}"
           }
         },
         "horizontal": {
           "px": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-x.12}"
           },
           "py": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-y.12}"
           }
         }
       },
       "space-between": {
         "vertical": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.gap.4}"
         },
         "horizontal": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.gap.4}"
         }
       },
       "icon-container": {
         "padding-top": {
           "vertical": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-y.2}"
           },
           "horizontal": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-y.6}"
           }
         }
       },
       "content": {
         "padding-left": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.padding-x.4}"
         },
         "space-between": {
           "vertical": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.gap.12}"
           },
           "horizontal": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.gap.12}"
           }
         }
       },
       "title": {
         "padding-right": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.padding-x.24}"
         },
         "space-between": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.gap.4}"
         }
       },
       "message": {
         "space-between": {
           "vertical": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.gap.2}"
           },
           "horizontal": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.gap.0}"
           }
         }
@@ -754,60 +754,60 @@
   "filter": {
     "[control]": {
       "height": {
-        "$type": "number",
+        "$type": "dimension",
         "$value": "{dimension.height.content.h-28}"
       },
       "radius": {
-        "$type": "number",
+        "$type": "dimension",
         "$value": "{dimension.radius.8}"
       },
       "padding": {
         "px": {
           "with-trailing": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-x.4}"
           },
           "no-trailing": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-x.8}"
           }
         },
         "py": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.padding-y.4}"
         }
       },
       "space-between": {
-        "$type": "number",
+        "$type": "dimension",
         "$value": "{dimension.gap.6}"
       },
       "border-size": {
-        "$type": "number",
+        "$type": "dimension",
         "$value": "{dimension.stroke.1}"
       },
       "icon-container": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.icon-size.20}"
         },
         "icon-size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.icon-size.16}"
         }
       },
       "badge": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.icon-size.20}"
         },
         "radius": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.radius.4}"
         }
       },
       "split": {
         "divider-size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.stroke.1}"
         }
       }
@@ -817,32 +817,32 @@
     "[control]": {
       "space-between": {
         "md": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.gap.12}"
         }
       },
       "radius": {
         "md": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.radius.full}"
         }
       },
       "border-size": {
         "md": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{dimension.stroke.1}"
         }
       },
       "padding": {
         "px": {
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-x.4}"
           }
         },
         "py": {
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.padding-y.4}"
           }
         }
@@ -1023,34 +1023,34 @@
         "padding": {
           "px": {
             "md": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.12}"
             },
             "sm": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.8}"
             }
           },
           "py": {
             "md": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.12}"
             },
             "sm": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.8}"
             }
           }
         },
         "gap": {
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.gap.8}"
           }
         },
         "radius": {
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.radius.8}"
           }
         }
@@ -1059,26 +1059,26 @@
         "padding": {
           "px": {
             "md": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-x.12}"
             }
           },
           "py": {
             "md": {
-              "$type": "number",
+              "$type": "dimension",
               "$value": "{dimension.padding-y.8}"
             }
           }
         },
         "gap": {
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.gap.12}"
           }
         },
         "radius": {
           "md": {
-            "$type": "number",
+            "$type": "dimension",
             "$value": "{dimension.radius.12}"
           }
         }
