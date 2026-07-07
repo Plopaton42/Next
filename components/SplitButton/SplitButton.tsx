@@ -35,16 +35,16 @@ function buildCssVars(
 
   if (disabled) {
     return {
-      '--sbtn-bg':        'var(--ds-default-surface-disabled)',
-      '--sbtn-bg-hover':  'var(--ds-default-surface-disabled)',
-      '--sbtn-color':     'var(--ds-default-on-surface-disabled)',
+      '--sbtn-bg':        'var(--ds-color-scene-default-surface-disabled)',
+      '--sbtn-bg-hover':  'var(--ds-color-scene-default-surface-disabled)',
+      '--sbtn-color':     'var(--ds-color-scene-default-on-surface-disabled)',
       '--sbtn-shadow':    '0 0 0 0 transparent',
       '--sbtn-min-h':     `var(--ds-button-control-min-height-${s})`,
-      '--sbtn-px':        `var(--ds-button-control-padding-px-${s})`,
-      '--sbtn-py':        `var(--ds-button-control-padding-py-${s})`,
+      '--sbtn-px':        `var(--ds-button-control-padding-default-px-${s})`,
+      '--sbtn-py':        `var(--ds-button-control-padding-default-py-${s})`,
       '--sbtn-gap':       `var(--ds-button-control-space-between-${s})`,
       '--sbtn-radius':    `var(--ds-button-control-radius-${radiusKey})`,
-      '--sbtn-icon-size': `var(--ds-button-control-icon-size-${s})`,
+      '--sbtn-icon-size': `var(--ds-button-control-icon-number-${s})`,
       '--sbtn-font-size': `var(--ds-font-size-${FONT_SIZE_SUFFIX[s]})`,
     };
   }
@@ -56,13 +56,13 @@ function buildCssVars(
   if (type === 'primary') {
     shadow = [
       '0px 1px 2px 0px rgba(10,13,18,0.05)',
-      `inset 0 0 0 var(--ds-button-control-border-style-${s}, 2px) var(--ds-button-primary-border, rgba(255,255,255,0.12))`,
+      `inset 0 0 0 var(--ds-button-control-border-size-style-${s}, 2px) var(--ds-button-primary-border, rgba(255,255,255,0.12))`,
       'inset 0 -2px 0 0 rgba(10,13,18,0.05)',
     ].join(', ');
   } else if (type === 'outlined') {
     shadow = [
       '0px 1px 2px 0px rgba(10,13,18,0.01)',
-      `inset 0 0 0 var(--ds-button-control-border-default-${s}, 1px) var(--ds-button-outlined-border)`,
+      `inset 0 0 0 var(--ds-button-control-border-size-default-${s}, 1px) var(--ds-button-outlined-border)`,
       'inset 0 -2px 0 0 rgba(10,13,18,0.01)',
     ].join(', ');
   } else {
@@ -79,11 +79,11 @@ function buildCssVars(
     '--sbtn-color':     `var(--ds-button-${type}-on-surface)`,
     '--sbtn-shadow':    shadow,
     '--sbtn-min-h':     `var(--ds-button-control-min-height-${s})`,
-    '--sbtn-px':        `var(--ds-button-control-padding-px-${s})`,
-    '--sbtn-py':        `var(--ds-button-control-padding-py-${s})`,
+    '--sbtn-px':        `var(--ds-button-control-padding-default-px-${s})`,
+    '--sbtn-py':        `var(--ds-button-control-padding-default-py-${s})`,
     '--sbtn-gap':       `var(--ds-button-control-space-between-${s})`,
     '--sbtn-radius':    `var(--ds-button-control-radius-${radiusKey})`,
-    '--sbtn-icon-size': `var(--ds-button-control-icon-size-${s})`,
+    '--sbtn-icon-size': `var(--ds-button-control-icon-number-${s})`,
     '--sbtn-font-size': `var(--ds-font-size-${FONT_SIZE_SUFFIX[s]})`,
   };
 }
@@ -190,7 +190,7 @@ export function SplitButton({
     'relative inline-block rounded-[var(--sbtn-radius)]',
     'transition-transform duration-100 active:scale-[0.97]',
     hasFocus
-      ? 'outline outline-2 outline-offset-2 [outline-color:var(--ds-global-ring-focus,#9fbfff)]'
+      ? 'outline outline-2 outline-offset-2 [outline-color:var(--ds-color-focus-ring,#9fbfff)]'
       : 'outline-none',
     disabled ? 'pointer-events-none cursor-not-allowed' : '',
     className ?? '',
@@ -311,8 +311,8 @@ export function SplitButton({
               tabIndex={item.disabled ? -1 : 0}
               className={[
                 'flex items-center',
-                'px-[var(--ds-button-control-padding-px-md)]',
-                'py-[var(--ds-button-control-padding-py-sm)]',
+                'px-[var(--ds-button-control-padding-default-px-md)]',
+                'py-[var(--ds-button-control-padding-default-py-sm)]',
                 '[font-family:var(--ds-font-family-sans)]',
                 '[font-size:var(--ds-font-size-sm)]',
                 '[font-weight:var(--ds-font-weight-regular)]',
@@ -320,7 +320,7 @@ export function SplitButton({
                 'transition-colors duration-100',
                 'focus-visible:outline-none',
                 item.disabled
-                  ? 'cursor-not-allowed [color:var(--ds-default-on-surface-disabled)]'
+                  ? 'cursor-not-allowed [color:var(--ds-color-scene-default-on-surface-disabled)]'
                   : 'cursor-pointer [color:var(--ds-default-on-surface)] hover:[background-color:var(--ds-default-surface-alt)] focus-visible:[background-color:var(--ds-default-surface-alt)]',
               ].join(' ')}
               onClick={() => selectItem(item)}
