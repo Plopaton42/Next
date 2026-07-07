@@ -134,8 +134,8 @@ import { Button } from '@next/design-system/react';
 | Value | Affected types | Description |
 |---|---|---|
 | `default` | all | Standard brand palette |
-| `destructive` | `primary`, `secondary`, `outlined` | Red palette for irreversible actions |
-| `alternative` | `primary`, `secondary`, `tertiary` | Alternative palette — tertiary maps to brand/orange tokens |
+| `destructive` | `primary`, `secondary` | Red palette for irreversible actions. `destructive` + `outlined`/`tertiary`/`ghost`/`inverted` have no Component tokens in Figma and fall back to the base type's default-intent styling. |
+| `alternative` | `primary`, `secondary`, `tertiary` | Alternative palette — tertiary maps to brand/orange tokens. Always renders pill-shaped (forces `radius.rounded`). |
 
 ### Intent × Type → Token Mapping
 
@@ -148,11 +148,27 @@ import { Button } from '@next/design-system/react';
 | default | ghost | `ghost` | transparent |
 | default | inverted | `inverted` | periwinkle-800 |
 | destructive | primary | `destructive-primary` | red-700 |
-| destructive | secondary | `destructive-outlined` | transparent (reuses outlined tokens) |
-| destructive | outlined | `destructive-outlined` | transparent |
-| alternative | primary | `alternative-primary` | blue-700 |
+| destructive | secondary | `destructive-secondary` | red-50 (own tokens — no longer reuses outlined) |
+| alternative | primary | `primary` (borrowed — see below) | blue-700 |
 | alternative | secondary | `alternative-secondary` | blue-50 |
 | alternative | tertiary | `alternative-brand` | orange (brand secondary) |
+
+> `alternative` + `primary` aliases the exact same `action.primary.*` semantic
+> tokens as base `primary`, including hover/active — Figma only gives it its
+> own `surface`/`on-surface` component tokens, so the component borrows
+> primary's interaction tokens rather than falling back to a flat rest state.
+
+### Interaction states (hover / active)
+
+Every non-outlined type now has a real Figma-authored **press** state, not an
+approximated scale transform:
+
+| Family | Types | Hover | Press (`:active`) |
+|---|---|---|---|
+| Filled | `primary`, `destructive-primary` (+ `alternative`+`primary`) | `surface-hover` fill | `surface-active` fill |
+| Outlined | `outlined` | tint fill appears | same as hover (no distinct token) |
+| Ghost | `ghost` | light fill appears | fill stays + `border-pressed` ring |
+| Subtle | `secondary`, `tertiary`, `inverted`, `alternative-secondary`, `alternative-brand`, `destructive-secondary` | `surface-hover` fill | fill stays + `border-pressed`/`border-active` ring |
 
 ---
 
@@ -170,50 +186,56 @@ import { Button } from '@next/design-system/react';
 
 ## Design Tokens Used
 
-### Control (sizing)
+Tokens now flow through the 3-tier pipeline documented in
+`tokens/source/{primitives,semantic,components}.json`:
+Component (`button.*`) → Semantic (`action.*`) → Primitive. Never bind a
+color directly to a Primitive from this component.
+
+### Control (sizing) — `tokens/source/components.json` → `button.[control].*`
 | Token | CSS var |
 |---|---|
-| `button.control.min-height.*` | `--ds-button-control-min-height-{size}` |
-| `button.control.padding-px.*` | `--ds-button-control-padding-px-{size}` |
-| `button.control.padding-py.*` | `--ds-button-control-padding-py-{size}` |
-| `button.control.padding-icon-only-px.*` | `--ds-button-control-padding-icon-only-px-{size}` |
-| `button.control.padding-icon-only-py.*` | `--ds-button-control-padding-icon-only-py-{size}` |
-| `button.control.space-between.*` | `--ds-button-control-space-between-{size}` |
-| `button.control.radius.*` | `--ds-button-control-radius-{size}` |
-| `button.control.icon-size.*` | `--ds-button-control-icon-size-{size}` |
-| `button.control.border-default.*` | `--ds-button-control-border-default-{size}` |
-| `button.control.border-hover.*` | `--ds-button-control-border-hover-{size}` |
-| `button.control.border-style.*` | `--ds-button-control-border-style-{size}` |
+| `button.[control].min-height.*` | `--ds-button-control-min-height-{size}` |
+| `button.[control].padding.default.px.*` | `--ds-button-control-padding-default-px-{size}` |
+| `button.[control].padding.default.py.*` | `--ds-button-control-padding-default-py-{size}` |
+| `button.[control].padding.icon-only.px.*` | `--ds-button-control-padding-icon-only-px-{size}` |
+| `button.[control].padding.icon-only.py.*` | `--ds-button-control-padding-icon-only-py-{size}` |
+| `button.[control].space-between.*` | `--ds-button-control-space-between-{size}` |
+| `button.[control].radius.*` | `--ds-button-control-radius-{size}` |
+| `button.[control].icon.number.*` | `--ds-button-control-icon-number-{size}` |
+| `button.[control].border-size.default.*` | `--ds-button-control-border-size-default-{size}` |
+| `button.[control].border-size.pressed.*` | `--ds-button-control-border-size-pressed-{size}` |
+| `button.[control].border-size.style.*` | `--ds-button-control-border-size-style-{size}` |
 
-### Colours (semantic, per type)
+### Colours (per type, aliasing `action.*` semantic tokens)
 | Token | CSS var |
 |---|---|
 | `button.{type}.surface` | `--ds-button-{type}-surface` |
 | `button.{type}.surface-hover` | `--ds-button-{type}-surface-hover` |
+| `button.{type}.surface-active` (primary, destructive-primary only) | `--ds-button-{type}-surface-active` |
 | `button.{type}.on-surface` | `--ds-button-{type}-on-surface` |
-| `button.{type}.border` | `--ds-button-{type}-border` |
-| `button.{type}.border-hover` | `--ds-button-{type}-border-hover` |
-| `button.destructive.primary-*` | `--ds-button-destructive-primary-*` |
-| `button.destructive.outlined-*` | `--ds-button-destructive-outlined-*` |
-| `button.alternative.primary-*` | `--ds-button-alternative-primary-*` |
-| `button.alternative.secondary-*` | `--ds-button-alternative-secondary-*` |
-| `button.alternative.brand-*` | `--ds-button-alternative-brand-*` |
+| `button.primary.border` | `--ds-button-primary-border` (shared by every "filled" family type) |
+| `button.outlined.border` | `--ds-button-outlined-border` |
+| `button.{type}.border-pressed` / `.border-active` | `--ds-button-{type}-border-pressed` / `-border-active` |
+| `button.destructive.primary.*` | `--ds-button-destructive-primary-*` |
+| `button.destructive.secondary.*` | `--ds-button-destructive-secondary-*` |
+| `button.alternative.secondary.*` | `--ds-button-alternative-secondary-*` |
+| `button.alternative.brand.*` | `--ds-button-alternative-brand-*` |
 
 ### Rounded state
 | Token | CSS var |
 |---|---|
-| `button.control.radius.rounded` | `--ds-button-control-radius-rounded` (999px) |
+| `button.[control].radius.rounded` | `--ds-button-control-radius-rounded` (999px) |
 
 ### Disabled state (universal, overrides any type)
 | Token | CSS var |
 |---|---|
-| `default.surface-disabled` | `--ds-default-surface-disabled` |
-| `default.on-surface-disabled` | `--ds-default-on-surface-disabled` |
+| `color.scene.default.surface-disabled` | `--ds-color-scene-default-surface-disabled` |
+| `color.scene.default.on-surface-disabled` | `--ds-color-scene-default-on-surface-disabled` |
 
 ### Focus ring
 | Token | CSS var | Value |
 |---|---|---|
-| `global.ring-focus` | `--ds-global-ring-focus` | periwinkle-200 (#9fbfff) |
+| `color.focus.ring` | `--ds-color-focus-ring` | periwinkle-200 (#9fbfff) |
 
 ### Typography
 | Token | CSS var |
@@ -243,14 +265,42 @@ import { Button } from '@next/design-system/react';
 
 | Item | Figma value | Implementation | Reason |
 |---|---|---|---|
-| Ghost on-surface | `button.ghost.on-surface` (white) | `--ds-button-outlined-on-surface` (periwinkle-700) | Semantic token is white; white text is invisible on light backgrounds. Figma visual confirms dark text. |
-| Button shadows | `button/default` / `button/default-alt` effect styles | Hardcoded `rgba` values | Shadow effects are not yet tokenised in `tokens/source/shadows.json`. |
-| Line-height | 20px (sm/md), 24px (lg/xl), 26px (xxl) | `--ds-font-line-height-normal` (1.5) | No button-specific line-height tokens exist. Visual impact is negligible. |
-| Alternative primary hover | Distinct hover in Figma | Falls back to rest surface | No `alternative.primary-surface-hover` token exists. |
+| Ghost on-surface | `action.ghost.on-surface` (white) | `--ds-button-outlined-on-surface` (periwinkle-700) | Semantic token is white; white text is invisible on light backgrounds. Figma visual confirms dark text. |
+| Button shadows | `utilities-style/button` / `utilities-style/button-alt` **Effect Styles** | Hardcoded `rgba` values | Effect Styles are not exposed via the Figma Variables API (different endpoint) — not yet exported by this token pipeline. |
+| Line-height | 20px (sm/md), 24px (lg/xl), 26px (xxl) per `button/button-{size}` **Text Style** | `--ds-font-line-height-normal` (1.5) | Text Styles are not exposed via the Variables API either — same limitation as shadows. |
+
+Fixed in this pass: `alternative` + `primary` hover/active now correctly
+borrows `button.primary.surface-hover`/`surface-active` (previously fell back
+to a flat rest surface, since Figma's own `button.alternative.primary` token
+family only defines `surface`/`on-surface`).
 
 ---
 
 ## Changelog
+
+### 2026-07-07 — Migrate to 3-tier token pipeline, real active states, drop destructive+outlined
+- Retokenized from the flat `semantic/norauto.json` `button.*` block to the
+  Component (`button.*`) → Semantic (`action.*`) → Primitive pipeline in
+  `tokens/source/{primitives,semantic,components}.json`, extracted directly
+  from the Figma Variables API (see repo-level token migration commit)
+- `destructive` + `secondary` now has its own real tokens (light red fill) —
+  no longer reuses `outlined` tokens
+- `destructive` + `outlined` removed — no longer has Component tokens in
+  Figma; falls back to the base type's default-intent styling
+- Added a real `:active`/press visual state driven by Figma tokens
+  (`surface-active` for primary/destructive-primary, `border-pressed`/
+  `border-active` ring for every other interactive type) — replaces the
+  approximated `active:scale-[0.97]` transform
+- `alternative` + `primary` now borrows `primary`'s hover/active tokens
+  instead of falling back to a flat rest surface (fixes a documented deviation)
+- Renamed CSS custom properties to match the new Figma structure:
+  `--ds-button-control-icon-size-*` → `--ds-button-control-icon-number-*`;
+  `--ds-button-control-padding-{px,py}-*` → `--ds-button-control-padding-default-{px,py}-*`;
+  `--ds-button-control-border-{default,style}-*` → `--ds-button-control-border-size-{default,style}-*`;
+  `--ds-button-control-border-hover-*` → `--ds-button-control-border-size-pressed-*`;
+  `--ds-default-surface-disabled`/`--ds-default-on-surface-disabled` → `--ds-color-scene-default-surface-disabled`/`-on-surface-disabled`;
+  `--ds-global-ring-focus` → `--ds-color-focus-ring`
+- Updated `SplitButton.vue`/`.tsx` to the same renamed CSS vars
 
 ### 2026-04-21 — Auto-round alternative intent (Figma-driven)
 - `intent="alternative"` now automatically uses `button.control.radius.rounded` (999px / pill)

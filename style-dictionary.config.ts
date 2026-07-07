@@ -43,10 +43,11 @@ StyleDictionary.registerFormat({
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
 const isPrimitive = (t: TransformedToken) =>
-  !t.filePath.includes('semantic/');
+  !t.filePath.includes('semantic/') &&
+  !t.filePath.endsWith('/semantic.json') &&
+  !t.filePath.endsWith('/components.json');
 
-const isSemantic = (t: TransformedToken) =>
-  t.filePath.includes('semantic/');
+const isSemantic = (t: TransformedToken) => !isPrimitive(t);
 
 // ─── MAIN CONFIGURATION ───────────────────────────────────────────────────────
 

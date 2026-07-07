@@ -53,16 +53,16 @@ const cssVars = computed<Record<string, string>>(() => {
 
   if (props.disabled) {
     return {
-      '--sbtn-bg':        'var(--ds-default-surface-disabled)',
-      '--sbtn-bg-hover':  'var(--ds-default-surface-disabled)',
-      '--sbtn-color':     'var(--ds-default-on-surface-disabled)',
+      '--sbtn-bg':        'var(--ds-color-scene-default-surface-disabled)',
+      '--sbtn-bg-hover':  'var(--ds-color-scene-default-surface-disabled)',
+      '--sbtn-color':     'var(--ds-color-scene-default-on-surface-disabled)',
       '--sbtn-shadow':    '0 0 0 0 transparent',
       '--sbtn-min-h':     `var(--ds-button-control-min-height-${s})`,
-      '--sbtn-px':        `var(--ds-button-control-padding-px-${s})`,
-      '--sbtn-py':        `var(--ds-button-control-padding-py-${s})`,
+      '--sbtn-px':        `var(--ds-button-control-padding-default-px-${s})`,
+      '--sbtn-py':        `var(--ds-button-control-padding-default-py-${s})`,
       '--sbtn-gap':       `var(--ds-button-control-space-between-${s})`,
       '--sbtn-radius':    `var(--ds-button-control-radius-${radiusKey})`,
-      '--sbtn-icon-size': `var(--ds-button-control-icon-size-${s})`,
+      '--sbtn-icon-size': `var(--ds-button-control-icon-number-${s})`,
       '--sbtn-font-size': `var(--ds-font-size-${FONT_SIZE_SUFFIX[s]})`,
     };
   }
@@ -74,13 +74,13 @@ const cssVars = computed<Record<string, string>>(() => {
   if (pfx === 'primary') {
     shadow = [
       '0px 1px 2px 0px rgba(10,13,18,0.05)',
-      `inset 0 0 0 var(--ds-button-control-border-style-${s}, 2px) var(--ds-button-primary-border, rgba(255,255,255,0.12))`,
+      `inset 0 0 0 var(--ds-button-control-border-size-style-${s}, 2px) var(--ds-button-primary-border, rgba(255,255,255,0.12))`,
       'inset 0 -2px 0 0 rgba(10,13,18,0.05)',
     ].join(', ');
   } else if (pfx === 'outlined') {
     shadow = [
       '0px 1px 2px 0px rgba(10,13,18,0.01)',
-      `inset 0 0 0 var(--ds-button-control-border-default-${s}, 1px) var(--ds-button-outlined-border)`,
+      `inset 0 0 0 var(--ds-button-control-border-size-default-${s}, 1px) var(--ds-button-outlined-border)`,
       'inset 0 -2px 0 0 rgba(10,13,18,0.01)',
     ].join(', ');
   } else {
@@ -98,11 +98,11 @@ const cssVars = computed<Record<string, string>>(() => {
     '--sbtn-color':     `var(--ds-button-${pfx}-on-surface)`,
     '--sbtn-shadow':    shadow,
     '--sbtn-min-h':     `var(--ds-button-control-min-height-${s})`,
-    '--sbtn-px':        `var(--ds-button-control-padding-px-${s})`,
-    '--sbtn-py':        `var(--ds-button-control-padding-py-${s})`,
+    '--sbtn-px':        `var(--ds-button-control-padding-default-px-${s})`,
+    '--sbtn-py':        `var(--ds-button-control-padding-default-py-${s})`,
     '--sbtn-gap':       `var(--ds-button-control-space-between-${s})`,
     '--sbtn-radius':    `var(--ds-button-control-radius-${radiusKey})`,
-    '--sbtn-icon-size': `var(--ds-button-control-icon-size-${s})`,
+    '--sbtn-icon-size': `var(--ds-button-control-icon-number-${s})`,
     '--sbtn-font-size': `var(--ds-font-size-${FONT_SIZE_SUFFIX[s]})`,
   };
 });
@@ -202,7 +202,7 @@ onUnmounted(() => document.removeEventListener('click', onDocumentClick));
            transition-transform duration-100 active:scale-[0.97]"
     :class="[
       hasFocus
-        ? 'outline outline-2 outline-offset-2 [outline-color:var(--ds-global-ring-focus,#9fbfff)]'
+        ? 'outline outline-2 outline-offset-2 [outline-color:var(--ds-color-focus-ring,#9fbfff)]'
         : 'outline-none',
       disabled ? 'pointer-events-none cursor-not-allowed' : '',
     ]"
@@ -312,8 +312,8 @@ onUnmounted(() => document.removeEventListener('click', onDocumentClick));
         :aria-disabled="item.disabled || undefined"
         :tabindex="item.disabled ? -1 : 0"
         class="flex items-center
-               px-[var(--ds-button-control-padding-px-md)]
-               py-[var(--ds-button-control-padding-py-sm)]
+               px-[var(--ds-button-control-padding-default-px-md)]
+               py-[var(--ds-button-control-padding-default-py-sm)]
                [font-family:var(--ds-font-family-sans)]
                [font-size:var(--ds-font-size-sm)]
                [font-weight:var(--ds-font-weight-regular)]

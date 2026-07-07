@@ -25,10 +25,10 @@ export const buttonFigmaConnect = {
    */
   props: {
     type:     { figmaProp: 'type',         type: 'enum' as const, values: ['primary', 'secondary', 'tertiary', 'outlined', 'ghost', 'inverted'] },
-    intent:   { figmaProp: 'intent',       type: 'enum' as const, values: ['Default', 'Destructive'] },
+    intent:   { figmaProp: 'intent',       type: 'enum' as const, values: ['default', 'destructive', 'alternative'] },
     size:     { figmaProp: 'size',         type: 'enum' as const, values: ['sm', 'md', 'lg', 'xl', 'xxl'] },
     disabled: { figmaProp: 'state',        type: 'boolean' as const },
-    iconOnly: { figmaProp: '👁️ icon only', type: 'boolean' as const },
+    iconOnly: { figmaProp: 'icon only',    type: 'boolean' as const },
   },
 
   /** Example snippet rendered in Figma Dev Mode */
