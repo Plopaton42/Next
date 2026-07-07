@@ -14,7 +14,7 @@ const meta = {
     intent: {
       control: 'select',
       options: ['default', 'destructive', 'alternative'],
-      description: 'Color intent — destructive affects primary/secondary/outlined, alternative affects primary/secondary/tertiary',
+      description: 'Color intent — destructive affects primary/secondary only, alternative affects primary/secondary/tertiary (forces pill radius)',
     },
     size: {
       control: 'select',
@@ -148,13 +148,15 @@ export const Rounded: Story = {
 };
 
 // ── Destructive intent ────────────────────────────────────────────────────────
+// destructive only affects primary/secondary — no Component tokens exist in
+// Figma for destructive+outlined/tertiary/ghost/inverted.
 export const Destructive: Story = {
   name: 'Intent — Destructive',
   render: () => (
     <div className="flex flex-wrap items-center gap-4">
-      <Button type="primary"  intent="destructive">Delete</Button>
+      <Button type="primary"   intent="destructive">Delete</Button>
       <Button type="secondary" intent="destructive">Cancel</Button>
-      <Button type="outlined"  intent="destructive">Remove</Button>
+      <Button type="primary"   intent="destructive" disabled>Delete</Button>
     </div>
   ),
 };

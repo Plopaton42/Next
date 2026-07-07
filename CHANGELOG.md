@@ -46,6 +46,48 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [Unreleased] — update/component-button (3-tier token migration)
+
+### Added
+
+- `tokens/source/primitives.json`, `tokens/source/semantic.json`,
+  `tokens/source/components.json` — full Primitive → Semantic → Component
+  pipeline extracted directly from Figma's 3 Variable collections (192 + 226
+  + 218 tokens), per the `roadtrip-figma-tokens` design-system guide
+- Real `:active`/press visual states on `Button` (and `SplitButton`), driven
+  by actual Figma tokens (`surface-active`, `border-pressed`/`border-active`)
+
+### Changed
+
+- `Button` destructive/alternative token mapping corrected to match Figma's
+  Components collection: `destructive`+`secondary` now has its own tokens
+  (was reusing `outlined`); `alternative`+`primary` now borrows `primary`'s
+  hover/active tokens (was falling back to a flat rest surface)
+- Renamed several `--ds-button-control-*` CSS custom properties to match the
+  restructured Figma tokens (`icon-size`→`icon-number`, `padding-{px,py}`→
+  `padding-default-{px,py}`, `border-{default,style}`→
+  `border-size-{default,style}`, `border-hover`→`border-size-pressed`) and
+  the disabled/focus-ring tokens (`--ds-default-*-disabled`→
+  `--ds-color-scene-default-*-disabled`, `--ds-global-ring-focus`→
+  `--ds-color-focus-ring`)
+- `style-dictionary.config.ts` CSS routing extended to classify
+  `semantic.json`/`components.json` as semantic-tier output
+
+### Removed
+
+- `destructive`+`outlined` combination on `Button` — no longer exists as a
+  Figma Component token; falls back to the base type's default-intent style
+- Old flat `button.*` block from `tokens/source/semantic/norauto.json`
+  (superseded by `tokens/source/components.json`)
+
+### Not changed
+
+- Non-Button components (Checkbox, SplitButton's own container/menu chrome,
+  etc.) remain on the legacy flat semantic model — migrate opportunistically
+  per component, not repo-wide
+
+---
+
 ## [0.1.0] — 2026-04-07
 
 ### Added
