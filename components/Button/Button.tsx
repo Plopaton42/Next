@@ -75,13 +75,14 @@ function resolveShadowFamily(pfx: string): ShadowFamily {
 
 function buildCssVars(
   type: string, intent: string, size: string,
-  iconOnly: boolean, disabled: boolean, rounded: boolean,
+  iconOnly: boolean, disabled: boolean,
 ): Record<string, string> {
   const pfx = resolveTokenPrefix(type, intent);
   const sf  = resolveShadowFamily(pfx);
   const s   = size;
 
-  const radiusToken = (rounded || intent === 'alternative')
+  // Figma: alternative intent always uses pill radius (button.control.radius.rounded).
+  const radiusToken = intent === 'alternative'
     ? 'var(--ds-button-control-radius-rounded)'
     : `var(--ds-button-control-radius-${s})`;
 
@@ -144,16 +145,27 @@ function buildCssVars(
     ].join(', ');
     shadowHover = shadowRest;
     shadowActive = shadowRest;
+  } else if (sf === 'ghost') {
+    // ghost — fully invisible at rest AND hover (only the fill token change
+    // signals hover); a colored border ring appears only on :active.
+    shadowRest = '0 0 0 0 transparent';
+    shadowHover = '0 0 0 0 transparent';
+
+    const activeBorderVar = ACTIVE_BORDER_VAR[pfx];
+    const bwActive = `var(--ds-button-control-border-size-pressed-${s}, 1.5px)`;
+    shadowActive = activeBorderVar
+      ? `inset 0 0 0 ${bwActive} var(--ds-button-${activeBorderVar})`
+      : shadowHover;
   } else {
     // subtle (secondary, tertiary, inverted, alternative-secondary,
-    // alternative-brand, destructive-secondary) and ghost — no border at
+    // alternative-brand, destructive-secondary) — a faint hairline at
     // rest/hover, a colored border ring appears only on :active.
     shadowRest = [
       '0px 1px 2px 0px rgba(10,13,18,0.01)',
       'inset 0 0 0 1px rgba(10,13,18,0.02)',
       'inset 0 -2px 0 0 rgba(10,13,18,0.01)',
     ].join(', ');
-    shadowHover = sf === 'ghost' ? '0 0 0 0 transparent' : shadowRest;
+    shadowHover = shadowRest;
 
     const activeBorderVar = ACTIVE_BORDER_VAR[pfx];
     const bwActive = `var(--ds-button-control-border-size-pressed-${s}, 1.5px)`;
@@ -192,7 +204,6 @@ export function Button({
   intent     = 'default',
   size       = 'md',
   disabled   = false,
-  rounded    = false,
   iconOnly   = false,
   tag        = 'button',
   nativeType = 'button',
@@ -205,8 +216,8 @@ export function Button({
   ...rest
 }: ButtonReactProps) {
   const cssVars = useMemo(
-    () => buildCssVars(type, intent, size, iconOnly, disabled, rounded),
-    [type, intent, size, iconOnly, disabled, rounded],
+    () => buildCssVars(type, intent, size, iconOnly, disabled),
+    [type, intent, size, iconOnly, disabled],
   );
 
   const Tag = tag as React.ElementType;
@@ -218,7 +229,8 @@ export function Button({
     '[box-shadow:var(--btn-shadow)] hover:[box-shadow:var(--btn-shadow-hover)]',
     'active:[box-shadow:var(--btn-shadow-active)]',
     'focus-visible:[box-shadow:var(--btn-focus-shadow)]',
-    'transition-[background-color,box-shadow] duration-100',
+    'transition-[background-color,box-shadow,transform] duration-100',
+    'active:scale-[0.97]',
     'min-h-[var(--btn-min-h)] h-[var(--btn-min-h)]',
     'px-[var(--btn-px)] py-[var(--btn-py)]',
     'gap-[var(--btn-gap)]',
