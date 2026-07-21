@@ -302,6 +302,9 @@ const cssVars = computed<Record<string, string>>(() => {
 </script>
 
 <template>
+  <!-- Tailwind v4 compiles scale-[N] to the native CSS `scale` property, not
+       `transform` — the transition list must name `scale` for the :active
+       press feedback to animate instead of snapping instantly. -->
   <component
     :is="tag"
     :type="tag === 'button' ? nativeType : undefined"
@@ -315,7 +318,7 @@ const cssVars = computed<Record<string, string>>(() => {
            [box-shadow:var(--btn-shadow)] hover:[box-shadow:var(--btn-shadow-hover)]
            active:[box-shadow:var(--btn-shadow-active)]
            focus-visible:[box-shadow:var(--btn-focus-shadow)]
-           transition-[background-color,box-shadow,transform] duration-100
+           transition-[background-color,box-shadow,scale] duration-100
            active:scale-[0.97]
            min-h-[var(--btn-min-h)] h-[var(--btn-min-h)]
            px-[var(--btn-px)] py-[var(--btn-py)]

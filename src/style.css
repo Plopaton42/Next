@@ -168,12 +168,17 @@
   --spacing-24:               var(--ds-spacing-24);
 
   /* ── Border radius ────────────────────────────────────────────────────── */
-  --radius-none:              var(--ds-radius-none);
-  --radius-sm:                var(--ds-radius-sm);
-  --radius:                   var(--ds-radius-base);
-  --radius-md:                var(--ds-radius-md);
-  --radius-lg:                var(--ds-radius-lg);
-  --radius-xl:                var(--ds-radius-xl);
-  --radius-2xl:               var(--ds-radius-2xl);
-  --radius-full:              var(--ds-radius-full);
+  /* NOTE: these previously pointed to --ds-radius-* custom properties that
+     don't exist anywhere in tokens/build/*.css (the actual generated names
+     are --ds-border-radius-radius-N), so every named `rounded-*` Tailwind
+     utility silently resolved to 0 throughout the app. Fixed to point at
+     the real generated token names. */
+  --radius-none:              var(--ds-border-radius-radius-0);
+  --radius-sm:                var(--ds-border-radius-radius-4);
+  --radius:                   var(--ds-border-radius-radius-6);
+  --radius-md:                var(--ds-border-radius-radius-8);
+  --radius-lg:                var(--ds-border-radius-radius-12);
+  --radius-xl:                var(--ds-border-radius-radius-16);
+  --radius-2xl:               var(--ds-border-radius-radius-24);
+  --radius-full:              var(--ds-border-radius-radius-full);
 }
