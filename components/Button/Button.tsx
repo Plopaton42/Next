@@ -229,7 +229,7 @@ export function Button({
     '[box-shadow:var(--btn-shadow)] hover:[box-shadow:var(--btn-shadow-hover)]',
     'active:[box-shadow:var(--btn-shadow-active)]',
     'focus-visible:[box-shadow:var(--btn-focus-shadow)]',
-    'transition-[background-color,box-shadow,transform] duration-100',
+    'transition-[background-color,box-shadow,scale] duration-100',
     'active:scale-[0.97]',
     'min-h-[var(--btn-min-h)] h-[var(--btn-min-h)]',
     'px-[var(--btn-px)] py-[var(--btn-py)]',
