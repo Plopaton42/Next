@@ -25,10 +25,6 @@ const meta = {
       control: 'boolean',
       description: 'Disabled state',
     },
-    rounded: {
-      control: 'boolean',
-      description: 'Pill / fully-rounded radius',
-    },
     iconOnly: {
       control: 'boolean',
       description: 'Square icon-only layout (place icon in children)',
@@ -49,7 +45,6 @@ const meta = {
     intent: 'default',
     size: 'md',
     disabled: false,
-    rounded: false,
     iconOnly: false,
     tag: 'button',
     nativeType: 'button',
@@ -80,7 +75,7 @@ export const AllTypes: Story = {
       <Button type="tertiary">Tertiary</Button>
       <Button type="outlined">Outlined</Button>
       <Button type="ghost">Ghost</Button>
-      <div className="flex items-center rounded-xl px-4 py-3" style={{ background: 'var(--ds-button-inverted-surface, #202c46)' }}>
+      <div className="flex items-center rounded-xl px-4 py-3" style={{ background: 'var(--ds-button-inverted-surface-hover, #08276b)' }}>
         <Button type="inverted">Inverted</Button>
       </div>
     </div>
@@ -97,7 +92,7 @@ export const Ghost:    Story = { render: () => <Button type="ghost">Ghost</Butto
 export const Inverted: Story = {
   decorators: [
     (Story) => (
-      <div className="p-8 rounded-xl" style={{ background: 'var(--ds-button-inverted-surface, #202c46)' }}>
+      <div className="p-8 rounded-xl" style={{ background: 'var(--ds-button-inverted-surface-hover, #08276b)' }}>
         <Story />
       </div>
     ),
@@ -128,21 +123,6 @@ export const Disabled: Story = {
       <Button type="tertiary"  disabled>Tertiary</Button>
       <Button type="outlined"  disabled>Outlined</Button>
       <Button type="ghost"     disabled>Ghost</Button>
-    </div>
-  ),
-};
-
-// ── Rounded (pill) ────────────────────────────────────────────────────────────
-export const Rounded: Story = {
-  name: 'Rounded (pill)',
-  render: () => (
-    <div className="flex flex-wrap items-center gap-4">
-      <Button type="primary"   rounded>Primary</Button>
-      <Button type="secondary" rounded>Secondary</Button>
-      <Button type="tertiary"  rounded>Tertiary</Button>
-      <Button type="outlined"  rounded>Outlined</Button>
-      <Button type="ghost"     rounded>Ghost</Button>
-      <Button type="primary"   intent="alternative" rounded>Alternative</Button>
     </div>
   ),
 };

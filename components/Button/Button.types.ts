@@ -9,7 +9,6 @@ export interface ButtonProps {
   intent?: ButtonIntent;
   size?: ButtonSize;
   disabled?: boolean;
-  rounded?: boolean;
   iconOnly?: boolean;
   tag?: ButtonTag;
   nativeType?: ButtonNativeType;

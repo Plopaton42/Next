@@ -90,8 +90,7 @@ import { Button } from '@next/design-system/react';
 | `type` | `'primary' \| 'secondary' \| 'tertiary' \| 'outlined' \| 'ghost' \| 'inverted'` | `'primary'` | Visual style — maps to Figma "type" prop |
 | `intent` | `'default' \| 'destructive' \| 'alternative'` | `'default'` | Color intent — see Intent mapping table below |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl'` | `'md'` | Size variant |
-| `disabled` | `boolean` | `false` | Disabled state — neutral gray appearance via `default/surface-disabled` and `default/on-surface-disabled` tokens, interaction blocked |
-| `rounded` | `boolean` | `false` | Pill / fully-rounded shape — uses `button.control.radius.rounded` (999px). **Automatically `true` when `intent="alternative"`** (Figma-driven). |
+| `disabled` | `boolean` | `false` | Disabled state — neutral gray appearance via `color.scene.default.surface-disabled` and `on-surface-disabled` tokens, interaction blocked |
 | `iconOnly` | `boolean` | `false` | Square icon-only layout; switches to icon-only padding |
 | `tag` | `'button' \| 'a'` | `'button'` | Root HTML element |
 | `nativeType` | `'button' \| 'submit' \| 'reset'` | `'button'` | Native `<button>` type (ignored when `tag="a"`) |
@@ -221,7 +220,7 @@ color directly to a Primitive from this component.
 | `button.alternative.secondary.*` | `--ds-button-alternative-secondary-*` |
 | `button.alternative.brand.*` | `--ds-button-alternative-brand-*` |
 
-### Rounded state
+### Pill radius (`intent="alternative"` only — not a standalone prop)
 | Token | CSS var |
 |---|---|
 | `button.[control].radius.rounded` | `--ds-button-control-radius-rounded` (999px) |
@@ -277,6 +276,19 @@ family only defines `surface`/`on-surface`).
 ---
 
 ## Changelog
+
+### 2026-07-07 — Fix press animation, ghost rest border, inverted demo, drop non-Figma `rounded` prop
+- Restored the `active:scale-[0.97]` tactile press feedback alongside the new
+  color-driven `:active` state (was dropped by mistake in the token migration)
+- Fixed `ghost` showing a faint hairline border at rest/hover — it now shares
+  no shadow with the "subtle" family and stays fully transparent until `:active`
+- Fixed the `Inverted` story decorator using the exact same surface token as
+  the button itself, making the button invisible against its own demo
+  backdrop — now uses `button.inverted.surface-hover` for contrast
+- **Removed the `rounded` boolean prop** — it has no corresponding Figma
+  variant (Button's real properties are `intent`/`size`/`type`/`state`/
+  `icon only` only). Pill radius remains fully automatic via
+  `intent="alternative"`; removed the `Rounded` story and `rounded` argType
 
 ### 2026-07-07 — Migrate to 3-tier token pipeline, real active states, drop destructive+outlined
 - Retokenized from the flat `semantic/norauto.json` `button.*` block to the

@@ -21,7 +21,7 @@ import { computed } from 'vue';
  *   primitives}.json), matching the Figma Variables API 1:1. Interaction
  *   states (hover/active) use real Figma-authored tokens (surface-active for
  *   filled types, border-pressed/border-active for outlined-on-interaction
- *   types) instead of an approximated scale-down.
+ *   types) layered on top of the existing scale(0.97) tactile press feedback.
  *
  * Known deviations from Figma (see README.md):
  *   1. Ghost on-surface uses --ds-button-outlined-on-surface (dark text) to
@@ -43,9 +43,6 @@ const props = withDefaults(defineProps<{
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   /** Disabled state */
   disabled?: boolean;
-  /** Pill / fully-rounded radius — uses button.control.radius.rounded (999px).
-   *  Automatically active when intent="alternative" (Figma-driven). */
-  rounded?: boolean;
   /** Square icon-only layout — switches to icon-only padding; place icon in default slot */
   iconOnly?: boolean;
   /** Root HTML element */
@@ -57,7 +54,6 @@ const props = withDefaults(defineProps<{
   intent: 'default',
   size: 'md',
   disabled: false,
-  rounded: false,
   iconOnly: false,
   tag: 'button',
   nativeType: 'button',
@@ -168,8 +164,8 @@ const cssVars = computed<Record<string, string>>(() => {
   // ── Disabled state — universal gray tokens regardless of variant ───────────
   // Figma: color/scene/default/surface-disabled + on-surface-disabled.
   // No shadow visible in disabled state.
-  // Figma: alternative intent always uses pill radius; rounded prop forces it on any type.
-  const radiusToken = (props.rounded || props.intent === 'alternative')
+  // Figma: alternative intent always uses pill radius (button.control.radius.rounded).
+  const radiusToken = props.intent === 'alternative'
     ? 'var(--ds-button-control-radius-rounded)'
     : `var(--ds-button-control-radius-${s})`;
 
@@ -243,16 +239,28 @@ const cssVars = computed<Record<string, string>>(() => {
     shadowHover = shadowRest;
     shadowActive = shadowRest;
 
+  } else if (sf === 'ghost') {
+    // ghost — fully invisible at rest AND hover (only the fill token change
+    // signals hover); a colored border ring appears only on :active.
+    shadowRest = '0 0 0 0 transparent';
+    shadowHover = '0 0 0 0 transparent';
+
+    const activeBorderVar = ACTIVE_BORDER_VAR[pfx];
+    const bwActive = `var(--ds-button-control-border-size-pressed-${s}, 1.5px)`;
+    shadowActive = activeBorderVar
+      ? `inset 0 0 0 ${bwActive} var(--ds-button-${activeBorderVar})`
+      : shadowHover;
+
   } else {
     // subtle (secondary, tertiary, inverted, alternative-secondary,
-    // alternative-brand, destructive-secondary) and ghost — no border at
+    // alternative-brand, destructive-secondary) — a faint hairline at
     // rest/hover, a colored border ring appears only on :active.
     shadowRest = [
       '0px 1px 2px 0px rgba(10,13,18,0.01)',
       'inset 0 0 0 1px rgba(10,13,18,0.02)',
       'inset 0 -2px 0 0 rgba(10,13,18,0.01)',
     ].join(', ');
-    shadowHover = sf === 'ghost' ? '0 0 0 0 transparent' : shadowRest;
+    shadowHover = shadowRest;
 
     const activeBorderVar = ACTIVE_BORDER_VAR[pfx];
     const bwActive = `var(--ds-button-control-border-size-pressed-${s}, 1.5px)`;
@@ -307,7 +315,8 @@ const cssVars = computed<Record<string, string>>(() => {
            [box-shadow:var(--btn-shadow)] hover:[box-shadow:var(--btn-shadow-hover)]
            active:[box-shadow:var(--btn-shadow-active)]
            focus-visible:[box-shadow:var(--btn-focus-shadow)]
-           transition-[background-color,box-shadow] duration-100
+           transition-[background-color,box-shadow,transform] duration-100
+           active:scale-[0.97]
            min-h-[var(--btn-min-h)] h-[var(--btn-min-h)]
            px-[var(--btn-px)] py-[var(--btn-py)]
            gap-[var(--btn-gap)]
